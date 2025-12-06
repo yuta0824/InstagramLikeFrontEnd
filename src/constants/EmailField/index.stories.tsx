@@ -8,15 +8,18 @@ const meta: Meta<typeof EmailField> = {
 
 export default meta
 type Story = StoryObj<typeof meta>
+
+const defaultArgs = {
+  errorMessage: '必須項目です'
+}
+
 export const Default: Story = {
-  args: {
-    errorMessage: '必須項目です'
-  }
+  args: defaultArgs
 }
 
 export const Error: Story = {
   args: {
-    isError: true,
-    errorMessage: '必須項目です'
+    ...defaultArgs,
+    isError: true
   }
 }
