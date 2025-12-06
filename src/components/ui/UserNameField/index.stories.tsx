@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { UserNameField } from '.'
 
 const meta: Meta<typeof UserNameField> = {
-  title: 'components/UserNameField',
+  title: 'components/ui/UserNameField',
   component: UserNameField
 }
 

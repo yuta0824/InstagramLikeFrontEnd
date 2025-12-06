@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { PasswordField } from '.'
 
 const meta: Meta<typeof PasswordField> = {
-  title: 'components/PasswordField',
+  title: 'components/ui/PasswordField',
   component: PasswordField
 }
 

@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { EmailField } from '.'
 
 const meta: Meta<typeof EmailField> = {
-  title: 'components/EmailField',
+  title: 'components/ui/EmailField',
   component: EmailField
 }
 
