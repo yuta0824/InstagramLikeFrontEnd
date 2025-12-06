@@ -6,18 +6,33 @@ interface CommentFieldProps {
   errorMessage: string
   onMention: () => void
   onSubmit: () => void
+  value?: string
+  onChange?: (value: string) => void
   isError?: boolean
   isDisabled?: boolean
 }
 
-export const CommentField = ({ errorMessage, isError, isDisabled, onMention, onSubmit }: CommentFieldProps) => {
+export const CommentField = ({
+  errorMessage,
+  isError,
+  isDisabled,
+  onMention,
+  onSubmit,
+  value,
+  onChange
+}: CommentFieldProps) => {
   return (
     <div className="space-y-2">
       <InputGroup>
-        <InputGroupTextarea placeholder="コメントする" aria-invalid={isError} />
+        <InputGroupTextarea
+          placeholder="コメントする"
+          aria-invalid={isError}
+          value={value}
+          onChange={e => onChange?.(e.target.value)}
+        />
         <InputGroupAddon align="block-end">
           <InputGroupButton variant="outline" size="icon-xs" onClick={onMention}>
-            ＠
+            ＠<span className="sr-only">でメンションする</span>
           </InputGroupButton>
           <InputGroupButton variant="default" className="w-10" size="icon-xs" onClick={onSubmit} disabled={isDisabled}>
             <BsSend />

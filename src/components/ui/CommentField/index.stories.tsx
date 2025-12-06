@@ -13,7 +13,8 @@ type Story = StoryObj<typeof meta>
 const defaultArgs = {
   errorMessage: 'コメントはログインが必要です',
   onMention: fn(),
-  onSubmit: fn()
+  onSubmit: fn(),
+  onChange: fn()
 }
 
 export const Default: Story = {
