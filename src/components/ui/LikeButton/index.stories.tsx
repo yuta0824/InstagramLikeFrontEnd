@@ -11,12 +11,12 @@ export default meta
 type Story = StoryObj<typeof LikeButton>
 
 const ControlledTemplate = (args: React.ComponentProps<typeof LikeButton>) => {
-  const [liked, setLiked] = useState(args.liked ?? false)
+  const [liked, setLiked] = useState(args.isLiked ?? false)
   const [count, setCount] = useState(args.count ?? 0)
 
   return (
     <LikeButton
-      liked={liked}
+      isLiked={liked}
       count={count}
       onToggle={nextLiked => {
         setLiked(nextLiked)
@@ -29,7 +29,7 @@ const ControlledTemplate = (args: React.ComponentProps<typeof LikeButton>) => {
 export const Default: Story = {
   args: {
     count: 12,
-    liked: false
+    isLiked: false
   },
   render: ControlledTemplate
 }

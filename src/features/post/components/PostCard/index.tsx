@@ -120,7 +120,7 @@ export const PostCard = ({
       </div>
 
       <div className="flex w-full gap-3">
-        <LikeButton liked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
+        <LikeButton isLiked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
         <CommentButton count={commentsCount} onClick={onComment} />
         <ShareButton url={shareUrl} />
       </div>
