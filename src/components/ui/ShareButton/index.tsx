@@ -50,7 +50,7 @@ export const ShareButton = ({ url }: ShareButtonProps) => {
           <span>リンクをコピー</span>
         </DropdownMenuItem>
         {shareTargets.map(target => (
-          <DropdownMenuItem key={target.label} asChild>
+          <DropdownMenuItem key={target.label} className="cursor-pointer" asChild>
             <a href={target.url(targetUrl)} target="_blank" rel="noopener noreferrer">
               <target.icon className="size-4 shrink-0" aria-hidden="true" />
               <span>{target.label} でシェア</span>
