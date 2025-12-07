@@ -1,4 +1,5 @@
 import { GoArrowLeft } from 'react-icons/go'
+import { Button } from '../button'
 
 interface BackButtonProps {
   onClick: () => void
@@ -6,11 +7,8 @@ interface BackButtonProps {
 
 export const BackButton = ({ onClick }: BackButtonProps) => {
   return (
-    <button
-      onClick={onClick}
-      className="inline-block aspect-square rounded-full p-1 transition duration-300 hover:bg-gray-100"
-    >
-      <GoArrowLeft className="size-8" />
-    </button>
+    <Button variant={'ghost'} onClick={onClick} size="icon" className="rounded-full" aria-label="戻る">
+      <GoArrowLeft className="size-5" />
+    </Button>
   )
 }

@@ -31,12 +31,18 @@ export const CommentField = ({
           onChange={e => onChange?.(e.target.value)}
         />
         <InputGroupAddon align="block-end">
-          <InputGroupButton variant="outline" size="icon-xs" onClick={onMention}>
-            ＠<span className="sr-only">でメンションする</span>
+          <InputGroupButton variant="outline" size="icon-xs" onClick={onMention} aria-label="メンションする">
+            ＠
           </InputGroupButton>
-          <InputGroupButton variant="default" className="w-10" size="icon-xs" onClick={onSubmit} disabled={isDisabled}>
+          <InputGroupButton
+            variant="default"
+            className="w-10"
+            size="icon-xs"
+            onClick={onSubmit}
+            disabled={isDisabled}
+            aria-label="送信する"
+          >
             <BsSend />
-            <span className="sr-only">Send</span>
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>

@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/nextjs-vite'
+import { Toaster } from '../src/components/ui/sonner'
 import '@/styles/globals.css'
 
 const preview: Preview = {
@@ -9,7 +10,15 @@ const preview: Preview = {
         date: /Date$/i
       }
     }
-  }
+  },
+  decorators: [
+    Story => (
+      <>
+        <Toaster position="top-right" />
+        <Story />
+      </>
+    )
+  ]
 }
 
 export default preview
