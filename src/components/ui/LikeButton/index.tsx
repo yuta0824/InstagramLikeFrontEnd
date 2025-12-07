@@ -1,5 +1,6 @@
 import { Heart } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '../button'
 
 type LikeButtonProps = {
   liked: boolean
@@ -9,13 +10,17 @@ type LikeButtonProps = {
 
 export const LikeButton = ({ count, liked, onToggle }: LikeButtonProps) => {
   return (
-    <button
-      onClick={() => onToggle(!liked)}
-      className={cn('flex items-center gap-1 hover:text-rose-600', liked ? 'text-rose-600' : '')}
-    >
-      <Heart className="size-5" strokeWidth={2.5} fill={liked ? 'currentColor' : 'none'} aria-hidden />
+    <div className="flex items-center">
+      <Button
+        variant={'ghost'}
+        onClick={() => onToggle(!liked)}
+        size="icon"
+        className={cn('rounded-full hover:text-rose-600', liked ? 'text-rose-600' : '')}
+      >
+        <Heart className="size-5" strokeWidth={2.5} fill={liked ? 'currentColor' : 'none'} aria-hidden />
+      </Button>
       <span className="sr-only">いいね数</span>
-      <span className="tabular-nums">{count}</span>
-    </button>
+      <span>{count}</span>
+    </div>
   )
 }
