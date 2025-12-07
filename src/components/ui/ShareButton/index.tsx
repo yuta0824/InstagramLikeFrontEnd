@@ -38,8 +38,7 @@ export const ShareButton = ({ url }: ShareButtonProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <span className="sr-only">共有する</span>
+        <Button variant="ghost" size="icon" className="rounded-full" aria-label="共有メニューを開く">
           <FiShare aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
