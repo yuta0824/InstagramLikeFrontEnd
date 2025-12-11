@@ -14,16 +14,16 @@ export interface UserMenuProps {
 export function UserMenu({ name, email, myPageUrl, avatarUrl, onLogout }: UserMenuProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-2">
+      <DropdownMenuTrigger className="flex w-full items-center gap-2 overflow-hidden">
         <Avatar className="size-8 shrink-0">
           {avatarUrl && <AvatarImage src={avatarUrl} alt={name} className="object-cover" />}
           <AvatarFallback>
             <IoPersonCircle className="size-8 text-gray-400" />
           </AvatarFallback>
         </Avatar>
-        <div className="hidden min-w-0 text-left md:block">
-          <span className="line-clamp-1 truncate text-sm font-medium">{name}</span>
-          <span className="line-clamp-1 truncate text-xs text-gray-500">{email}</span>
+        <div className="hidden min-w-0 flex-1 flex-col text-left md:flex">
+          <span className="truncate text-sm font-medium">{name}</span>
+          <span className="truncate text-xs text-gray-500">{email}</span>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="text-sm">
