@@ -21,7 +21,7 @@ export function UserMenu({ name, email, myPageUrl, avatarUrl, onLogout }: UserMe
             <IoPersonCircle className="size-8 text-gray-400" />
           </AvatarFallback>
         </Avatar>
-        <div className="hidden min-w-0 flex-1 flex-col text-left md:flex">
+        <div className="hidden min-w-0 flex-1 flex-col text-left lg:flex">
           <span className="truncate text-sm font-medium">{name}</span>
           <span className="truncate text-xs text-gray-500">{email}</span>
         </div>
