@@ -42,7 +42,7 @@ export const Default: Story = {
           avatarUrl="/icon_avatar2.webp"
           onLogout={fn()}
         />
-        <div className="flex-1 py-10">
+        <div className="flex-1 py-4">
           <Story />
         </div>
       </div>
