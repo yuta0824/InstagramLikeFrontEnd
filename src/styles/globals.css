@@ -103,9 +103,14 @@
 } */
 
 body {
-  @apply font-base h-screen text-sm leading-none tracking-normal;
+  @apply font-base h-screen text-sm leading-none tracking-normal wrap-break-word;
   background: var(--background);
   color: var(--foreground);
+
+  @media (width < 375px) {
+    zoom: progress(100lvw, 0px, 375px);
+    -webkit-text-size-adjust: initial;
+  }
 }
 
 .dark {
