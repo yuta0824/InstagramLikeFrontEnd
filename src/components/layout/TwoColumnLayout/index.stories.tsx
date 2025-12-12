@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { TwoColumnLayout } from '.'
-import { SkeletonUser } from '@/components/ui/Skeleton/SkeletonUser'
-import { SkeletonCard } from '@/components/ui/Skeleton/SkeletonCard'
+import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
+import { SkeletonUserList } from '@/components/ui/Skeleton/SkeletonUserList'
 import { GlobalNavigation } from '@/components/layout/GlobalNavigation'
 import { fn } from 'storybook/test'
 
@@ -18,29 +18,8 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    main: (
-      <div className="space-y-10">
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-      </div>
-    ),
-    aside: (
-      <div className="space-y-8">
-        <SkeletonUser />
-        <SkeletonUser />
-        <SkeletonUser />
-        <SkeletonUser />
-        <SkeletonUser />
-      </div>
-    )
+    main: <SkeletonCardList />,
+    aside: <SkeletonUserList />
   },
   decorators: [
     Story => (
