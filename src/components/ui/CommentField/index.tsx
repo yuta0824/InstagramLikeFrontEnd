@@ -1,10 +1,10 @@
 import { FieldError } from '../field'
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '../input-group'
 import { BsSend } from 'react-icons/bs'
+import { Textarea } from '../textarea'
+import { Button } from '../button'
 
 interface CommentFieldProps {
   errorMessage: string
-  onMention: () => void
   onSubmit: () => void
   value?: string
   onChange?: (value: string) => void
@@ -12,40 +12,20 @@ interface CommentFieldProps {
   isDisabled?: boolean
 }
 
-export const CommentField = ({
-  errorMessage,
-  isError,
-  isDisabled,
-  onMention,
-  onSubmit,
-  value,
-  onChange
-}: CommentFieldProps) => {
+export const CommentField = ({ errorMessage, isError, isDisabled, onSubmit, value, onChange }: CommentFieldProps) => {
   return (
     <div className="space-y-2">
-      <InputGroup>
-        <InputGroupTextarea
+      <div className="flex gap-1">
+        <Textarea
           placeholder="コメントする"
-          aria-invalid={isError}
           value={value}
+          className="min-h-none max-h-20 overflow-auto"
           onChange={e => onChange?.(e.target.value)}
         />
-        <InputGroupAddon align="block-end">
-          <InputGroupButton variant="outline" size="icon-xs" onClick={onMention} aria-label="メンションする">
-            ＠
-          </InputGroupButton>
-          <InputGroupButton
-            variant="default"
-            className="w-10"
-            size="icon-xs"
-            onClick={onSubmit}
-            disabled={isDisabled}
-            aria-label="送信する"
-          >
-            <BsSend />
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
+        <Button type="submit" onSubmit={onSubmit} disabled={isDisabled}>
+          <BsSend />
+        </Button>
+      </div>
       {isError && <FieldError className="text-xs">{errorMessage}</FieldError>}
     </div>
   )
