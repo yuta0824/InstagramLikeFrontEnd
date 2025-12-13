@@ -60,10 +60,9 @@ export const PostShowDialog = ({
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
         showCloseButton={false}
-        className="grid grid-cols-1 gap-0 rounded-none p-0 sm:max-w-4xl lg:grid-cols-2"
+        className="grid max-h-[calc(100vh-2rem)] grid-cols-1 gap-0 overflow-auto rounded-none p-0 sm:max-w-4xl md:grid-cols-2 md:overflow-visible"
       >
-        {/* 閉じるボタン */}
-        <DialogClose className="absolute -top-12 right-0 text-white transition-opacity hover:opacity-70">
+        <DialogClose className="absolute top-0 right-0 z-50 text-white transition-opacity hover:opacity-70 md:-top-12">
           <IoCloseCircle className="size-8" />
           <span className="sr-only">Close</span>
         </DialogClose>
@@ -74,7 +73,7 @@ export const PostShowDialog = ({
             <CarouselContent>
               {post.imageUrls.map((url, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative h-[90vh] max-h-[500px]">
+                  <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
                     <Image src={url} alt={`${post.caption} - ${index + 1}`} fill className="object-contain" />
                   </div>
                 </CarouselItem>
@@ -82,15 +81,15 @@ export const PostShowDialog = ({
             </CarouselContent>
             {post.imageUrls.length > 1 && (
               <>
-                <CarouselPrevious className="left-4 size-6" />
-                <CarouselNext className="right-4 size-6" />
+                <CarouselPrevious className="left-2 size-6" />
+                <CarouselNext className="right-2 size-6" />
               </>
             )}
           </Carousel>
         </div>
 
         {/* 投稿情報 */}
-        <div className="flex h-[90vh] max-h-[500px] flex-col">
+        <div className="flex h-100 flex-col md:h-[90vh] md:max-h-[500px]">
           {/* ヘッダー */}
           <header className="border-b border-gray-200 p-4">
             <div className="flex items-center justify-between gap-1">
