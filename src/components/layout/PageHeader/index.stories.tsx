@@ -3,7 +3,7 @@ import { PageHeader } from '.'
 import { fn } from 'storybook/test'
 
 const meta: Meta<typeof PageHeader> = {
-  title: 'layout/PageHeader',
+  title: 'components/layout/PageHeader',
   component: PageHeader,
   parameters: {
     layout: 'fullscreen'

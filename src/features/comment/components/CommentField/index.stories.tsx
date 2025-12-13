@@ -3,7 +3,7 @@ import { fn } from 'storybook/test'
 import { CommentField } from '.'
 
 const meta: Meta<typeof CommentField> = {
-  title: 'components/ui/CommentField',
+  title: 'features/comment/CommentField',
   component: CommentField
 }
 

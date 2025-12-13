@@ -3,7 +3,7 @@ import { GlobalNavigation } from '.'
 import { fn } from 'storybook/test'
 
 const meta: Meta<typeof GlobalNavigation> = {
-  title: 'layout/GlobalNavigation',
+  title: 'components/layout/GlobalNavigation',
   component: GlobalNavigation,
   parameters: {
     layout: 'fullscreen',
