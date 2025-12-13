@@ -5,7 +5,7 @@ import { GlobalNavigation } from '@/components/layout/GlobalNavigation'
 import { fn } from 'storybook/test'
 
 const meta: Meta<typeof SingleColumnLayout> = {
-  title: 'layout/SingleColumnLayout',
+  title: 'components/layout/SingleColumnLayout',
   component: SingleColumnLayout,
   parameters: {
     layout: 'fullscreen'
