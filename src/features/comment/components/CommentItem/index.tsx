@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Button } from '@/components/ui/button'
 import { IoPersonCircle, IoEllipsisHorizontal } from 'react-icons/io5'
 
-export interface PostCommentProps {
+export interface CommentItemProps {
   user: {
     username: string
     name: string
@@ -15,7 +15,7 @@ export interface PostCommentProps {
   onDelete?: () => void
 }
 
-export const PostComment = ({ user, content, isCurrentUser, onDelete }: PostCommentProps) => {
+export const CommentItem = ({ user, content, isCurrentUser, onDelete }: CommentItemProps) => {
   return (
     <div className="mb-3 flex gap-3">
       <Link href={`/account/${user.username}`}>

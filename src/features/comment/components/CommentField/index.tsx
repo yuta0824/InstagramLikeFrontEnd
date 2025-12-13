@@ -1,7 +1,7 @@
-import { FieldError } from '../field'
+import { FieldError } from '@/components/ui/field'
 import { BsSend } from 'react-icons/bs'
-import { Textarea } from '../textarea'
-import { Button } from '../button'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 
 interface CommentFieldProps {
   errorMessage: string
@@ -22,7 +22,7 @@ export const CommentField = ({ errorMessage, isError, isDisabled, onSubmit, valu
           className="min-h-none max-h-20 overflow-auto"
           onChange={e => onChange?.(e.target.value)}
         />
-        <Button type="submit" onSubmit={onSubmit} disabled={isDisabled}>
+        <Button onClick={onSubmit} disabled={isDisabled}>
           <BsSend />
         </Button>
       </div>

@@ -8,9 +8,9 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { LikeButton } from '@/components/ui/LikeButton'
 import { ShareButton } from '@/components/ui/ShareButton'
-import { PostComment, PostCommentProps } from '@/features/post/components/PostComment'
+import { CommentItem, CommentItemProps } from '@/features/comment/components/CommentItem'
 import { IoPersonCircle, IoCloseCircle, IoEllipsisHorizontal } from 'react-icons/io5'
-import { CommentField } from '@/components/ui/CommentField'
+import { CommentField } from '@/features/comment/components/CommentField'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 
@@ -29,7 +29,7 @@ interface PostShowDialogProps {
     isLiked: boolean
     createdAt: string
   }
-  comments: PostCommentProps[]
+  comments: CommentItemProps[]
   shareUrl: string
   onLike: (liked: boolean) => void
   onEditPost?: () => void
@@ -130,9 +130,9 @@ export const PostShowDialog = ({
 
           {/* コメント一覧 */}
           <div className="flex-1 space-y-2 overflow-y-auto bg-white p-4">
-            <PostComment user={post.user} content={post.caption} />
+            <CommentItem user={post.user} content={post.caption} />
             {comments.map((comment, index) => (
-              <PostComment key={index} {...comment} />
+              <CommentItem key={index} {...comment} />
             ))}
           </div>
 

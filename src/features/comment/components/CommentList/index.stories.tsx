@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { PostCommentList } from '.'
+import { CommentList } from '.'
 
-const meta: Meta<typeof PostCommentList> = {
-  title: 'features/post/PostCommentList',
-  component: PostCommentList
+const meta: Meta<typeof CommentList> = {
+  title: 'features/comment/CommentList',
+  component: CommentList
 }
 
 export default meta
