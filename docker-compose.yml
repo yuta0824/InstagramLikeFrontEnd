@@ -1,0 +1,6 @@
+services:
+  openapi-generator:
+    image: openapitools/openapi-generator-cli:v7.6.0
+    volumes:
+      - .:/local
+    working_dir: /local

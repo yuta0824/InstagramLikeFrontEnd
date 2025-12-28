@@ -1,0 +1,78 @@
+---
+openapi: 3.0.1
+info:
+  title: API Documentation
+  version: '1.0'
+paths:
+  "/api/me":
+    get:
+      summary: ログイン中ユーザーを取得する
+      tags:
+      - User
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  avatarUrl:
+                    type: string
+                required:
+                - name
+                - avatarUrl
+        '401':
+          description: 未ログイン
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+    patch:
+      summary: ユーザー情報を更新する
+      tags:
+      - User
+      parameters: []
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  avatarUrl:
+                    type: string
+                required:
+                - name
+                - avatarUrl
+        '401':
+          description: 未ログイン
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
