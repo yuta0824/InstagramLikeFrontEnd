@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { IoHomeOutline, IoSearchOutline, IoNotificationsOutline } from 'react-icons/io5'
 import { MdOutlineAddBox } from 'react-icons/md'
 import { UserMenu } from '@/components/ui/UserMenu'
-import { ROUTES } from '@/lib/urls'
+import { ROUTES } from '@/constants/urls'
 
 interface GlobalNavigationProps {
   name: string
