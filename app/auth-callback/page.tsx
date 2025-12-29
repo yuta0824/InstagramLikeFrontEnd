@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { exchangeTokenAndSetCookie } from '@/features/auth/api/exchangeTokenAndSetCookie'
 
-export default function AuthCallbackPage() {
+const AuthCallbackContent = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const authCode = searchParams.get('auth_code')
@@ -29,4 +29,12 @@ export default function AuthCallbackPage() {
   }, [authCode, router])
 
   return <div>Loading...</div>
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthCallbackContent />
+    </Suspense>
+  )
 }
