@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import '@/styles/globals.css'
 import { Toaster } from '@/components/ui/sonner'
-import { ReactQueryProvider } from '@/providers/ReactQueryProvider'
+import { ReactQueryProvider } from './_react-query-provider'
 
 const poppins = Poppins({
   variable: '--font-poppins',
