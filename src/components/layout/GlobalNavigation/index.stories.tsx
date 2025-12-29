@@ -19,7 +19,6 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     name: 'yuta',
-    email: 'yuta@example.com',
     myPageUrl: '/account/yuta',
     avatarUrl: '/icon_avatar2.webp',
     onLogout: fn()
@@ -29,7 +28,6 @@ export const Default: Story = {
 export const NoAvatar: Story = {
   args: {
     name: 'sakura',
-    email: 'sakura@example.com',
     myPageUrl: '/account/sakura',
     onLogout: fn()
   }
@@ -38,7 +36,6 @@ export const NoAvatar: Story = {
 export const LongUserInfo: Story = {
   args: {
     name: 'very_long_username_that_should_truncate',
-    email: 'verylongemailaddress@example.com',
     myPageUrl: '/account/very_long_username',
     avatarUrl: '/icon_avatar1.webp',
     onLogout: fn()

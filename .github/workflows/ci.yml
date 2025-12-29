@@ -19,7 +19,7 @@ jobs:
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version-file: .node-version
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -33,3 +33,6 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          # TODO: staging の URL が決まり次第、変数を本番値に置き換える
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'http://localhost:3000' }}

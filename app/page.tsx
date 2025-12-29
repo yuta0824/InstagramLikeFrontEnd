@@ -1,7 +1,10 @@
-export default function Home() {
+import { Suspense } from 'react'
+import { AuthEntryContainer } from '@/features/auth/views/AuthEntryContainer'
+
+export default function AuthEntryPage() {
   return (
-    <div className="grid h-full place-items-center">
-      <h1 className="text-2xl font-bold">InstagramLikeApp</h1>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthEntryContainer />
+    </Suspense>
   )
 }

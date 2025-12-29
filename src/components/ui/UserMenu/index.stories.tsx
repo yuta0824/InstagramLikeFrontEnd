@@ -13,7 +13,6 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     name: 'yuta',
-    email: 'yuta@example.com',
     myPageUrl: '/account/yuta',
     avatarUrl: '/icon_avatar2.webp',
     onLogout: fn()
@@ -23,7 +22,6 @@ export const Default: Story = {
 export const NoAvatar: Story = {
   args: {
     name: 'sakura',
-    email: 'sakura@example.com',
     myPageUrl: '/account/sakura',
     onLogout: fn()
   }

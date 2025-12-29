@@ -5,13 +5,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 export interface UserMenuProps {
   name: string
-  email: string
   myPageUrl: string
   avatarUrl?: string
   onLogout: () => void
 }
 
-export function UserMenu({ name, email, myPageUrl, avatarUrl, onLogout }: UserMenuProps) {
+export function UserMenu({ name, myPageUrl, avatarUrl, onLogout }: UserMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex w-full items-center gap-2 overflow-hidden">
@@ -23,7 +22,6 @@ export function UserMenu({ name, email, myPageUrl, avatarUrl, onLogout }: UserMe
         </Avatar>
         <div className="hidden min-w-0 flex-1 flex-col text-left xl:flex">
           <span className="truncate text-sm font-medium">{name}</span>
-          <span className="truncate text-xs text-gray-500">{email}</span>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="text-sm">
