@@ -3,3 +3,5 @@ node_modules
 out
 build
 pnpm-lock.yaml
+packages/http-client/src/generated
+packages/http-client/api-docs.yaml
