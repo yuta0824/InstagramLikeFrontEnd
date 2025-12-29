@@ -1,3 +1,4 @@
+import { getJwtFromCookie } from '@/features/auth/modules/getJwtFromCookie'
 import { ApiMeGet200Response, userApi } from '@instagram-like-app/http-client/src'
 import { useQuery } from '@tanstack/react-query'
 
@@ -6,8 +7,7 @@ export const useGetMe = (): {
   isLoading: boolean
   error: unknown
 } => {
-  // TODO: Cookieから実際の値から取得する
-  const jwt = 'jwt1234'
+  const jwt = getJwtFromCookie()
   const fetchGetMe = async () => {
     return await userApi
       .apiMeGet({

@@ -2,7 +2,7 @@
 
 import { useEffect, ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { useCheckAuth } from '@/features/auth/modules/useCheckAuth'
+import { useCheckAuth } from '@/features/auth/api/useCheckAuth'
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter()

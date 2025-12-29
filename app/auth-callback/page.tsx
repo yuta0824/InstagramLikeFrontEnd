@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { exchangeTokenAndSetCookie } from '@/features/auth/modules/exchangeTokenAndSetCookie'
+import { exchangeTokenAndSetCookie } from '@/features/auth/api/exchangeTokenAndSetCookie'
 
 export default function AuthCallbackPage() {
   const router = useRouter()
