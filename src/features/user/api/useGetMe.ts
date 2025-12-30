@@ -1,5 +1,7 @@
 import { getJwtFromCookie } from '@/features/auth/modules/getJwtFromCookie'
-import { ApiMeGet200Response, userApi } from '@instagram-like-app/http-client/src'
+import { userApi } from '@instagram-like-app/http-client'
+import { ApiMeGet200Response } from '@instagram-like-app/http-client/src/generated/models/ApiMeGet200Response'
+
 import { useQuery } from '@tanstack/react-query'
 
 export const useGetMe = (): {
