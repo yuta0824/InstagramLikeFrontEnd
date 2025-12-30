@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { LoadingScreen } from '.'
 
 const meta: Meta<typeof LoadingScreen> = {
-  title: 'components/LoadingScreen',
+  title: 'components/layout/LoadingScreen',
   component: LoadingScreen
 }
 
