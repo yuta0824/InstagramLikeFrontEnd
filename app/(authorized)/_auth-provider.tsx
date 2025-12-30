@@ -4,6 +4,7 @@ import { ReactNode, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCheckAuth } from '@/features/auth/api/useCheckAuth'
 import { useIsHydrated } from '@/utils/useIsHydrated'
+import { LoadingScreen } from '@/components/layout/LoadingScreen'
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
@@ -16,6 +17,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }
   useEffect(redirectToSignInIfSignedOut, [isHydrated, isLoading, isSignedIn, router])
 
-  if (!isHydrated || isLoading) return <div>Loading...</div>
+  if (!isHydrated || isLoading) return <LoadingScreen />
   return isSignedIn ? children : null
 }

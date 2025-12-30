@@ -1,6 +1,7 @@
 'use client'
 
 import { GlobalNavigation } from '@/components/layout/GlobalNavigation'
+import { LoadingScreen } from '@/components/layout/LoadingScreen'
 import { useLogout } from '@/features/auth/api/useLogout'
 import { deleteJwtFromCookie } from '@/features/auth/modules/deleteJwtFromCookie'
 import { useGetMe } from '@/features/user/api/useGetMe'
@@ -20,5 +21,5 @@ export const GlobalNavigationContainer = () => {
     router.push('/')
   }
 
-  return isLoading ? <p>Loading...</p> : <GlobalNavigation name={name} myPageUrl={myPageUrl} onLogout={handleLogout} />
+  return isLoading ? <LoadingScreen /> : <GlobalNavigation name={name} myPageUrl={myPageUrl} onLogout={handleLogout} />
 }

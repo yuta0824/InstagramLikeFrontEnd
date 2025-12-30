@@ -3,6 +3,7 @@
 import { Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { exchangeTokenAndSetCookie } from '@/features/auth/api/exchangeTokenAndSetCookie'
+import { LoadingScreen } from '@/components/layout/LoadingScreen'
 
 const AuthCallbackContent = () => {
   const router = useRouter()
@@ -28,12 +29,12 @@ const AuthCallbackContent = () => {
     handleAuth()
   }, [authCode, router])
 
-  return <div>Loading...</div>
+  return <LoadingScreen />
 }
 
 export default function AuthCallbackPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingScreen />}>
       <AuthCallbackContent />
     </Suspense>
   )
