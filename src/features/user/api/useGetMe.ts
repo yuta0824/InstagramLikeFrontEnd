@@ -1,9 +1,9 @@
 import { getJwtFromCookie } from '@/features/auth/modules/getJwtFromCookie'
-import { ApiMeGet200Response, userApi } from '@instagram-like-app/http-client/src'
+import { ApiAccountsGet200ResponseInner, userApi } from '@instagram-like-app/http-client'
 import { useQuery } from '@tanstack/react-query'
 
 export const useGetMe = (): {
-  data: ApiMeGet200Response | undefined
+  data: ApiAccountsGet200ResponseInner | undefined
   isLoading: boolean
   error: unknown
 } => {
