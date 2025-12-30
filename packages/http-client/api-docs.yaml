@@ -4,6 +4,160 @@ info:
   title: API Documentation
   version: '1.0'
 paths:
+  "/api/accounts":
+    get:
+      summary: アカウント一覧を取得する
+      tags:
+      - Account
+      responses:
+        '200':
+          description: アカウント一覧取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    avatarUrl:
+                      type: string
+                  required:
+                  - name
+                  - avatarUrl
+  "/api/posts/{post_id}/comment":
+    parameters:
+    - name: post_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: コメントを保存できる
+      parameters: []
+      responses:
+        '200':
+          description: 成功時
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                  userName:
+                    type: string
+                  userAvatar:
+                    type: string
+                required:
+                - content
+                - userName
+                - userAvatar
+        '401':
+          description: 未認証
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: object
+                  properties:
+                    content:
+                      type: string
+                  required:
+                  - content
+              required:
+              - comment
+  "/api/posts/{post_id}/like":
+    parameters:
+    - name: post_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: いいねを作成する
+      tags:
+      - Like
+      responses:
+        '200':
+          description: いいね完了
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isLiked:
+                    type: boolean
+                required:
+                - isLiked
+        '401':
+          description: 未ログイン
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+    delete:
+      summary: いいねを削除する
+      tags:
+      - Like
+      responses:
+        '200':
+          description: いいね解除
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isLiked:
+                    type: boolean
+                required:
+                - isLiked
+        '401':
+          description: 未ログイン
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/users/logout":
+    delete:
+      summary: ログアウトする
+      tags:
+      - User
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+          example: Bearer <jwt>
+      responses:
+        '204':
+          description: ログアウト成功
+        '401':
+          description: 未ログイン
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
   "/api/me":
     get:
       summary: ログイン中ユーザーを取得する
@@ -71,6 +225,74 @@ paths:
           multipart/form-data:
             schema:
               type: string
+  "/api/accounts/{account_id}/relationship":
+    parameters:
+    - name: account_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: フォロー関係を作成する
+      tags:
+      - Relationship
+      responses:
+        '201':
+          description: フォロー成功
+        '401':
+          description: 未ログイン
+        '422':
+          description: 自分自身または重複フォローで失敗
+    delete:
+      summary: フォロー関係を削除する
+      tags:
+      - Relationship
+      responses:
+        '204':
+          description: フォロー削除成功
+        '401':
+          description: 未ログイン
+        '404':
+          description: フォローしていない相手を削除しようとした場合
+  "/api/users/token_exchange":
+    get:
+      summary: 認可コードからJWTを取得する
+      tags:
+      - User
+      parameters:
+      - name: auth_code
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jwt:
+                    type: string
+                  exp:
+                    type: integer
+                required:
+                - jwt
+                - exp
+        '401':
+          description: 認可コードが無効
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - errors
 servers:
 - url: https://{defaultHost}
   variables:
