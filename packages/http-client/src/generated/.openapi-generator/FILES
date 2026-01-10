@@ -1,11 +1,15 @@
 apis/AccountApi.ts
 apis/DefaultApi.ts
 apis/LikeApi.ts
+apis/PostApi.ts
 apis/RelationshipApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
 models/ApiAccountsGet200ResponseInner.ts
+models/ApiPostsGet200ResponseInner.ts
+models/ApiPostsIdPatchRequest.ts
+models/ApiPostsIdPatchRequestPost.ts
 models/ApiPostsPostIdCommentPost200Response.ts
 models/ApiPostsPostIdCommentPostRequest.ts
 models/ApiPostsPostIdCommentPostRequestComment.ts
