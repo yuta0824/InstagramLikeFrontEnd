@@ -25,8 +25,8 @@ const samplePost = {
     'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト',
   likes: 181,
   isLiked: false,
-  commentsCount: 24,
-  createdAt: '2022年4月22日'
+  isOwn: false,
+  commentsCount: 24
 }
 
 const sampleComments = [
@@ -68,13 +68,14 @@ const sampleComments = [
 
 export const Default: Story = {
   args: {
-    trigger: <button className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">投稿を表示</button>,
+    open: true,
+    onOpenChange: fn(),
     post: samplePost,
     comments: sampleComments,
     shareUrl: 'https://example.com/posts/1',
     onLike: fn(),
-    onEditPost: fn(),
-    onDeletePost: fn(),
+    onEdit: fn(),
+    onDelete: fn(),
     commentValue: '',
     onCommentValueChange: fn(),
     onCommentSubmit: fn(),
@@ -84,7 +85,8 @@ export const Default: Story = {
 
 export const ManyComments: Story = {
   args: {
-    trigger: <button className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">大量コメント</button>,
+    open: true,
+    onOpenChange: fn(),
     post: samplePost,
     comments: Array.from({ length: 30 }, (_, i) => ({
       user: {
@@ -98,8 +100,8 @@ export const ManyComments: Story = {
     })),
     shareUrl: 'https://example.com/posts/1',
     onLike: fn(),
-    onEditPost: fn(),
-    onDeletePost: fn(),
+    onEdit: fn(),
+    onDelete: fn(),
     commentValue: '',
     onCommentValueChange: fn(),
     onCommentSubmit: fn(),
