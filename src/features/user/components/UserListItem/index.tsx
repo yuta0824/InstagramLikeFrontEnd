@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { GoPerson } from 'react-icons/go'
 
 export interface UserListItemProps {
   name: string
@@ -25,8 +25,8 @@ export const UserListItem = ({ name, avatarUrl, accountUrl, lastPostStatusMessag
               className="aspect-square object-cover"
             />
           )}
-          <AvatarFallback>
-            <Image src="/icon_avatar-default.png" alt="デフォルトアバター" width={32} height={32} />
+          <AvatarFallback className="border-brandGray/30 text-brandGray border">
+            <GoPerson className="size-6" />
           </AvatarFallback>
         </Avatar>
         <div className="space-y-1">

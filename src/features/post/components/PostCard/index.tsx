@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { GoPerson } from 'react-icons/go'
 
 interface PostCardProps {
   id: string
@@ -57,8 +58,8 @@ export const PostCard = ({
             {user.avatarUrl && (
               <AvatarImage src={user.avatarUrl} alt={`${user.name}のアバター`} width={40} height={40} />
             )}
-            <AvatarFallback>
-              <Image src="/icon_avatar-default.png" alt="デフォルトアバター" width={40} height={40} />
+            <AvatarFallback className="border-brandGray/40 text-brandGray border">
+              <GoPerson className="size-6" />
             </AvatarFallback>
           </Avatar>
         </Link>
