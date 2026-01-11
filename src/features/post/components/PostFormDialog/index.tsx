@@ -1,22 +1,22 @@
 'use client'
 
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { FileField } from '@/components/ui/FileField'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 
-interface PostCreateDialogProps {
-  trigger: React.ReactNode
+interface PostFormDialogProps {
+  isOpen: boolean
+  onOpenChange: (isOpen: boolean) => void
   onSubmit?: (data: { images: File[]; caption: string }) => void
   onCancel?: () => void
 }
 
-export const PostCreateDialog = ({ trigger, onSubmit, onCancel }: PostCreateDialogProps) => {
+export const PostFormDialog = ({ isOpen, onSubmit, onCancel, onOpenChange }: PostFormDialogProps) => {
   const [files, setFiles] = useState<File[]>([])
   const [caption, setCaption] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
 
   const handleSubmit = () => {
     if (files.length === 0) {
@@ -25,21 +25,18 @@ export const PostCreateDialog = ({ trigger, onSubmit, onCancel }: PostCreateDial
     onSubmit?.({ images: files, caption })
     setFiles([])
     setCaption('')
-    setIsOpen(false)
   }
 
   const handleCancel = () => {
     onCancel?.()
     setFiles([])
     setCaption('')
-    setIsOpen(false)
   }
 
   const isSubmitDisabled = files.length === 0
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>新しい投稿</DialogTitle>
