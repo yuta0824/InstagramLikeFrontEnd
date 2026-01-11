@@ -12,7 +12,7 @@ export const useGetPosts = () => {
       })
       .catch(error => {
         console.error(error)
-        throw new Error('エントリー記事の取得に失敗しました。')
+        throw new Error('投稿の取得に失敗しました。')
       })
   }
 

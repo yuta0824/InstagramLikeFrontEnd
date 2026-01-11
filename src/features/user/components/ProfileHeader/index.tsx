@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { AvatarUpload } from '@/components/ui/AvatarUpload'
 import { ProfileStats, ProfileStatItemProps } from '../ProfileStats'

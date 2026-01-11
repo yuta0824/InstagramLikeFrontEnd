@@ -108,6 +108,7 @@ export const PostCard = ({
             alt=""
             width={468}
             height={468}
+            // TODO: 最適化するとリンク切れになる理由を調査する
             unoptimized
             className={cn('h-full w-full object-cover', images.length >= 3 && index === 0 && 'col-span-2 row-span-2')}
           />
