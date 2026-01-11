@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { LoadingError } from '.'
 
 const meta: Meta<typeof LoadingError> = {
-  title: 'components/LoadingError',
+  title: 'components/layout/LoadingError',
   component: LoadingError
 }
 
