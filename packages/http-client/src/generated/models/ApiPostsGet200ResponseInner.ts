@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ApiPostsPostIdCommentPost200Response } from './ApiPostsPostIdCommentPost200Response';
+import type { ApiPostsGet200ResponseInnerCommentsInner } from './ApiPostsGet200ResponseInnerCommentsInner';
 import {
-    ApiPostsPostIdCommentPost200ResponseFromJSON,
-    ApiPostsPostIdCommentPost200ResponseFromJSONTyped,
-    ApiPostsPostIdCommentPost200ResponseToJSON,
-} from './ApiPostsPostIdCommentPost200Response';
+    ApiPostsGet200ResponseInnerCommentsInnerFromJSON,
+    ApiPostsGet200ResponseInnerCommentsInnerFromJSONTyped,
+    ApiPostsGet200ResponseInnerCommentsInnerToJSON,
+} from './ApiPostsGet200ResponseInnerCommentsInner';
 
 /**
  * 
@@ -55,7 +55,7 @@ export interface ApiPostsGet200ResponseInner {
      * @type {string}
      * @memberof ApiPostsGet200ResponseInner
      */
-    userAvatar: string;
+    userAvatar: string | null;
     /**
      * 
      * @type {number}
@@ -94,10 +94,10 @@ export interface ApiPostsGet200ResponseInner {
     mostRecentLikerName: string;
     /**
      * 
-     * @type {Array<ApiPostsPostIdCommentPost200Response>}
+     * @type {Array<ApiPostsGet200ResponseInnerCommentsInner>}
      * @memberof ApiPostsGet200ResponseInner
      */
-    comments: Array<ApiPostsPostIdCommentPost200Response>;
+    comments: Array<ApiPostsGet200ResponseInnerCommentsInner>;
 }
 
 /**
@@ -138,7 +138,7 @@ export function ApiPostsGet200ResponseInnerFromJSONTyped(json: any, ignoreDiscri
         'isLiked': json['isLiked'],
         'isOwn': json['isOwn'],
         'mostRecentLikerName': json['mostRecentLikerName'],
-        'comments': ((json['comments'] as Array<any>).map(ApiPostsPostIdCommentPost200ResponseFromJSON)),
+        'comments': ((json['comments'] as Array<any>).map(ApiPostsGet200ResponseInnerCommentsInnerFromJSON)),
     };
 }
 
@@ -159,7 +159,7 @@ export function ApiPostsGet200ResponseInnerToJSON(value?: ApiPostsGet200Response
         'isLiked': value['isLiked'],
         'isOwn': value['isOwn'],
         'mostRecentLikerName': value['mostRecentLikerName'],
-        'comments': ((value['comments'] as Array<any>).map(ApiPostsPostIdCommentPost200ResponseToJSON)),
+        'comments': ((value['comments'] as Array<any>).map(ApiPostsGet200ResponseInnerCommentsInnerToJSON)),
     };
 }
 

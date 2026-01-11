@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './ApiAccountsGet200ResponseInner';
 export * from './ApiPostsGet200ResponseInner';
+export * from './ApiPostsGet200ResponseInnerCommentsInner';
 export * from './ApiPostsIdPatchRequest';
 export * from './ApiPostsIdPatchRequestPost';
 export * from './ApiPostsPostIdCommentPost200Response';
