@@ -1,16 +1,19 @@
 'use client'
 
 import { GlobalNavigation } from '@/components/layout/GlobalNavigation'
-import { LoadingScreen } from '@/components/layout/LoadingScreen'
 import { useLogout } from '@/features/auth/api/useLogout'
 import { deleteJwtFromCookie } from '@/features/auth/modules/deleteJwtFromCookie'
 import { useGetMe } from '@/features/user/api/useGetMe'
 import { useRouter } from 'next/navigation'
+import { useSetAtom } from 'jotai'
+import { postFormOpenAtom } from '@/features/post/states/postFormAtom'
+import { SkeletonGlobalNavigation } from '@/components/layout/Skeleton/SkeletonGlobalNavigation'
 
 export const GlobalNavigationContainer = () => {
   const { data, error, isLoading } = useGetMe()
   const { logoutMutation } = useLogout()
   const router = useRouter()
+  const setPostFormOpen = useSetAtom(postFormOpenAtom)
   if (!data || !logoutMutation || error) return null
 
   const name = data?.name
@@ -21,5 +24,13 @@ export const GlobalNavigationContainer = () => {
     router.push('/')
   }
 
-  return isLoading ? <LoadingScreen /> : <GlobalNavigation name={name} myPageUrl={myPageUrl} onLogout={handleLogout} />
+  const handleCreatePost = () => {
+    setPostFormOpen(true)
+  }
+
+  return isLoading ? (
+    <SkeletonGlobalNavigation />
+  ) : (
+    <GlobalNavigation name={name} myPageUrl={myPageUrl} onLogout={handleLogout} onCreatePost={handleCreatePost} />
+  )
 }

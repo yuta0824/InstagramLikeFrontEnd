@@ -11,6 +11,7 @@ interface GlobalNavigationProps {
   myPageUrl: string
   avatarUrl?: string
   onLogout: () => void
+  onCreatePost: () => void
 }
 
 const menuItems = [
@@ -28,15 +29,10 @@ const menuItems = [
     label: '通知',
     href: ROUTES.NOTIFICATIONS,
     icon: IoNotificationsOutline
-  },
-  {
-    label: '投稿',
-    href: ROUTES.POST_NEW,
-    icon: MdOutlineAddBox
   }
 ]
 
-export const GlobalNavigation = ({ name, myPageUrl, avatarUrl, onLogout }: GlobalNavigationProps) => {
+export const GlobalNavigation = ({ name, myPageUrl, avatarUrl, onLogout, onCreatePost }: GlobalNavigationProps) => {
   return (
     <nav className="fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white backdrop-blur-sm md:sticky md:top-0 md:h-screen md:w-16 md:border-t-0 md:border-r md:px-2 md:py-6 xl:w-64 xl:px-4">
       <div className="mx-auto flex max-w-80 flex-row items-center justify-around py-2 md:h-full md:flex-col md:justify-start md:gap-3 md:py-0">
@@ -54,6 +50,14 @@ export const GlobalNavigation = ({ name, myPageUrl, avatarUrl, onLogout }: Globa
             </Link>
           )
         })}
+
+        <button
+          onClick={onCreatePost}
+          className="flex flex-col items-center gap-1 rounded-lg p-2 text-left transition-colors hover:bg-gray-100 md:w-full md:flex-row md:gap-3 md:px-3 md:py-2"
+        >
+          <MdOutlineAddBox className="size-6 text-gray-600" />
+          <span className="hidden text-sm font-medium text-gray-700 xl:inline">投稿</span>
+        </button>
 
         <div className="md:mt-auto xl:w-full">
           <UserMenu name={name} myPageUrl={myPageUrl} avatarUrl={avatarUrl} onLogout={onLogout} />
