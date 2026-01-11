@@ -108,6 +108,7 @@ export const PostCard = ({
             alt=""
             width={468}
             height={468}
+            unoptimized
             className={cn('h-full w-full object-cover', images.length >= 3 && index === 0 && 'col-span-2 row-span-2')}
           />
         ))}
@@ -118,12 +119,11 @@ export const PostCard = ({
           <span className="pr-1 font-medium">{user.name}</span>
           <span>{caption}</span>
         </p>
-      </div>
-
-      <div className="flex w-full gap-3">
-        <LikeButton isLiked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
-        <CommentButton count={commentsCount} onClick={onComment} />
-        <ShareButton url={shareUrl} />
+        <div className="-ml-2 flex w-full gap-3">
+          <LikeButton isLiked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
+          <CommentButton count={commentsCount} onClick={onComment} />
+          <ShareButton url={shareUrl} />
+        </div>
       </div>
     </div>
   )
