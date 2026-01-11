@@ -1,4 +1,4 @@
-import { Configuration, UserApi } from './generated'
+import { Configuration, PostApi, UserApi } from './generated'
 
 const basePath = process.env.NEXT_PUBLIC_API_URL
 if (!basePath) {
@@ -10,3 +10,4 @@ const config = new Configuration({
 })
 
 export const userApi = new UserApi(config)
+export const postApi = new PostApi(config)

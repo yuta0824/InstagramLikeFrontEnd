@@ -30,7 +30,7 @@ export interface ApiAccountsGet200ResponseInner {
      * @type {string}
      * @memberof ApiAccountsGet200ResponseInner
      */
-    avatarUrl: string;
+    avatarUrl: string | null;
 }
 
 /**

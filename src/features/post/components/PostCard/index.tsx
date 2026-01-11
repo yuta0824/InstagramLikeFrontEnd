@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { GoPerson } from 'react-icons/go'
 
 interface PostCardProps {
   id: string
@@ -57,8 +58,8 @@ export const PostCard = ({
             {user.avatarUrl && (
               <AvatarImage src={user.avatarUrl} alt={`${user.name}のアバター`} width={40} height={40} />
             )}
-            <AvatarFallback>
-              <Image src="/icon_avatar-default.png" alt="デフォルトアバター" width={40} height={40} />
+            <AvatarFallback className="border-brandGray/40 text-brandGray border">
+              <GoPerson className="size-6" />
             </AvatarFallback>
           </Avatar>
         </Link>
@@ -107,6 +108,8 @@ export const PostCard = ({
             alt=""
             width={468}
             height={468}
+            // TODO: 最適化するとリンク切れになる理由を調査する
+            unoptimized
             className={cn('h-full w-full object-cover', images.length >= 3 && index === 0 && 'col-span-2 row-span-2')}
           />
         ))}
@@ -117,12 +120,11 @@ export const PostCard = ({
           <span className="pr-1 font-medium">{user.name}</span>
           <span>{caption}</span>
         </p>
-      </div>
-
-      <div className="flex w-full gap-3">
-        <LikeButton isLiked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
-        <CommentButton count={commentsCount} onClick={onComment} />
-        <ShareButton url={shareUrl} />
+        <div className="-ml-2 flex w-full gap-3">
+          <LikeButton isLiked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
+          <CommentButton count={commentsCount} onClick={onComment} />
+          <ShareButton url={shareUrl} />
+        </div>
       </div>
     </div>
   )

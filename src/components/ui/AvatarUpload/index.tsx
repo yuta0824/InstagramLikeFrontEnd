@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { GoPerson } from 'react-icons/go'
 
 interface AvatarUploadProps {
   avatarUrl?: string
@@ -22,8 +22,8 @@ export const AvatarUpload = ({ avatarUrl, userName, onFileChange }: AvatarUpload
             className="aspect-square object-cover"
           />
         )}
-        <AvatarFallback>
-          <Image src="/icon_avatar-default.png" alt="デフォルトアバター" width={80} height={80} />
+        <AvatarFallback className="border-brandGray/30 text-brandGray border">
+          <GoPerson className="size-16" />
         </AvatarFallback>
       </Avatar>
       <input type="file" accept="image/*" className="hidden" onChange={onFileChange} />
