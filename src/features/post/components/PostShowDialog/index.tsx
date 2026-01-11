@@ -1,9 +1,8 @@
 'use client'
 
-import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Dialog, DialogContent, DialogTrigger, DialogClose } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogClose, DialogTitle } from '@/components/ui/dialog'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { LikeButton } from '@/components/ui/LikeButton'
@@ -15,7 +14,8 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Button } from '@/components/ui/button'
 
 interface PostShowDialogProps {
-  trigger: React.ReactNode
+  open: boolean
+  onOpenChange: (open: boolean) => void
   post: {
     id: string
     imageUrls: string[]
@@ -27,13 +27,13 @@ interface PostShowDialogProps {
     caption: string
     likes: number
     isLiked: boolean
-    createdAt: string
+    isOwn: boolean
   }
   comments: CommentItemProps[]
   shareUrl: string
   onLike: (liked: boolean) => void
-  onEditPost?: () => void
-  onDeletePost?: () => void
+  onEdit?: () => void
+  onDelete?: () => void
   commentValue?: string
   onCommentValueChange?: (value: string) => void
   onCommentSubmit?: () => void
@@ -42,13 +42,14 @@ interface PostShowDialogProps {
 }
 
 export const PostShowDialog = ({
-  trigger,
+  open,
+  onOpenChange,
   post,
   comments,
   shareUrl,
   onLike,
-  onEditPost,
-  onDeletePost,
+  onEdit,
+  onDelete,
   commentValue,
   onCommentValueChange,
   onCommentSubmit,
@@ -56,36 +57,54 @@ export const PostShowDialog = ({
   timeAgo
 }: PostShowDialogProps) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
         className="grid max-h-[calc(100vh-2rem)] grid-cols-1 gap-0 overflow-auto rounded-none p-0 sm:max-w-4xl md:grid-cols-2 md:overflow-visible"
       >
+        <DialogTitle className="sr-only">{post.id}の詳細</DialogTitle>
         <DialogClose className="absolute top-0 right-0 z-50 text-white transition-opacity hover:opacity-70 md:-top-12">
           <IoCloseCircle className="size-8" />
           <span className="sr-only">Close</span>
         </DialogClose>
 
-        {/* 画像カルーセル */}
+        {/* 画像 */}
         <div className="bg-black">
-          <Carousel>
-            <CarouselContent>
-              {post.imageUrls.map((url, index) => (
-                <CarouselItem key={index}>
-                  <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
-                    <Image src={url} alt={`${post.caption} - ${index + 1}`} fill className="object-contain" />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            {post.imageUrls.length > 1 && (
+          {post.imageUrls.length <= 1 ? (
+            post.imageUrls[0] ? (
+              <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
+                <Image
+                  src={post.imageUrls[0]}
+                  alt={post.caption || '投稿画像'}
+                  unoptimized
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            ) : null
+          ) : (
+            <Carousel>
+              <CarouselContent>
+                {post.imageUrls.map((url, index) => (
+                  <CarouselItem key={index}>
+                    <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
+                      <Image
+                        src={url}
+                        alt={post.caption ? `${post.caption} - ${index + 1}` : `投稿画像 ${index + 1}`}
+                        unoptimized
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
               <>
                 <CarouselPrevious className="left-2 size-6" />
                 <CarouselNext className="right-2 size-6" />
               </>
-            )}
-          </Carousel>
+            </Carousel>
+          )}
         </div>
 
         {/* 投稿情報 */}
@@ -109,22 +128,24 @@ export const PostShowDialog = ({
                   {timeAgo && <p className="text-brandGray text-xs">{timeAgo}</p>}
                 </div>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="size-8">
-                    <IoEllipsisHorizontal className="size-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {onEditPost && <DropdownMenuItem onClick={onEditPost}>編集</DropdownMenuItem>}
-                  {onDeletePost && (
-                    <DropdownMenuItem onClick={onDeletePost} className="text-red-500!">
-                      削除
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem>キャンセル</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {post.isOwn && (onEdit || onDelete) && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="size-8">
+                      <IoEllipsisHorizontal className="size-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    {onEdit && <DropdownMenuItem onClick={onEdit}>編集</DropdownMenuItem>}
+                    {onDelete && (
+                      <DropdownMenuItem onClick={onDelete} className="text-red-500!">
+                        削除
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem>キャンセル</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
           </header>
 

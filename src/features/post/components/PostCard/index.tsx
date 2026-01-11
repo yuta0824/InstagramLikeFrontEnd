@@ -69,7 +69,7 @@ export const PostCard = ({
           </Link>
           <p className="text-brandGray text-xs">{timeAgo}</p>
         </div>
-        {currentUser.isOwner && (
+        {currentUser.isOwner && (onEdit || onDelete) && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="ml-auto rounded-full" aria-label="投稿メニュー">
