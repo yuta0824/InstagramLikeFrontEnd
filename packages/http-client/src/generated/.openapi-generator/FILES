@@ -11,9 +11,9 @@ models/ApiPostsGet200ResponseInner.ts
 models/ApiPostsGet200ResponseInnerCommentsInner.ts
 models/ApiPostsIdPatchRequest.ts
 models/ApiPostsIdPatchRequestPost.ts
-models/ApiPostsPostIdCommentPost200Response.ts
-models/ApiPostsPostIdCommentPostRequest.ts
-models/ApiPostsPostIdCommentPostRequestComment.ts
+models/ApiPostsPostIdCommentsPost201Response.ts
+models/ApiPostsPostIdCommentsPostRequest.ts
+models/ApiPostsPostIdCommentsPostRequestComment.ts
 models/ApiPostsPostIdLikePost200Response.ts
 models/ApiPostsPostIdLikePost401Response.ts
 models/ApiUsersTokenExchangeGet200Response.ts
