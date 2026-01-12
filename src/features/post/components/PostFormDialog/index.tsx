@@ -5,8 +5,10 @@ import { FileField } from '@/components/ui/FileField'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { PostImageGrid } from '../PostImageGrid'
 
 interface PostFormDialogProps {
+  type?: 'create' | 'edit'
   isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
   onSubmit: () => void
@@ -14,6 +16,7 @@ interface PostFormDialogProps {
   onFilesChange: (files: File[]) => void
   onCaptionChange: (value: string) => void
   caption: string
+  imageUrls?: string[]
   isSubmitting?: boolean
   isSubmitDisabled?: boolean
   isImagesError?: boolean
@@ -23,6 +26,7 @@ interface PostFormDialogProps {
 }
 
 export const PostFormDialog = ({
+  type = 'create',
   isOpen,
   onOpenChange,
   onSubmit,
@@ -30,6 +34,7 @@ export const PostFormDialog = ({
   onFilesChange,
   onCaptionChange,
   caption,
+  imageUrls = [],
   isSubmitting = false,
   isSubmitDisabled = false,
   isImagesError = false,
@@ -42,22 +47,37 @@ export const PostFormDialog = ({
     onOpenChange(false)
   }
 
+  const isEditMode = type === 'edit'
   const isButtonDisabled = isSubmitDisabled || isSubmitting
-  const submitLabel = isSubmitting ? '投稿中...' : '投稿する'
+  const resolvedTitle = isEditMode ? '投稿を編集' : '新しい投稿'
+  const resolvedSubmitLabel = isSubmitting
+    ? isEditMode
+      ? '更新中...'
+      : '投稿中...'
+    : isEditMode
+      ? '更新する'
+      : '投稿する'
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl" showCloseButton={false}>
         <DialogHeader>
-          <DialogTitle>新しい投稿</DialogTitle>
+          <DialogTitle>{resolvedTitle}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
-          <Field>
-            <FieldLabel>画像（最大3枚）</FieldLabel>
-            <FileField onChange={onFilesChange} />
-            {isImagesError && imagesErrorMessage && <FieldError className="text-xs">{imagesErrorMessage}</FieldError>}
-          </Field>
+          {isEditMode ? (
+            <Field>
+              <FieldLabel>画像</FieldLabel>
+              <PostImageGrid imageUrls={imageUrls} getAlt={index => `投稿画像 ${index + 1}`} />
+            </Field>
+          ) : (
+            <Field>
+              <FieldLabel>画像（最大3枚）</FieldLabel>
+              <FileField onChange={onFilesChange} />
+              {isImagesError && imagesErrorMessage && <FieldError className="text-xs">{imagesErrorMessage}</FieldError>}
+            </Field>
+          )}
 
           <Field className="relative z-2">
             <FieldLabel htmlFor="caption" className="text-base">
@@ -83,7 +103,7 @@ export const PostFormDialog = ({
             キャンセル
           </Button>
           <Button onClick={onSubmit} disabled={isButtonDisabled}>
-            {submitLabel}
+            {resolvedSubmitLabel}
           </Button>
         </DialogFooter>
       </DialogContent>
