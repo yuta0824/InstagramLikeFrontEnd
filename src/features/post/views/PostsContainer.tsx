@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useSetAtom } from 'jotai'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
 import { useGetPosts } from '../api/useGetPosts'
 import { PostCard } from '../components/PostCard'
@@ -8,10 +9,12 @@ import { PostsEmptyState } from '../components/PostsEmptyState'
 import { LoadingError } from '@/components/layout/LoadingError'
 import { PostShowDialog } from '../components/PostShowDialog'
 import type { ApiPostsGet200ResponseInner } from '@instagram-like-app/http-client'
+import { postFormStateAtom } from '../states/postFormAtom'
 
 export const PostsContainer = () => {
   const { data, isLoading, error } = useGetPosts()
   const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
+  const setPostFormState = useSetAtom(postFormStateAtom)
 
   if (isLoading) return <SkeletonCardList />
   if (error) return <LoadingError />
@@ -25,9 +28,17 @@ export const PostsContainer = () => {
     alert('いいね！')
   }
 
-  const handleEdit = () => {
-    // TODO: 投稿編集を実装
-    alert('投稿編集機能')
+  const handleEdit = (post: ApiPostsGet200ResponseInner) => {
+    setPostFormState({
+      isOpen: true,
+      mode: 'edit',
+      defaults: {
+        id: post.id,
+        caption: post.caption ?? '',
+        imageUrls: post.imageUrls
+      }
+    })
+    setActivePost(null)
   }
 
   const handleDelete = () => {
@@ -58,7 +69,7 @@ export const PostsContainer = () => {
           onLike={handleLikeClick}
           onComment={() => handleShowDetails(post)}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`}
-          onEdit={handleEdit}
+          onEdit={() => handleEdit(post)}
           onDelete={handleDelete}
         />
       ))}
@@ -92,7 +103,7 @@ export const PostsContainer = () => {
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
           onLike={handleLikeClick}
           timeAgo={activePost.timeAgo}
-          onEdit={handleEdit}
+          onEdit={() => handleEdit(activePost)}
           onDelete={handleDelete}
         />
       )}
