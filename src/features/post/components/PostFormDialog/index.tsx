@@ -1,39 +1,49 @@
 'use client'
 
-import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { FileField } from '@/components/ui/FileField'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 
 interface PostFormDialogProps {
   isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
-  onSubmit?: (data: { images: File[]; caption: string }) => void
+  onSubmit: () => void
   onCancel?: () => void
+  onFilesChange: (files: File[]) => void
+  onCaptionChange: (value: string) => void
+  caption: string
+  isSubmitting?: boolean
+  isSubmitDisabled?: boolean
+  isImagesError?: boolean
+  imagesErrorMessage?: string
+  isCaptionError?: boolean
+  captionErrorMessage?: string
 }
 
-export const PostFormDialog = ({ isOpen, onSubmit, onCancel, onOpenChange }: PostFormDialogProps) => {
-  const [files, setFiles] = useState<File[]>([])
-  const [caption, setCaption] = useState('')
-
-  const handleSubmit = () => {
-    if (files.length === 0) {
-      return
-    }
-    onSubmit?.({ images: files, caption })
-    setFiles([])
-    setCaption('')
-  }
-
+export const PostFormDialog = ({
+  isOpen,
+  onOpenChange,
+  onSubmit,
+  onCancel,
+  onFilesChange,
+  onCaptionChange,
+  caption,
+  isSubmitting = false,
+  isSubmitDisabled = false,
+  isImagesError = false,
+  imagesErrorMessage = '',
+  isCaptionError = false,
+  captionErrorMessage = ''
+}: PostFormDialogProps) => {
   const handleCancel = () => {
     onCancel?.()
-    setFiles([])
-    setCaption('')
+    onOpenChange(false)
   }
 
-  const isSubmitDisabled = files.length === 0
+  const isButtonDisabled = isSubmitDisabled || isSubmitting
+  const submitLabel = isSubmitting ? '投稿中...' : '投稿する'
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -43,29 +53,37 @@ export const PostFormDialog = ({ isOpen, onSubmit, onCancel, onOpenChange }: Pos
         </DialogHeader>
 
         <div className="space-y-6 py-4">
-          <div className="space-y-2">
-            <Label>画像（最大3枚）</Label>
-            <FileField onChange={setFiles} />
-          </div>
+          <Field>
+            <FieldLabel>画像（最大3枚）</FieldLabel>
+            <FileField onChange={onFilesChange} />
+            {isImagesError && imagesErrorMessage && <FieldError className="text-xs">{imagesErrorMessage}</FieldError>}
+          </Field>
 
-          <div className="relative z-2 space-y-2">
-            <Label htmlFor="caption">キャプション</Label>
+          <Field className="relative z-2">
+            <FieldLabel htmlFor="caption" className="text-base">
+              キャプション
+            </FieldLabel>
             <Textarea
               id="caption"
               placeholder="キャプションを入力..."
               value={caption}
-              onChange={e => setCaption(e.target.value)}
+              onChange={e => onCaptionChange(e.target.value)}
+              disabled={isSubmitting}
               className="h-20! max-h-20! resize-none overflow-auto"
+              aria-invalid={isCaptionError}
             />
-          </div>
+            {isCaptionError && captionErrorMessage && (
+              <FieldError className="text-xs">{captionErrorMessage}</FieldError>
+            )}
+          </Field>
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={handleCancel}>
+          <Button variant="outline" onClick={handleCancel} disabled={isSubmitting}>
             キャンセル
           </Button>
-          <Button onClick={handleSubmit} disabled={isSubmitDisabled}>
-            投稿する
+          <Button onClick={onSubmit} disabled={isButtonDisabled}>
+            {submitLabel}
           </Button>
         </DialogFooter>
       </DialogContent>
