@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LikeButton } from '@/components/ui/LikeButton'
@@ -9,8 +8,8 @@ import { ShareButton } from '@/components/ui/ShareButton'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { GoPerson } from 'react-icons/go'
+import { PostImageGrid } from '../PostImageGrid'
 
 interface PostCardProps {
   id: string
@@ -94,26 +93,7 @@ export const PostCard = ({
         )}
       </div>
 
-      <div
-        className={cn(
-          'auto-rows-fr gap-2',
-          images.length === 2 && 'grid grid-cols-2',
-          images.length >= 3 && 'grid grid-cols-3'
-        )}
-      >
-        {images.map((image, index) => (
-          <Image
-            key={index}
-            src={image}
-            alt=""
-            width={468}
-            height={468}
-            // TODO: 最適化するとリンク切れになる理由を調査する
-            unoptimized
-            className={cn('h-full w-full object-cover', images.length >= 3 && index === 0 && 'col-span-2 row-span-2')}
-          />
-        ))}
-      </div>
+      <PostImageGrid imageUrls={images} />
 
       <div className="space-y-1">
         <p className="text-xs">
