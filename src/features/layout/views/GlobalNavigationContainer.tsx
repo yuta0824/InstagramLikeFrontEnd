@@ -6,14 +6,14 @@ import { deleteJwtFromCookie } from '@/features/auth/modules/deleteJwtFromCookie
 import { useGetMe } from '@/features/user/api/useGetMe'
 import { useRouter } from 'next/navigation'
 import { useSetAtom } from 'jotai'
-import { postFormOpenAtom } from '@/features/post/states/postFormAtom'
+import { initialPostFormState, postFormStateAtom } from '@/features/post/states/postFormAtom'
 import { SkeletonGlobalNavigation } from '@/components/layout/Skeleton/SkeletonGlobalNavigation'
 
 export const GlobalNavigationContainer = () => {
   const { data, error, isLoading } = useGetMe()
   const { logoutMutation } = useLogout()
   const router = useRouter()
-  const setPostFormOpen = useSetAtom(postFormOpenAtom)
+  const setPostFormState = useSetAtom(postFormStateAtom)
   if (!data || !logoutMutation || error) return null
 
   const name = data?.name
@@ -25,7 +25,10 @@ export const GlobalNavigationContainer = () => {
   }
 
   const handleCreatePost = () => {
-    setPostFormOpen(true)
+    setPostFormState({
+      ...initialPostFormState,
+      isOpen: true
+    })
   }
 
   return isLoading ? (
