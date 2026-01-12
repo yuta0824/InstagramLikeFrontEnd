@@ -1,5 +1,6 @@
 import { GlobalNavigationContainer } from '@/features/layout/views/GlobalNavigationContainer'
 import AuthProvider from './_auth-provider'
+import { PostFormContainer } from '@/features/post/views/PostFormContainer'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </aside>
         <main className="flex-1 py-4">{children}</main>
       </div>
+      <PostFormContainer />
     </AuthProvider>
   )
 }
