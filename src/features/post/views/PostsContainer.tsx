@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
-import { useGetPosts } from '../modules/useGetPosts'
+import { useGetPosts } from '../api/useGetPosts'
 import { PostCard } from '../components/PostCard'
 import { PostsEmptyState } from '../components/PostsEmptyState'
 import { LoadingError } from '@/components/layout/LoadingError'

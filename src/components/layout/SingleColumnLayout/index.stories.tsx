@@ -22,7 +22,13 @@ export const Default: Story = {
   decorators: [
     Story => (
       <div className="flex">
-        <GlobalNavigation name="yuta" myPageUrl="/account/yuta" avatarUrl="/icon_avatar2.webp" onLogout={fn()} />
+        <GlobalNavigation
+          name="yuta"
+          myPageUrl="/account/yuta"
+          avatarUrl="/icon_avatar2.webp"
+          onCreatePost={fn()}
+          onLogout={fn()}
+        />
         <div className="flex-1 py-4">
           <Story />
         </div>
