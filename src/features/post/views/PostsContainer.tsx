@@ -2,8 +2,11 @@
 
 import { useState } from 'react'
 import { useSetAtom } from 'jotai'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
 import { useGetPosts } from '../api/useGetPosts'
+import { useDeletePost } from '../api/useDeletePost'
 import { PostCard } from '../components/PostCard'
 import { PostsEmptyState } from '../components/PostsEmptyState'
 import { LoadingError } from '@/components/layout/LoadingError'
@@ -15,6 +18,8 @@ export const PostsContainer = () => {
   const { data, isLoading, error } = useGetPosts()
   const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
   const setPostFormState = useSetAtom(postFormStateAtom)
+  const queryClient = useQueryClient()
+  const deletePostMutation = useDeletePost()
 
   if (isLoading) return <SkeletonCardList />
   if (error) return <LoadingError />
@@ -41,9 +46,23 @@ export const PostsContainer = () => {
     setActivePost(null)
   }
 
-  const handleDelete = () => {
-    // TODO: 投稿削除を実装
-    alert('投稿削除')
+  const handleDelete = (post: ApiPostsGet200ResponseInner) => {
+    const shouldDelete = confirm('本当に削除しますか？')
+    if (shouldDelete) {
+      deletePostMutation.mutate(
+        { id: post.id },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+            toast.success('投稿を削除しました。')
+          },
+          onError: error => {
+            console.error(error)
+            toast.error('投稿の削除に失敗しました。')
+          }
+        }
+      )
+    }
   }
 
   return (
@@ -70,7 +89,7 @@ export const PostsContainer = () => {
           onComment={() => handleShowDetails(post)}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`}
           onEdit={() => handleEdit(post)}
-          onDelete={handleDelete}
+          onDelete={() => handleDelete(post)}
         />
       ))}
       {activePost && (
@@ -104,7 +123,7 @@ export const PostsContainer = () => {
           onLike={handleLikeClick}
           timeAgo={activePost.timeAgo}
           onEdit={() => handleEdit(activePost)}
-          onDelete={handleDelete}
+          onDelete={() => handleDelete(activePost)}
         />
       )}
     </div>
