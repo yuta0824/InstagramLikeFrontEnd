@@ -12,32 +12,23 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    user: {
-      username: 'sakura',
-      name: 'Sakura',
-      avatarUrl: '/icon_avatar1.webp'
-    },
+    userName: 'sakura',
+    userAvatar: '/icon_avatar1.webp',
     content: 'すごく素敵な写真ですね！'
   }
 }
 
 export const NoAvatar: Story = {
   args: {
-    user: {
-      username: 'yuta',
-      name: 'Yuta'
-    },
+    userName: 'yuta',
     content: 'いいね！'
   }
 }
 
 export const LongComment: Story = {
   args: {
-    user: {
-      username: 'hina',
-      name: 'Hina',
-      avatarUrl: '/icon_avatar2.webp'
-    },
+    userName: 'hina',
+    userAvatar: '/icon_avatar2.webp',
     content:
       'この写真本当に素晴らしいですね！構図も色合いも完璧で、見ていて心が癒されます。どこで撮影されたんですか？機会があればぜひ行ってみたいです。'
   }
@@ -45,13 +36,10 @@ export const LongComment: Story = {
 
 export const CurrentUserComment: Story = {
   args: {
-    user: {
-      username: 'yuta',
-      name: 'Yuta',
-      avatarUrl: '/icon_avatar1.webp'
-    },
+    userName: 'yuta',
+    userAvatar: '/icon_avatar1.webp',
     content: '自分のコメントには削除ボタンが表示されます',
-    isCurrentUser: true,
+    isOwner: true,
     onDelete: fn()
   }
 }
