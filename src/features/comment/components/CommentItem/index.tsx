@@ -5,22 +5,19 @@ import { Button } from '@/components/ui/button'
 import { IoPersonCircle, IoEllipsisHorizontal } from 'react-icons/io5'
 
 export interface CommentItemProps {
-  user: {
-    username: string
-    name: string
-    avatarUrl?: string
-  }
+  userName: string
+  userAvatar?: string
   content: string
-  isCurrentUser?: boolean
+  isOwner?: boolean
   onDelete?: () => void
 }
 
-export const CommentItem = ({ user, content, isCurrentUser, onDelete }: CommentItemProps) => {
+export const CommentItem = ({ userName, userAvatar, content, isOwner, onDelete }: CommentItemProps) => {
   return (
     <div className="mb-3 flex gap-3">
-      <Link href={`/account/${user.username}`}>
+      <Link href={`/account/${userName}`}>
         <Avatar className="size-8">
-          {user.avatarUrl && <AvatarImage src={user.avatarUrl} alt={user.name} />}
+          {userAvatar && <AvatarImage src={userAvatar} alt={userName} />}
           <AvatarFallback>
             <IoPersonCircle className="size-8 text-gray-400" />
           </AvatarFallback>
@@ -28,13 +25,13 @@ export const CommentItem = ({ user, content, isCurrentUser, onDelete }: CommentI
       </Link>
       <div className="min-w-0 flex-1">
         <p className="text-sm">
-          <Link href={`/account/${user.username}`} className="mr-2 font-semibold hover:text-gray-600">
-            {user.username}
+          <Link href={`/account/${userName}`} className="mr-2 font-semibold hover:text-gray-600">
+            {userName}
           </Link>
           <span className="word-break-word">{content}</span>
         </p>
       </div>
-      {isCurrentUser && onDelete && (
+      {isOwner && onDelete && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="size-6">

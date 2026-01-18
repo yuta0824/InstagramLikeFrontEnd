@@ -5,6 +5,8 @@ import { useSetAtom } from 'jotai'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
+import { useCreateComment } from '@/features/comment/api/useCreateComment'
+import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useGetPosts } from '../api/useGetPosts'
 import { useDeletePost } from '../api/useDeletePost'
 import { PostCard } from '../components/PostCard'
@@ -16,17 +18,27 @@ import { postFormStateAtom } from '../states/postFormAtom'
 
 export const PostsContainer = () => {
   const { data, isLoading, error } = useGetPosts()
-  const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
+  const [activePostId, setActivePostId] = useState<number | null>(null)
+  const [commentValue, setCommentValue] = useState('')
+  const [commentError, setCommentError] = useState('')
   const setPostFormState = useSetAtom(postFormStateAtom)
   const queryClient = useQueryClient()
   const deletePostMutation = useDeletePost()
+  const createCommentMutation = useCreateComment()
+  const deleteCommentMutation = useDeleteComment()
 
   if (isLoading) return <SkeletonCardList />
   if (error) return <LoadingError />
   if (!data) return null
   if (data.length === 0) return <PostsEmptyState />
 
-  const handleShowDetails = (post: ApiPostsGet200ResponseInner) => setActivePost(post)
+  const activePost = data.find(post => post.id === activePostId) ?? null
+
+  const handleShowDetails = (post: ApiPostsGet200ResponseInner) => {
+    setActivePostId(post.id)
+    setCommentValue('')
+    setCommentError('')
+  }
 
   const handleLikeClick = () => {
     // TODO: いいね機能を実装
@@ -43,7 +55,7 @@ export const PostsContainer = () => {
         imageUrls: post.imageUrls
       }
     })
-    setActivePost(null)
+    setActivePostId(null)
   }
 
   const handleDelete = (post: ApiPostsGet200ResponseInner) => {
@@ -55,6 +67,9 @@ export const PostsContainer = () => {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['getPosts'] })
             toast.success('投稿を削除しました。')
+            if (activePostId === post.id) {
+              setActivePostId(null)
+            }
           },
           onError: error => {
             console.error(error)
@@ -63,6 +78,64 @@ export const PostsContainer = () => {
         }
       )
     }
+  }
+
+  const handleCommentValueChange = (value: string) => {
+    setCommentValue(value)
+    if (commentError) {
+      setCommentError('')
+    }
+  }
+
+  const handleCommentSubmit = () => {
+    if (createCommentMutation.isPending) return
+    if (!activePost) {
+      setCommentError('投稿が見つかりません。')
+      return
+    }
+    const trimmedContent = commentValue.trim()
+    if (!trimmedContent) {
+      setCommentError('コメントを入力してください。')
+      return
+    }
+
+    createCommentMutation.mutate(
+      { postId: activePost.id, content: trimmedContent },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          setCommentValue('')
+          setCommentError('')
+          toast.success('コメントを送信しました。')
+        },
+        onError: error => {
+          console.error(error)
+          setCommentError('コメントの送信に失敗しました。')
+        }
+      }
+    )
+  }
+
+  const handleCommentDelete = (commentId: number) => {
+    if (!activePost) {
+      toast.error('投稿が見つかりません。')
+      return
+    }
+    if (!confirm('コメントを削除しますか？')) return
+
+    deleteCommentMutation.mutate(
+      { postId: activePost.id, commentId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          toast.success('コメントを削除しました。')
+        },
+        onError: error => {
+          console.error(error)
+          toast.error('コメントの削除に失敗しました。')
+        }
+      }
+    )
   }
 
   return (
@@ -96,14 +169,17 @@ export const PostsContainer = () => {
         <PostShowDialog
           open
           onOpenChange={open => {
-            if (!open) setActivePost(null)
+            if (!open) {
+              setActivePostId(null)
+              setCommentValue('')
+              setCommentError('')
+            }
           }}
           post={{
             id: String(activePost.id),
             imageUrls: activePost.imageUrls,
             user: {
               name: activePost.userName,
-              username: activePost.userName,
               avatarUrl: activePost.userAvatar ?? undefined
             },
             caption: activePost.caption ?? '',
@@ -112,18 +188,21 @@ export const PostsContainer = () => {
             isOwn: activePost.isOwn
           }}
           comments={activePost.comments.map(comment => ({
-            user: {
-              name: comment.userName,
-              username: comment.userName,
-              avatarUrl: comment.userAvatar ?? undefined
-            },
-            content: comment.content
+            userName: comment.userName,
+            userAvatar: comment.userAvatar ?? undefined,
+            content: comment.content,
+            isOwner: comment.isOwner,
+            onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
           onLike={handleLikeClick}
           timeAgo={activePost.timeAgo}
           onEdit={() => handleEdit(activePost)}
           onDelete={() => handleDelete(activePost)}
+          commentValue={commentValue}
+          onCommentValueChange={handleCommentValueChange}
+          onCommentSubmit={handleCommentSubmit}
+          commentError={commentError}
         />
       )}
     </div>

@@ -15,19 +15,24 @@
 
 import * as runtime from '../runtime';
 import type {
-  ApiPostsPostIdCommentPost200Response,
-  ApiPostsPostIdCommentPostRequest,
+  ApiPostsPostIdCommentsPost201Response,
+  ApiPostsPostIdCommentsPostRequest,
 } from '../models/index';
 import {
-    ApiPostsPostIdCommentPost200ResponseFromJSON,
-    ApiPostsPostIdCommentPost200ResponseToJSON,
-    ApiPostsPostIdCommentPostRequestFromJSON,
-    ApiPostsPostIdCommentPostRequestToJSON,
+    ApiPostsPostIdCommentsPost201ResponseFromJSON,
+    ApiPostsPostIdCommentsPost201ResponseToJSON,
+    ApiPostsPostIdCommentsPostRequestFromJSON,
+    ApiPostsPostIdCommentsPostRequestToJSON,
 } from '../models/index';
 
-export interface ApiPostsPostIdCommentPostOperationRequest {
+export interface ApiPostsPostIdCommentsIdDeleteRequest {
     postId: number;
-    apiPostsPostIdCommentPostRequest?: ApiPostsPostIdCommentPostRequest;
+    id: number;
+}
+
+export interface ApiPostsPostIdCommentsPostOperationRequest {
+    postId: number;
+    apiPostsPostIdCommentsPostRequest?: ApiPostsPostIdCommentsPostRequest;
 }
 
 /**
@@ -36,13 +41,52 @@ export interface ApiPostsPostIdCommentPostOperationRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * コメントを保存できる
+     * コメントを削除できる
      */
-    async apiPostsPostIdCommentPostRaw(requestParameters: ApiPostsPostIdCommentPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsPostIdCommentPost200Response>> {
+    async apiPostsPostIdCommentsIdDeleteRaw(requestParameters: ApiPostsPostIdCommentsIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['postId'] == null) {
             throw new runtime.RequiredError(
                 'postId',
-                'Required parameter "postId" was null or undefined when calling apiPostsPostIdCommentPost().'
+                'Required parameter "postId" was null or undefined when calling apiPostsPostIdCommentsIdDelete().'
+            );
+        }
+
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling apiPostsPostIdCommentsIdDelete().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/posts/{post_id}/comments/{id}`.replace(`{${"post_id"}}`, encodeURIComponent(String(requestParameters['postId']))).replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * コメントを削除できる
+     */
+    async apiPostsPostIdCommentsIdDelete(requestParameters: ApiPostsPostIdCommentsIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.apiPostsPostIdCommentsIdDeleteRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * コメントを保存できる
+     */
+    async apiPostsPostIdCommentsPostRaw(requestParameters: ApiPostsPostIdCommentsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsPostIdCommentsPost201Response>> {
+        if (requestParameters['postId'] == null) {
+            throw new runtime.RequiredError(
+                'postId',
+                'Required parameter "postId" was null or undefined when calling apiPostsPostIdCommentsPost().'
             );
         }
 
@@ -53,21 +97,21 @@ export class DefaultApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/posts/{post_id}/comment`.replace(`{${"post_id"}}`, encodeURIComponent(String(requestParameters['postId']))),
+            path: `/api/posts/{post_id}/comments`.replace(`{${"post_id"}}`, encodeURIComponent(String(requestParameters['postId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ApiPostsPostIdCommentPostRequestToJSON(requestParameters['apiPostsPostIdCommentPostRequest']),
+            body: ApiPostsPostIdCommentsPostRequestToJSON(requestParameters['apiPostsPostIdCommentsPostRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsPostIdCommentPost200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsPostIdCommentsPost201ResponseFromJSON(jsonValue));
     }
 
     /**
      * コメントを保存できる
      */
-    async apiPostsPostIdCommentPost(requestParameters: ApiPostsPostIdCommentPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsPostIdCommentPost200Response> {
-        const response = await this.apiPostsPostIdCommentPostRaw(requestParameters, initOverrides);
+    async apiPostsPostIdCommentsPost(requestParameters: ApiPostsPostIdCommentsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsPostIdCommentsPost201Response> {
+        const response = await this.apiPostsPostIdCommentsPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -13,23 +13,26 @@ export const Default: Story = {
   args: {
     comments: [
       {
-        user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+        userName: 'sakura',
+        userAvatar: '/icon_avatar1.webp',
         content: 'すごく素敵な写真ですね！'
       },
       {
-        user: { username: 'yuta', name: 'Yuta' },
+        userName: 'yuta',
         content: 'いいね！'
       },
       {
-        user: { username: 'hina', name: 'Hina', avatarUrl: '/icon_avatar2.webp' },
+        userName: 'hina',
+        userAvatar: '/icon_avatar2.webp',
         content: 'この写真本当に素晴らしいですね！構図も色合いも完璧です。'
       },
       {
-        user: { username: 'ken', name: 'Ken' },
+        userName: 'ken',
         content: 'フォローさせていただきました！'
       },
       {
-        user: { username: 'maki', name: 'Maki', avatarUrl: '/icon_avatar1.webp' },
+        userName: 'maki',
+        userAvatar: '/icon_avatar1.webp',
         content: '綺麗ですね〜'
       }
     ]
@@ -40,7 +43,8 @@ export const SingleComment: Story = {
   args: {
     comments: [
       {
-        user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+        userName: 'sakura',
+        userAvatar: '/icon_avatar1.webp',
         content: 'すごく素敵な写真ですね！'
       }
     ]

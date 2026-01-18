@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface ApiPostsGet200ResponseInnerCommentsInner {
     /**
      * 
+     * @type {number}
+     * @memberof ApiPostsGet200ResponseInnerCommentsInner
+     */
+    id: number;
+    /**
+     * 
      * @type {string}
      * @memberof ApiPostsGet200ResponseInnerCommentsInner
      */
@@ -37,15 +43,23 @@ export interface ApiPostsGet200ResponseInnerCommentsInner {
      * @memberof ApiPostsGet200ResponseInnerCommentsInner
      */
     userAvatar: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiPostsGet200ResponseInnerCommentsInner
+     */
+    isOwner: boolean;
 }
 
 /**
  * Check if a given object implements the ApiPostsGet200ResponseInnerCommentsInner interface.
  */
 export function instanceOfApiPostsGet200ResponseInnerCommentsInner(value: object): value is ApiPostsGet200ResponseInnerCommentsInner {
+    if (!('id' in value) || value['id'] === undefined) return false;
     if (!('content' in value) || value['content'] === undefined) return false;
     if (!('userName' in value) || value['userName'] === undefined) return false;
     if (!('userAvatar' in value) || value['userAvatar'] === undefined) return false;
+    if (!('isOwner' in value) || value['isOwner'] === undefined) return false;
     return true;
 }
 
@@ -59,9 +73,11 @@ export function ApiPostsGet200ResponseInnerCommentsInnerFromJSONTyped(json: any,
     }
     return {
         
+        'id': json['id'],
         'content': json['content'],
         'userName': json['userName'],
         'userAvatar': json['userAvatar'],
+        'isOwner': json['isOwner'],
     };
 }
 
@@ -71,9 +87,11 @@ export function ApiPostsGet200ResponseInnerCommentsInnerToJSON(value?: ApiPostsG
     }
     return {
         
+        'id': value['id'],
         'content': value['content'],
         'userName': value['userName'],
         'userAvatar': value['userAvatar'],
+        'isOwner': value['isOwner'],
     };
 }
 
