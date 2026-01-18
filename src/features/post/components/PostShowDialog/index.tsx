@@ -21,7 +21,6 @@ interface PostShowDialogProps {
     imageUrls: string[]
     user: {
       name: string
-      username: string
       avatarUrl?: string
     }
     caption: string
@@ -34,11 +33,11 @@ interface PostShowDialogProps {
   onLike: (liked: boolean) => void
   onEdit?: () => void
   onDelete?: () => void
-  commentValue?: string
-  onCommentValueChange?: (value: string) => void
-  onCommentSubmit?: () => void
-  commentError?: string
-  timeAgo?: string
+  commentValue: string
+  onCommentValueChange: (value: string) => void
+  onCommentSubmit: () => void
+  commentError: string
+  timeAgo: string
 }
 
 export const PostShowDialog = ({
@@ -113,7 +112,7 @@ export const PostShowDialog = ({
           <header className="border-b border-gray-200 p-4">
             <div className="flex items-center justify-between gap-1">
               <div className="flex items-center gap-2">
-                <Link href={`/account/${post.user.username}`} className="flex items-center gap-2">
+                <Link href={`/account/${post.user.name}`} className="flex items-center gap-2">
                   <Avatar className="size-10">
                     {post.user.avatarUrl && <AvatarImage src={post.user.avatarUrl} alt={post.user.name} />}
                     <AvatarFallback>
@@ -122,8 +121,8 @@ export const PostShowDialog = ({
                   </Avatar>
                 </Link>
                 <div className="flex flex-col gap-1">
-                  <Link className="font-base font-semibold" href={`/account/${post.user.username}`}>
-                    {post.user.username}
+                  <Link className="font-base font-semibold" href={`/account/${post.user.name}`}>
+                    {post.user.name}
                   </Link>
                   {timeAgo && <p className="text-brandGray text-xs">{timeAgo}</p>}
                 </div>
@@ -151,7 +150,7 @@ export const PostShowDialog = ({
 
           {/* コメント一覧 */}
           <div className="flex-1 space-y-2 overflow-y-auto bg-white p-4">
-            <CommentItem user={post.user} content={post.caption} />
+            {post.caption && <CommentItem userName={post.user.name} content={post.caption} />}
             {comments.map((comment, index) => (
               <CommentItem key={index} {...comment} />
             ))}

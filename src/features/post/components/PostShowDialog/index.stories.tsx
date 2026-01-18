@@ -18,7 +18,6 @@ const samplePost = {
   imageUrls: ['/img_post8.webp', '/img_post1.webp', '/img_post2.webp'],
   user: {
     name: 'Kirei Nakesiki',
-    username: 'kirei_nakesiki',
     avatarUrl: '/icon_avatar2.webp'
   },
   caption:
@@ -31,37 +30,44 @@ const samplePost = {
 
 const sampleComments = [
   {
-    user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+    userName: 'sakura',
+    userAvatar: '/icon_avatar1.webp',
     content: 'すごく素敵な写真ですね！'
   },
   {
-    user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+    userName: 'sakura',
+    userAvatar: '/icon_avatar1.webp',
     content: 'すごく素敵な写真ですね！'
   },
   {
-    user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+    userName: 'sakura',
+    userAvatar: '/icon_avatar1.webp',
     content: 'すごく素敵な写真ですね！'
   },
   {
-    user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+    userName: 'sakura',
+    userAvatar: '/icon_avatar1.webp',
     content: 'すごく素敵な写真ですね！'
   },
   {
-    user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+    userName: 'sakura',
+    userAvatar: '/icon_avatar1.webp',
     content: 'すごく素敵な写真ですね！'
   },
   {
-    user: { username: 'sakura', name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+    userName: 'sakura',
+    userAvatar: '/icon_avatar1.webp',
     content: 'すごく素敵な写真ですね！'
   },
   {
-    user: { username: 'yuta', name: 'Yuta' },
+    userName: 'yuta',
     content: 'いいね！',
-    isCurrentUser: true,
+    isOwner: true,
     onDelete: fn()
   },
   {
-    user: { username: 'hina', name: 'Hina', avatarUrl: '/icon_avatar2.webp' },
+    userName: 'hina',
+    userAvatar: '/icon_avatar2.webp',
     content: 'この写真本当に素晴らしいですね！構図も色合いも完璧で、見ていて心が癒されます。'
   }
 ]
@@ -79,6 +85,7 @@ export const Default: Story = {
     commentValue: '',
     onCommentValueChange: fn(),
     onCommentSubmit: fn(),
+    commentError: '',
     timeAgo: '4時間前'
   }
 }
@@ -89,13 +96,10 @@ export const ManyComments: Story = {
     onOpenChange: fn(),
     post: samplePost,
     comments: Array.from({ length: 30 }, (_, i) => ({
-      user: {
-        username: `user${i + 1}`,
-        name: `User ${i + 1}`,
-        avatarUrl: i % 3 === 0 ? '/icon_avatar1.webp' : undefined
-      },
+      userName: `user${i + 1}`,
+      userAvatar: i % 3 === 0 ? '/icon_avatar1.webp' : undefined,
       content: `コメント ${i + 1}: これは${i + 1}番目のコメントです。とても素敵な写真ですね！`,
-      isCurrentUser: i === 4,
+      isOwner: i === 4,
       onDelete: i === 4 ? fn() : undefined
     })),
     shareUrl: 'https://example.com/posts/1',
@@ -105,6 +109,7 @@ export const ManyComments: Story = {
     commentValue: '',
     onCommentValueChange: fn(),
     onCommentSubmit: fn(),
+    commentError: '',
     timeAgo: '2日前'
   }
 }
