@@ -152,7 +152,14 @@ export const PostShowDialog = ({
           <div className="flex-1 space-y-2 overflow-y-auto bg-white p-4">
             {post.caption && <CommentItem userName={post.user.name} content={post.caption} />}
             {comments.map((comment, index) => (
-              <CommentItem key={index} {...comment} />
+              <CommentItem
+                key={index}
+                userName={comment.userName}
+                userAvatar={comment.userAvatar}
+                content={comment.content}
+                isOwner={comment.isOwner}
+                onDelete={comment.onDelete}
+              />
             ))}
           </div>
 

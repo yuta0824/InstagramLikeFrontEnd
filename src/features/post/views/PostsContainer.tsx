@@ -6,6 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
 import { useCreateComment } from '@/features/comment/api/useCreateComment'
+import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useGetPosts } from '../api/useGetPosts'
 import { useDeletePost } from '../api/useDeletePost'
 import { PostCard } from '../components/PostCard'
@@ -24,6 +25,7 @@ export const PostsContainer = () => {
   const queryClient = useQueryClient()
   const deletePostMutation = useDeletePost()
   const createCommentMutation = useCreateComment()
+  const deleteCommentMutation = useDeleteComment()
 
   if (isLoading) return <SkeletonCardList />
   if (error) return <LoadingError />
@@ -114,6 +116,28 @@ export const PostsContainer = () => {
     )
   }
 
+  const handleCommentDelete = (commentId: number) => {
+    if (!activePost) {
+      toast.error('投稿が見つかりません。')
+      return
+    }
+    if (!confirm('コメントを削除しますか？')) return
+
+    deleteCommentMutation.mutate(
+      { postId: activePost.id, commentId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          toast.success('コメントを削除しました。')
+        },
+        onError: error => {
+          console.error(error)
+          toast.error('コメントの削除に失敗しました。')
+        }
+      }
+    )
+  }
+
   return (
     <div className="space-y-10">
       {data.map(post => (
@@ -167,7 +191,8 @@ export const PostsContainer = () => {
             userName: comment.userName,
             userAvatar: comment.userAvatar ?? undefined,
             content: comment.content,
-            isOwner: comment.isOwner
+            isOwner: comment.isOwner,
+            onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
           onLike={handleLikeClick}
