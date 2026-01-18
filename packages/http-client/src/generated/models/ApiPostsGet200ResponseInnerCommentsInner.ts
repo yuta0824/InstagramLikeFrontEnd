@@ -37,6 +37,12 @@ export interface ApiPostsGet200ResponseInnerCommentsInner {
      * @memberof ApiPostsGet200ResponseInnerCommentsInner
      */
     userAvatar: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiPostsGet200ResponseInnerCommentsInner
+     */
+    isOwner: boolean;
 }
 
 /**
@@ -46,6 +52,7 @@ export function instanceOfApiPostsGet200ResponseInnerCommentsInner(value: object
     if (!('content' in value) || value['content'] === undefined) return false;
     if (!('userName' in value) || value['userName'] === undefined) return false;
     if (!('userAvatar' in value) || value['userAvatar'] === undefined) return false;
+    if (!('isOwner' in value) || value['isOwner'] === undefined) return false;
     return true;
 }
 
@@ -62,6 +69,7 @@ export function ApiPostsGet200ResponseInnerCommentsInnerFromJSONTyped(json: any,
         'content': json['content'],
         'userName': json['userName'],
         'userAvatar': json['userAvatar'],
+        'isOwner': json['isOwner'],
     };
 }
 
@@ -74,6 +82,7 @@ export function ApiPostsGet200ResponseInnerCommentsInnerToJSON(value?: ApiPostsG
         'content': value['content'],
         'userName': value['userName'],
         'userAvatar': value['userAvatar'],
+        'isOwner': value['isOwner'],
     };
 }
 
