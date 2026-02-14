@@ -30,7 +30,7 @@ export const AuthEntryContainer = () => {
   const handleAuth = () => {
     const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
     if (!NEXT_PUBLIC_API_URL) return
-    window.location.href = `${NEXT_PUBLIC_API_URL}/api/users/auth?service=google`
+    window.location.href = `${NEXT_PUBLIC_API_URL}/api/auth/login?service=google`
   }
 
   useEffect(redirectToHomeIfSignedIn, [isSignedIn, router])

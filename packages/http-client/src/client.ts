@@ -1,4 +1,4 @@
-import { Configuration, DefaultApi, LikeApi, PostApi, UserApi } from './generated'
+import { Configuration, AuthApi, DefaultApi, LikeApi, PostApi, RelationshipApi, UserApi } from './generated'
 
 const basePath = process.env.NEXT_PUBLIC_API_URL
 if (!basePath) {
@@ -9,7 +9,9 @@ const config = new Configuration({
   basePath
 })
 
+export const authApi = new AuthApi(config)
 export const userApi = new UserApi(config)
 export const postApi = new PostApi(config)
 export const commentApi = new DefaultApi(config)
 export const likeApi = new LikeApi(config)
+export const relationshipApi = new RelationshipApi(config)

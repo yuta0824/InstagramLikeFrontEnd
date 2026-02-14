@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 
-export interface ApiAccountsAccountIdRelationshipDeleteRequest {
-    accountId: number;
+export interface ApiUsersUserIdRelationshipDeleteRequest {
+    userId: number;
 }
 
-export interface ApiAccountsAccountIdRelationshipPostRequest {
-    accountId: number;
+export interface ApiUsersUserIdRelationshipPostRequest {
+    userId: number;
 }
 
 /**
@@ -31,11 +31,11 @@ export class RelationshipApi extends runtime.BaseAPI {
     /**
      * フォロー関係を削除する
      */
-    async apiAccountsAccountIdRelationshipDeleteRaw(requestParameters: ApiAccountsAccountIdRelationshipDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['accountId'] == null) {
+    async apiUsersUserIdRelationshipDeleteRaw(requestParameters: ApiUsersUserIdRelationshipDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
-                'accountId',
-                'Required parameter "accountId" was null or undefined when calling apiAccountsAccountIdRelationshipDelete().'
+                'userId',
+                'Required parameter "userId" was null or undefined when calling apiUsersUserIdRelationshipDelete().'
             );
         }
 
@@ -44,7 +44,7 @@ export class RelationshipApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/accounts/{account_id}/relationship`.replace(`{${"account_id"}}`, encodeURIComponent(String(requestParameters['accountId']))),
+            path: `/api/users/{user_id}/relationship`.replace(`{${"user_id"}}`, encodeURIComponent(String(requestParameters['userId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -56,18 +56,18 @@ export class RelationshipApi extends runtime.BaseAPI {
     /**
      * フォロー関係を削除する
      */
-    async apiAccountsAccountIdRelationshipDelete(requestParameters: ApiAccountsAccountIdRelationshipDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.apiAccountsAccountIdRelationshipDeleteRaw(requestParameters, initOverrides);
+    async apiUsersUserIdRelationshipDelete(requestParameters: ApiUsersUserIdRelationshipDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.apiUsersUserIdRelationshipDeleteRaw(requestParameters, initOverrides);
     }
 
     /**
      * フォロー関係を作成する
      */
-    async apiAccountsAccountIdRelationshipPostRaw(requestParameters: ApiAccountsAccountIdRelationshipPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['accountId'] == null) {
+    async apiUsersUserIdRelationshipPostRaw(requestParameters: ApiUsersUserIdRelationshipPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
-                'accountId',
-                'Required parameter "accountId" was null or undefined when calling apiAccountsAccountIdRelationshipPost().'
+                'userId',
+                'Required parameter "userId" was null or undefined when calling apiUsersUserIdRelationshipPost().'
             );
         }
 
@@ -76,7 +76,7 @@ export class RelationshipApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/accounts/{account_id}/relationship`.replace(`{${"account_id"}}`, encodeURIComponent(String(requestParameters['accountId']))),
+            path: `/api/users/{user_id}/relationship`.replace(`{${"user_id"}}`, encodeURIComponent(String(requestParameters['userId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -88,8 +88,8 @@ export class RelationshipApi extends runtime.BaseAPI {
     /**
      * フォロー関係を作成する
      */
-    async apiAccountsAccountIdRelationshipPost(requestParameters: ApiAccountsAccountIdRelationshipPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.apiAccountsAccountIdRelationshipPostRaw(requestParameters, initOverrides);
+    async apiUsersUserIdRelationshipPost(requestParameters: ApiUsersUserIdRelationshipPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.apiUsersUserIdRelationshipPostRaw(requestParameters, initOverrides);
     }
 
 }

@@ -15,29 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  ApiAccountsGet200ResponseInner,
   ApiPostsPostIdLikePost401Response,
-  ApiUsersTokenExchangeGet200Response,
-  ApiUsersTokenExchangeGet401Response,
+  ApiUsersGet200ResponseInner,
 } from '../models/index';
 import {
-    ApiAccountsGet200ResponseInnerFromJSON,
-    ApiAccountsGet200ResponseInnerToJSON,
     ApiPostsPostIdLikePost401ResponseFromJSON,
     ApiPostsPostIdLikePost401ResponseToJSON,
-    ApiUsersTokenExchangeGet200ResponseFromJSON,
-    ApiUsersTokenExchangeGet200ResponseToJSON,
-    ApiUsersTokenExchangeGet401ResponseFromJSON,
-    ApiUsersTokenExchangeGet401ResponseToJSON,
+    ApiUsersGet200ResponseInnerFromJSON,
+    ApiUsersGet200ResponseInnerToJSON,
 } from '../models/index';
-
-export interface ApiUsersLogoutDeleteRequest {
-    authorization: string;
-}
-
-export interface ApiUsersTokenExchangeGetRequest {
-    authCode: string;
-}
 
 /**
  * 
@@ -47,7 +33,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * ログイン中ユーザーを取得する
      */
-    async apiMeGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiAccountsGet200ResponseInner>> {
+    async apiMeGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiUsersGet200ResponseInner>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -59,13 +45,13 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiAccountsGet200ResponseInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiUsersGet200ResponseInnerFromJSON(jsonValue));
     }
 
     /**
      * ログイン中ユーザーを取得する
      */
-    async apiMeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiAccountsGet200ResponseInner> {
+    async apiMeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiUsersGet200ResponseInner> {
         const response = await this.apiMeGetRaw(initOverrides);
         return await response.value();
     }
@@ -73,7 +59,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * ユーザー情報を更新する
      */
-    async apiMePatchRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiAccountsGet200ResponseInner>> {
+    async apiMePatchRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiUsersGet200ResponseInner>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -85,87 +71,40 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiAccountsGet200ResponseInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiUsersGet200ResponseInnerFromJSON(jsonValue));
     }
 
     /**
      * ユーザー情報を更新する
      */
-    async apiMePatch(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiAccountsGet200ResponseInner> {
+    async apiMePatch(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiUsersGet200ResponseInner> {
         const response = await this.apiMePatchRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * ログアウトする
+     * アカウント一覧を取得する
      */
-    async apiUsersLogoutDeleteRaw(requestParameters: ApiUsersLogoutDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['authorization'] == null) {
-            throw new runtime.RequiredError(
-                'authorization',
-                'Required parameter "authorization" was null or undefined when calling apiUsersLogoutDelete().'
-            );
-        }
-
+    async apiUsersGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiUsersGet200ResponseInner>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (requestParameters['authorization'] != null) {
-            headerParameters['Authorization'] = String(requestParameters['authorization']);
-        }
-
         const response = await this.request({
-            path: `/api/users/logout`,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * ログアウトする
-     */
-    async apiUsersLogoutDelete(requestParameters: ApiUsersLogoutDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.apiUsersLogoutDeleteRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * 認可コードからJWTを取得する
-     */
-    async apiUsersTokenExchangeGetRaw(requestParameters: ApiUsersTokenExchangeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiUsersTokenExchangeGet200Response>> {
-        if (requestParameters['authCode'] == null) {
-            throw new runtime.RequiredError(
-                'authCode',
-                'Required parameter "authCode" was null or undefined when calling apiUsersTokenExchangeGet().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters['authCode'] != null) {
-            queryParameters['auth_code'] = requestParameters['authCode'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/users/token_exchange`,
+            path: `/api/users`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiUsersTokenExchangeGet200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ApiUsersGet200ResponseInnerFromJSON));
     }
 
     /**
-     * 認可コードからJWTを取得する
+     * アカウント一覧を取得する
      */
-    async apiUsersTokenExchangeGet(requestParameters: ApiUsersTokenExchangeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiUsersTokenExchangeGet200Response> {
-        const response = await this.apiUsersTokenExchangeGetRaw(requestParameters, initOverrides);
+    async apiUsersGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiUsersGet200ResponseInner>> {
+        const response = await this.apiUsersGetRaw(initOverrides);
         return await response.value();
     }
 

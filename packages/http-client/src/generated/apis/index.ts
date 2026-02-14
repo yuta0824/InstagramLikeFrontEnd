@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './AccountApi';
+export * from './AuthApi';
 export * from './DefaultApi';
 export * from './LikeApi';
 export * from './PostApi';

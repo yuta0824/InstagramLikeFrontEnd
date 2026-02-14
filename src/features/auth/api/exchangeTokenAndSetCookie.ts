@@ -9,7 +9,7 @@ export const exchangeTokenAndSetCookie = async (authCode: string) => {
     throw new Error('NEXT_PUBLIC_API_URL is not set')
   }
 
-  const response = await fetch(`${apiUrl}/api/users/token_exchange?auth_code=${authCode}`, {
+  const response = await fetch(`${apiUrl}/api/auth/token?auth_code=${authCode}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

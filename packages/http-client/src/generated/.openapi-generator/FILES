@@ -1,4 +1,4 @@
-apis/AccountApi.ts
+apis/AuthApi.ts
 apis/DefaultApi.ts
 apis/LikeApi.ts
 apis/PostApi.ts
@@ -6,7 +6,8 @@ apis/RelationshipApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
-models/ApiAccountsGet200ResponseInner.ts
+models/ApiAuthTokenGet200Response.ts
+models/ApiAuthTokenGet401Response.ts
 models/ApiPostsGet200ResponseInner.ts
 models/ApiPostsGet200ResponseInnerCommentsInner.ts
 models/ApiPostsIdPatchRequest.ts
@@ -16,7 +17,6 @@ models/ApiPostsPostIdCommentsPostRequest.ts
 models/ApiPostsPostIdCommentsPostRequestComment.ts
 models/ApiPostsPostIdLikePost200Response.ts
 models/ApiPostsPostIdLikePost401Response.ts
-models/ApiUsersTokenExchangeGet200Response.ts
-models/ApiUsersTokenExchangeGet401Response.ts
+models/ApiUsersGet200ResponseInner.ts
 models/index.ts
 runtime.ts

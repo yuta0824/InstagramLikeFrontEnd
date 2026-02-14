@@ -16,37 +16,37 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ApiAccountsGet200ResponseInner
+ * @interface ApiUsersGet200ResponseInner
  */
-export interface ApiAccountsGet200ResponseInner {
+export interface ApiUsersGet200ResponseInner {
     /**
      * 
      * @type {string}
-     * @memberof ApiAccountsGet200ResponseInner
+     * @memberof ApiUsersGet200ResponseInner
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof ApiAccountsGet200ResponseInner
+     * @memberof ApiUsersGet200ResponseInner
      */
     avatarUrl: string | null;
 }
 
 /**
- * Check if a given object implements the ApiAccountsGet200ResponseInner interface.
+ * Check if a given object implements the ApiUsersGet200ResponseInner interface.
  */
-export function instanceOfApiAccountsGet200ResponseInner(value: object): value is ApiAccountsGet200ResponseInner {
+export function instanceOfApiUsersGet200ResponseInner(value: object): value is ApiUsersGet200ResponseInner {
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('avatarUrl' in value) || value['avatarUrl'] === undefined) return false;
     return true;
 }
 
-export function ApiAccountsGet200ResponseInnerFromJSON(json: any): ApiAccountsGet200ResponseInner {
-    return ApiAccountsGet200ResponseInnerFromJSONTyped(json, false);
+export function ApiUsersGet200ResponseInnerFromJSON(json: any): ApiUsersGet200ResponseInner {
+    return ApiUsersGet200ResponseInnerFromJSONTyped(json, false);
 }
 
-export function ApiAccountsGet200ResponseInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiAccountsGet200ResponseInner {
+export function ApiUsersGet200ResponseInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiUsersGet200ResponseInner {
     if (json == null) {
         return json;
     }
@@ -57,7 +57,7 @@ export function ApiAccountsGet200ResponseInnerFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function ApiAccountsGet200ResponseInnerToJSON(value?: ApiAccountsGet200ResponseInner | null): any {
+export function ApiUsersGet200ResponseInnerToJSON(value?: ApiUsersGet200ResponseInner | null): any {
     if (value == null) {
         return value;
     }
