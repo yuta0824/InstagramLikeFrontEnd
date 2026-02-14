@@ -170,7 +170,7 @@ export const PostsContainer = () => {
           timeAgo={post.timeAgo}
           likesCount={post.likedCount}
           commentsCount={post.comments.length}
-          onLike={(liked) => handleLikeClick(post.id, liked)}
+          onLike={liked => handleLikeClick(post.id, liked)}
           onComment={() => handleShowDetails(post)}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`}
           onEdit={() => handleEdit(post)}
@@ -207,7 +207,7 @@ export const PostsContainer = () => {
             onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
-          onLike={(liked) => handleLikeClick(activePost.id, liked)}
+          onLike={liked => handleLikeClick(activePost.id, liked)}
           timeAgo={activePost.timeAgo}
           onEdit={() => handleEdit(activePost)}
           onDelete={() => handleDelete(activePost)}
