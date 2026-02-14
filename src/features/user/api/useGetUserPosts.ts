@@ -9,10 +9,7 @@ export const useGetUserPosts = (userId: number | undefined) => {
     queryKey: ['getUserPosts', userId],
     queryFn: async ({ pageParam }) => {
       return await userPostApi
-        .apiUsersUserIdPostsGet(
-          { userId: userId!, page: pageParam },
-          { headers: { Authorization: `Bearer ${jwt}` } }
-        )
+        .apiUsersUserIdPostsGet({ userId: userId!, page: pageParam }, { headers: { Authorization: `Bearer ${jwt}` } })
         .catch(error => {
           console.error(error)
           throw new Error('ユーザー投稿の取得に失敗しました。')

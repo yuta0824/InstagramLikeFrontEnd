@@ -238,8 +238,7 @@ export const UserProfileContainer = () => {
               id={String(post.id)}
               user={{
                 name: post.userName,
-                avatarUrl: post.userAvatar ?? undefined,
-                accountUrl: `/accounts/${encodeURIComponent(post.userName)}`
+                avatarUrl: post.userAvatar ?? undefined
               }}
               currentUser={{
                 isLiked: post.isLiked,
