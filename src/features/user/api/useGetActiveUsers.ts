@@ -2,13 +2,15 @@ import { getJwtFromCookie } from '@/features/auth/modules/getJwtFromCookie'
 import { activeUserApi } from '@instagram-like-app/http-client'
 import { useQuery } from '@tanstack/react-query'
 
+const ACTIVE_USERS_LIMIT = 5
+
 export const useGetActiveUsers = () => {
   const jwt = getJwtFromCookie()
 
   const fetchGetActiveUsers = async () => {
     return await activeUserApi
       .apiActiveUsersGet(
-        { limit: 5 },
+        { limit: ACTIVE_USERS_LIMIT },
         {
           headers: { Authorization: `Bearer ${jwt}` }
         }

@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { fn } from 'storybook/test'
 import { UserListItem } from '.'
 
 const meta: Meta<typeof UserListItem> = {
@@ -34,7 +35,7 @@ export const WithFollowButton: Story = {
     name: 'sakura',
     avatarUrl: '/icon_avatar1.webp',
     isFollowing: false,
-    onToggleFollow: (id, shouldFollow) => console.log(`Toggle follow: ${id}, ${shouldFollow}`)
+    onToggleFollow: fn()
   }
 }
 
@@ -44,6 +45,6 @@ export const Following: Story = {
     name: 'sakura',
     avatarUrl: '/icon_avatar1.webp',
     isFollowing: true,
-    onToggleFollow: (id, shouldFollow) => console.log(`Toggle follow: ${id}, ${shouldFollow}`)
+    onToggleFollow: fn()
   }
 }

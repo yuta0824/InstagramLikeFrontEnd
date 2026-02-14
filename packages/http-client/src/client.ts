@@ -1,4 +1,13 @@
-import { Configuration, ActiveUserApi, AuthApi, DefaultApi, LikeApi, PostApi, RelationshipApi, UserApi } from './generated'
+import {
+  Configuration,
+  ActiveUserApi,
+  AuthApi,
+  DefaultApi,
+  LikeApi,
+  PostApi,
+  RelationshipApi,
+  UserApi
+} from './generated'
 
 const basePath = process.env.NEXT_PUBLIC_API_URL
 if (!basePath) {
