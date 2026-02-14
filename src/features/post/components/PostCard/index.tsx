@@ -101,8 +101,12 @@ export const PostCard = ({
           <span>{caption}</span>
         </p>
         <div className="-ml-2 flex w-full gap-3">
-          <LikeButton isLiked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
-          <CommentButton count={commentsCount} onClick={onComment} />
+          <div className="min-w-10">
+            <LikeButton isLiked={currentUser.isLiked} count={likesCount} onToggle={onLike} />
+          </div>
+          <div className="min-w-10">
+            <CommentButton count={commentsCount} onClick={onComment} />
+          </div>
           <ShareButton url={shareUrl} />
         </div>
       </div>
