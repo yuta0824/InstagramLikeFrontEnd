@@ -6,7 +6,8 @@ import {
   LikeApi,
   PostApi,
   RelationshipApi,
-  UserApi
+  UserApi,
+  UserPostApi
 } from './generated'
 
 const basePath = process.env.NEXT_PUBLIC_API_URL
@@ -25,3 +26,4 @@ export const postApi = new PostApi(config)
 export const commentApi = new CommentApi(config)
 export const likeApi = new LikeApi(config)
 export const relationshipApi = new RelationshipApi(config)
+export const userPostApi = new UserPostApi(config)

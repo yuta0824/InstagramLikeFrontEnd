@@ -16,7 +16,7 @@ interface PostCardProps {
   user: {
     name: string
     avatarUrl?: string
-    accountUrl: string
+    accountUrl?: string
   }
   currentUser: {
     isLiked: boolean
@@ -49,23 +49,23 @@ export const PostCard = ({
   onDelete,
   shareUrl
 }: PostCardProps) => {
+  const avatar = (
+    <Avatar className="size-10">
+      {user.avatarUrl && <AvatarImage src={user.avatarUrl} alt={`${user.name}のアバター`} width={40} height={40} />}
+      <AvatarFallback className="border-brandGray/40 text-brandGray border">
+        <GoPerson className="size-6" />
+      </AvatarFallback>
+    </Avatar>
+  )
+
+  const userName = <p className="text-sm">{user.name}</p>
+
   return (
     <div className="max-w-sm space-y-3" id={id}>
       <div className="flex items-center gap-3">
-        <Link href={user.accountUrl}>
-          <Avatar className="size-10">
-            {user.avatarUrl && (
-              <AvatarImage src={user.avatarUrl} alt={`${user.name}のアバター`} width={40} height={40} />
-            )}
-            <AvatarFallback className="border-brandGray/40 text-brandGray border">
-              <GoPerson className="size-6" />
-            </AvatarFallback>
-          </Avatar>
-        </Link>
+        {user.accountUrl ? <Link href={user.accountUrl}>{avatar}</Link> : avatar}
         <div>
-          <Link href={user.accountUrl}>
-            <p className="text-sm">{user.name}</p>
-          </Link>
+          {user.accountUrl ? <Link href={user.accountUrl}>{userName}</Link> : userName}
           <p className="text-brandGray text-xs">{timeAgo}</p>
         </div>
         {currentUser.isOwner && (onEdit || onDelete) && (

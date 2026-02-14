@@ -7,3 +7,4 @@ export * from './LikeApi';
 export * from './PostApi';
 export * from './RelationshipApi';
 export * from './UserApi';
+export * from './UserPostApi';
