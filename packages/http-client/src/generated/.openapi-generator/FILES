@@ -5,6 +5,7 @@ apis/LikeApi.ts
 apis/PostApi.ts
 apis/RelationshipApi.ts
 apis/UserApi.ts
+apis/UserPostApi.ts
 apis/index.ts
 index.ts
 models/ApiActiveUsersGet200ResponseInner.ts
