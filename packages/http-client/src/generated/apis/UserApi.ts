@@ -15,15 +15,26 @@
 
 import * as runtime from '../runtime';
 import type {
-  ApiPostsPostIdLikePost401Response,
-  ApiUsersGet200ResponseInner,
+  ApiActiveUsersGet200ResponseInner,
+  ApiActiveUsersGet401Response,
+  ApiMeGet200Response,
 } from '../models/index';
 import {
-    ApiPostsPostIdLikePost401ResponseFromJSON,
-    ApiPostsPostIdLikePost401ResponseToJSON,
-    ApiUsersGet200ResponseInnerFromJSON,
-    ApiUsersGet200ResponseInnerToJSON,
+    ApiActiveUsersGet200ResponseInnerFromJSON,
+    ApiActiveUsersGet200ResponseInnerToJSON,
+    ApiActiveUsersGet401ResponseFromJSON,
+    ApiActiveUsersGet401ResponseToJSON,
+    ApiMeGet200ResponseFromJSON,
+    ApiMeGet200ResponseToJSON,
 } from '../models/index';
+
+export interface ApiUsersGetRequest {
+    q?: string;
+}
+
+export interface ApiUsersIdGetRequest {
+    id: number;
+}
 
 /**
  * 
@@ -33,7 +44,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * ログイン中ユーザーを取得する
      */
-    async apiMeGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiUsersGet200ResponseInner>> {
+    async apiMeGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiMeGet200Response>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -45,13 +56,13 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiUsersGet200ResponseInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiMeGet200ResponseFromJSON(jsonValue));
     }
 
     /**
      * ログイン中ユーザーを取得する
      */
-    async apiMeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiUsersGet200ResponseInner> {
+    async apiMeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeGet200Response> {
         const response = await this.apiMeGetRaw(initOverrides);
         return await response.value();
     }
@@ -59,7 +70,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * ユーザー情報を更新する
      */
-    async apiMePatchRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiUsersGet200ResponseInner>> {
+    async apiMePatchRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiMeGet200Response>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -71,22 +82,26 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiUsersGet200ResponseInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiMeGet200ResponseFromJSON(jsonValue));
     }
 
     /**
      * ユーザー情報を更新する
      */
-    async apiMePatch(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiUsersGet200ResponseInner> {
+    async apiMePatch(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeGet200Response> {
         const response = await this.apiMePatchRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * アカウント一覧を取得する
+     * 未ログインではアクセスできない
      */
-    async apiUsersGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiUsersGet200ResponseInner>>> {
+    async apiUsersGetRaw(requestParameters: ApiUsersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiActiveUsersGet200ResponseInner>>> {
         const queryParameters: any = {};
+
+        if (requestParameters['q'] != null) {
+            queryParameters['q'] = requestParameters['q'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -97,14 +112,47 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ApiUsersGet200ResponseInnerFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ApiActiveUsersGet200ResponseInnerFromJSON));
     }
 
     /**
-     * アカウント一覧を取得する
+     * 未ログインではアクセスできない
      */
-    async apiUsersGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiUsersGet200ResponseInner>> {
-        const response = await this.apiUsersGetRaw(initOverrides);
+    async apiUsersGet(requestParameters: ApiUsersGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiActiveUsersGet200ResponseInner>> {
+        const response = await this.apiUsersGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 未ログインではユーザー詳細にアクセスできない
+     */
+    async apiUsersIdGetRaw(requestParameters: ApiUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiMeGet200Response>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling apiUsersIdGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiMeGet200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 未ログインではユーザー詳細にアクセスできない
+     */
+    async apiUsersIdGet(requestParameters: ApiUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeGet200Response> {
+        const response = await this.apiUsersIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

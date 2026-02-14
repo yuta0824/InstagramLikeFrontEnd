@@ -4,14 +4,25 @@ info:
   title: API Documentation
   version: '1.0'
 paths:
-  "/api/users":
+  "/api/active_users":
     get:
-      summary: アカウント一覧を取得する
+      summary: アクティブユーザー一覧を取得する
       tags:
-      - User
+      - ActiveUser
       responses:
+        '401':
+          description: 未ログイン
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
         '200':
-          description: アカウント一覧取得成功
+          description: アクティブユーザー一覧取得成功
           content:
             application/json:
               schema:
@@ -19,14 +30,27 @@ paths:
                 items:
                   type: object
                   properties:
+                    id:
+                      type: integer
                     name:
                       type: string
                     avatarUrl:
                       type: string
                       nullable: true
+                    isFollowing:
+                      type: boolean
                   required:
+                  - id
                   - name
                   - avatarUrl
+                  - isFollowing
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: 取得件数（最大30）
+        schema:
+          type: integer
   "/api/posts/{post_id}/comments":
     parameters:
     - name: post_id
@@ -188,14 +212,29 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: integer
                   name:
                     type: string
                   avatarUrl:
                     type: string
                     nullable: true
+                  isFollowing:
+                    type: boolean
+                  followingsCount:
+                    type: integer
+                  followersCount:
+                    type: integer
+                  postsCount:
+                    type: integer
                 required:
+                - id
                 - name
                 - avatarUrl
+                - isFollowing
+                - followingsCount
+                - followersCount
+                - postsCount
         '401':
           description: 未ログイン
           content:
@@ -220,14 +259,29 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: integer
                   name:
                     type: string
                   avatarUrl:
                     type: string
                     nullable: true
+                  isFollowing:
+                    type: boolean
+                  followingsCount:
+                    type: integer
+                  followersCount:
+                    type: integer
+                  postsCount:
+                    type: integer
                 required:
+                - id
                 - name
                 - avatarUrl
+                - isFollowing
+                - followingsCount
+                - followersCount
+                - postsCount
         '401':
           description: 未ログイン
           content:
@@ -690,6 +744,100 @@ paths:
                       type: string
                 required:
                 - errors
+  "/api/users":
+    get:
+      summary: 未ログインではアクセスできない
+      tags:
+      - User
+      parameters:
+      - name: q
+        in: query
+        required: false
+        description: 名前で検索
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ユーザー一覧取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    avatarUrl:
+                      type: string
+                      nullable: true
+                    isFollowing:
+                      type: boolean
+                  required:
+                  - id
+                  - name
+                  - avatarUrl
+                  - isFollowing
+        '401':
+          description: 未ログイン
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/users/{id}":
+    get:
+      summary: 未ログインではユーザー詳細にアクセスできない
+      tags:
+      - User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ユーザーID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ユーザー詳細取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  avatarUrl:
+                    type: string
+                    nullable: true
+                  isFollowing:
+                    type: boolean
+                  followingsCount:
+                    type: integer
+                  followersCount:
+                    type: integer
+                  postsCount:
+                    type: integer
+                required:
+                - id
+                - name
+                - avatarUrl
+                - isFollowing
+                - followingsCount
+                - followersCount
+                - postsCount
+        '404':
+          description: 存在しないユーザー
+        '401':
+          description: 未ログイン
 servers:
 - url: https://{defaultHost}
   variables:

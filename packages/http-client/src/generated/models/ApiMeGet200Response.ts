@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface ApiMeGet200Response {
     /**
      * 
+     * @type {number}
+     * @memberof ApiMeGet200Response
+     */
+    id: number;
+    /**
+     * 
      * @type {string}
      * @memberof ApiMeGet200Response
      */
@@ -30,15 +36,44 @@ export interface ApiMeGet200Response {
      * @type {string}
      * @memberof ApiMeGet200Response
      */
-    avatarUrl: string;
+    avatarUrl: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiMeGet200Response
+     */
+    isFollowing: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ApiMeGet200Response
+     */
+    followingsCount: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ApiMeGet200Response
+     */
+    followersCount: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ApiMeGet200Response
+     */
+    postsCount: number;
 }
 
 /**
  * Check if a given object implements the ApiMeGet200Response interface.
  */
 export function instanceOfApiMeGet200Response(value: object): value is ApiMeGet200Response {
+    if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('avatarUrl' in value) || value['avatarUrl'] === undefined) return false;
+    if (!('isFollowing' in value) || value['isFollowing'] === undefined) return false;
+    if (!('followingsCount' in value) || value['followingsCount'] === undefined) return false;
+    if (!('followersCount' in value) || value['followersCount'] === undefined) return false;
+    if (!('postsCount' in value) || value['postsCount'] === undefined) return false;
     return true;
 }
 
@@ -52,8 +87,13 @@ export function ApiMeGet200ResponseFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
+        'id': json['id'],
         'name': json['name'],
         'avatarUrl': json['avatarUrl'],
+        'isFollowing': json['isFollowing'],
+        'followingsCount': json['followingsCount'],
+        'followersCount': json['followersCount'],
+        'postsCount': json['postsCount'],
     };
 }
 
@@ -63,8 +103,13 @@ export function ApiMeGet200ResponseToJSON(value?: ApiMeGet200Response | null): a
     }
     return {
         
+        'id': value['id'],
         'name': value['name'],
         'avatarUrl': value['avatarUrl'],
+        'isFollowing': value['isFollowing'],
+        'followingsCount': value['followingsCount'],
+        'followersCount': value['followersCount'],
+        'postsCount': value['postsCount'],
     };
 }
 

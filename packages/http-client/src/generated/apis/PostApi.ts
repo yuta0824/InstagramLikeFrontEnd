@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiActiveUsersGet401Response,
   ApiPostsGet200ResponseInner,
   ApiPostsIdPatchRequest,
-  ApiPostsPostIdLikePost401Response,
 } from '../models/index';
 import {
+    ApiActiveUsersGet401ResponseFromJSON,
+    ApiActiveUsersGet401ResponseToJSON,
     ApiPostsGet200ResponseInnerFromJSON,
     ApiPostsGet200ResponseInnerToJSON,
     ApiPostsIdPatchRequestFromJSON,
     ApiPostsIdPatchRequestToJSON,
-    ApiPostsPostIdLikePost401ResponseFromJSON,
-    ApiPostsPostIdLikePost401ResponseToJSON,
 } from '../models/index';
 
 export interface ApiPostsIdDeleteRequest {

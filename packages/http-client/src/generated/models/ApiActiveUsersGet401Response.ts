@@ -16,30 +16,30 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ApiMeGet401Response
+ * @interface ApiActiveUsersGet401Response
  */
-export interface ApiMeGet401Response {
+export interface ApiActiveUsersGet401Response {
     /**
      * 
      * @type {string}
-     * @memberof ApiMeGet401Response
+     * @memberof ApiActiveUsersGet401Response
      */
     error: string;
 }
 
 /**
- * Check if a given object implements the ApiMeGet401Response interface.
+ * Check if a given object implements the ApiActiveUsersGet401Response interface.
  */
-export function instanceOfApiMeGet401Response(value: object): value is ApiMeGet401Response {
+export function instanceOfApiActiveUsersGet401Response(value: object): value is ApiActiveUsersGet401Response {
     if (!('error' in value) || value['error'] === undefined) return false;
     return true;
 }
 
-export function ApiMeGet401ResponseFromJSON(json: any): ApiMeGet401Response {
-    return ApiMeGet401ResponseFromJSONTyped(json, false);
+export function ApiActiveUsersGet401ResponseFromJSON(json: any): ApiActiveUsersGet401Response {
+    return ApiActiveUsersGet401ResponseFromJSONTyped(json, false);
 }
 
-export function ApiMeGet401ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiMeGet401Response {
+export function ApiActiveUsersGet401ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiActiveUsersGet401Response {
     if (json == null) {
         return json;
     }
@@ -49,7 +49,7 @@ export function ApiMeGet401ResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function ApiMeGet401ResponseToJSON(value?: ApiMeGet401Response | null): any {
+export function ApiActiveUsersGet401ResponseToJSON(value?: ApiActiveUsersGet401Response | null): any {
     if (value == null) {
         return value;
     }
