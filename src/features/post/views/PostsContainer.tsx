@@ -9,6 +9,7 @@ import { useCreateComment } from '@/features/comment/api/useCreateComment'
 import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useGetPosts } from '../api/useGetPosts'
 import { useDeletePost } from '../api/useDeletePost'
+import { useToggleLike } from '../api/useToggleLike'
 import { PostCard } from '../components/PostCard'
 import { PostsEmptyState } from '../components/PostsEmptyState'
 import { LoadingError } from '@/components/layout/LoadingError'
@@ -26,6 +27,7 @@ export const PostsContainer = () => {
   const deletePostMutation = useDeletePost()
   const createCommentMutation = useCreateComment()
   const deleteCommentMutation = useDeleteComment()
+  const toggleLikeMutation = useToggleLike()
 
   if (isLoading) return <SkeletonCardList />
   if (error) return <LoadingError />
@@ -40,9 +42,19 @@ export const PostsContainer = () => {
     setCommentError('')
   }
 
-  const handleLikeClick = () => {
-    // TODO: いいね機能を実装
-    alert('いいね！')
+  const handleLikeClick = (postId: number, liked: boolean) => {
+    toggleLikeMutation.mutate(
+      { postId, liked },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+        },
+        onError: error => {
+          console.error(error)
+          toast.error('いいねの更新に失敗しました。')
+        }
+      }
+    )
   }
 
   const handleEdit = (post: ApiPostsGet200ResponseInner) => {
@@ -158,7 +170,7 @@ export const PostsContainer = () => {
           timeAgo={post.timeAgo}
           likesCount={post.likedCount}
           commentsCount={post.comments.length}
-          onLike={handleLikeClick}
+          onLike={(liked) => handleLikeClick(post.id, liked)}
           onComment={() => handleShowDetails(post)}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`}
           onEdit={() => handleEdit(post)}
@@ -195,7 +207,7 @@ export const PostsContainer = () => {
             onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
-          onLike={handleLikeClick}
+          onLike={(liked) => handleLikeClick(activePost.id, liked)}
           timeAgo={activePost.timeAgo}
           onEdit={() => handleEdit(activePost)}
           onDelete={() => handleDelete(activePost)}
