@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query'
 import { getJwtFromCookie } from '../modules/getJwtFromCookie'
-import { userApi } from '@instagram-like-app/http-client'
+import { authApi } from '@instagram-like-app/http-client'
 
 export const useLogout = (): {
   logoutMutation: UseMutationResult<void, Error, void, unknown>
@@ -8,8 +8,8 @@ export const useLogout = (): {
   const jwt = getJwtFromCookie()
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      return await userApi
-        .apiUsersLogoutDelete({
+      return await authApi
+        .apiAuthLogoutDelete({
           authorization: `Bearer ${jwt}`
         })
         .catch(error => {
