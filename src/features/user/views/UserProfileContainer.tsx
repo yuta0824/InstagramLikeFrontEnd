@@ -35,10 +35,11 @@ export const UserProfileContainer = () => {
   const { data: searchedUser, isLoading: isSearching, error: searchError } = useSearchUserByName(decodedUserName)
   const userId = searchedUser?.id
   const { data: userDetail, isLoading: isLoadingDetail, error: detailError } = useGetUserDetail(userId)
-  const { data: me } = useGetMe()
+  const { data: me, error: meError } = useGetMe()
   const {
     data: postsData,
     isLoading: isLoadingPosts,
+    error: postsError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
@@ -64,7 +65,9 @@ export const UserProfileContainer = () => {
   if (searchError || detailError) return <LoadingError />
   if (!userDetail) return null
 
-  const isCurrentUser = me?.id === userDetail.id
+  if (meError) console.error(meError)
+
+  const isCurrentUser = !meError && me?.id === userDetail.id
   const allPosts = postsData?.pages.flat() ?? []
 
   const handleFollowToggle = () => {
@@ -76,7 +79,8 @@ export const UserProfileContainer = () => {
           queryClient.invalidateQueries({ queryKey: ['getUserDetail', userId] })
           queryClient.invalidateQueries({ queryKey: ['searchUserByName', decodedUserName] })
         },
-        onError: () => {
+        onError: error => {
+          console.error(error)
           toast.error('フォローの更新に失敗しました。')
         }
       }
@@ -113,7 +117,8 @@ export const UserProfileContainer = () => {
           toast.success('投稿を削除しました。')
           if (activePost?.id === post.id) setActivePost(null)
         },
-        onError: () => {
+        onError: error => {
+          console.error(error)
           toast.error('投稿の削除に失敗しました。')
         }
       }
@@ -128,7 +133,8 @@ export const UserProfileContainer = () => {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getUserPosts', userId] })
         },
-        onError: () => {
+        onError: error => {
+          console.error(error)
           toast.error('いいねの更新に失敗しました。')
         }
       }
@@ -141,7 +147,11 @@ export const UserProfileContainer = () => {
   }
 
   const handleCommentSubmit = () => {
-    if (createCommentMutation.isPending || !activePost) return
+    if (createCommentMutation.isPending) return
+    if (!activePost) {
+      setCommentError('投稿が見つかりません。')
+      return
+    }
     const trimmed = commentValue.trim()
     if (!trimmed) {
       setCommentError('コメントを入力してください。')
@@ -156,7 +166,8 @@ export const UserProfileContainer = () => {
           setCommentError('')
           toast.success('コメントを送信しました。')
         },
-        onError: () => {
+        onError: error => {
+          console.error(error)
           setCommentError('コメントの送信に失敗しました。')
         }
       }
@@ -164,7 +175,11 @@ export const UserProfileContainer = () => {
   }
 
   const handleCommentDelete = (commentId: number) => {
-    if (!activePost || !confirm('コメントを削除しますか？')) return
+    if (!activePost) {
+      toast.error('投稿が見つかりません。')
+      return
+    }
+    if (!confirm('コメントを削除しますか？')) return
     deleteCommentMutation.mutate(
       { postId: activePost.id, commentId },
       {
@@ -172,14 +187,15 @@ export const UserProfileContainer = () => {
           queryClient.invalidateQueries({ queryKey: ['getUserPosts', userId] })
           toast.success('コメントを削除しました。')
         },
-        onError: () => {
+        onError: error => {
+          console.error(error)
           toast.error('コメントの削除に失敗しました。')
         }
       }
     )
   }
 
-  const currentActivePost = activePost ? (allPosts.find(p => p.id === activePost.id) ?? activePost) : null
+  const currentActivePost = activePost ? (allPosts.find(p => p.id === activePost.id) ?? null) : null
 
   return (
     <div className="space-y-6">
@@ -210,6 +226,8 @@ export const UserProfileContainer = () => {
 
       {isLoadingPosts ? (
         <SkeletonCardList />
+      ) : postsError ? (
+        <LoadingError />
       ) : allPosts.length === 0 ? (
         <PostsEmptyState />
       ) : (

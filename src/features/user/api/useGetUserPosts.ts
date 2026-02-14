@@ -8,10 +8,15 @@ export const useGetUserPosts = (userId: number | undefined) => {
   return useInfiniteQuery({
     queryKey: ['getUserPosts', userId],
     queryFn: async ({ pageParam }) => {
-      return await userPostApi.apiUsersUserIdPostsGet(
-        { userId: userId!, page: pageParam },
-        { headers: { Authorization: `Bearer ${jwt}` } }
-      )
+      return await userPostApi
+        .apiUsersUserIdPostsGet(
+          { userId: userId!, page: pageParam },
+          { headers: { Authorization: `Bearer ${jwt}` } }
+        )
+        .catch(error => {
+          console.error(error)
+          throw new Error('ユーザー投稿の取得に失敗しました。')
+        })
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {

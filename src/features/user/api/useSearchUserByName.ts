@@ -8,7 +8,12 @@ export const useSearchUserByName = (userName: string) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['searchUserByName', userName],
     queryFn: async () => {
-      const users = await userApi.apiUsersGet({ q: userName }, { headers: { Authorization: `Bearer ${jwt}` } })
+      const users = await userApi
+        .apiUsersGet({ q: userName }, { headers: { Authorization: `Bearer ${jwt}` } })
+        .catch(error => {
+          console.error(error)
+          throw new Error('ユーザーの検索に失敗しました。')
+        })
       const exactMatch = users.find(u => u.name === userName)
       if (!exactMatch) {
         throw new Error('ユーザーが見つかりません。')

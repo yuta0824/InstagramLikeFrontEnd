@@ -8,7 +8,12 @@ export const useGetUserDetail = (userId: number | undefined) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['getUserDetail', userId],
     queryFn: async () => {
-      return await userApi.apiUsersIdGet({ id: userId! }, { headers: { Authorization: `Bearer ${jwt}` } })
+      return await userApi
+        .apiUsersIdGet({ id: userId! }, { headers: { Authorization: `Bearer ${jwt}` } })
+        .catch(error => {
+          console.error(error)
+          throw new Error('ユーザー情報の取得に失敗しました。')
+        })
     },
     enabled: !!jwt && userId !== undefined
   })
