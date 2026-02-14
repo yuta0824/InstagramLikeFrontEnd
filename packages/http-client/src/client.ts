@@ -2,7 +2,7 @@ import {
   Configuration,
   ActiveUserApi,
   AuthApi,
-  DefaultApi,
+  CommentApi,
   LikeApi,
   PostApi,
   RelationshipApi,
@@ -22,6 +22,6 @@ export const activeUserApi = new ActiveUserApi(config)
 export const authApi = new AuthApi(config)
 export const userApi = new UserApi(config)
 export const postApi = new PostApi(config)
-export const commentApi = new DefaultApi(config)
+export const commentApi = new CommentApi(config)
 export const likeApi = new LikeApi(config)
 export const relationshipApi = new RelationshipApi(config)

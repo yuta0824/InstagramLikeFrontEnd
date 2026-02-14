@@ -2,7 +2,7 @@
 /* eslint-disable */
 export * from './ActiveUserApi';
 export * from './AuthApi';
-export * from './DefaultApi';
+export * from './CommentApi';
 export * from './LikeApi';
 export * from './PostApi';
 export * from './RelationshipApi';

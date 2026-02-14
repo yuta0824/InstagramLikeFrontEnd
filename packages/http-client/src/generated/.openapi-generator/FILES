@@ -1,7 +1,6 @@
-.openapi-generator-ignore
 apis/ActiveUserApi.ts
 apis/AuthApi.ts
-apis/DefaultApi.ts
+apis/CommentApi.ts
 apis/LikeApi.ts
 apis/PostApi.ts
 apis/RelationshipApi.ts

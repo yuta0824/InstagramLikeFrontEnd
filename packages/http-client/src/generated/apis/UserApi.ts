@@ -94,7 +94,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * 未ログインではアクセスできない
+     * ユーザー一覧を取得する
      */
     async apiUsersGetRaw(requestParameters: ApiUsersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiActiveUsersGet200ResponseInner>>> {
         const queryParameters: any = {};
@@ -116,7 +116,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * 未ログインではアクセスできない
+     * ユーザー一覧を取得する
      */
     async apiUsersGet(requestParameters: ApiUsersGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiActiveUsersGet200ResponseInner>> {
         const response = await this.apiUsersGetRaw(requestParameters, initOverrides);
@@ -124,7 +124,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * 未ログインではユーザー詳細にアクセスできない
+     * ユーザー詳細を取得する
      */
     async apiUsersIdGetRaw(requestParameters: ApiUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiMeGet200Response>> {
         if (requestParameters['id'] == null) {
@@ -149,7 +149,7 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * 未ログインではユーザー詳細にアクセスできない
+     * ユーザー詳細を取得する
      */
     async apiUsersIdGet(requestParameters: ApiUsersIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeGet200Response> {
         const response = await this.apiUsersIdGetRaw(requestParameters, initOverrides);
