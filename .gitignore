@@ -46,3 +46,6 @@ storybook-static
 
 # private
 .private
+
+# claude
+.claude/settings.local.json
