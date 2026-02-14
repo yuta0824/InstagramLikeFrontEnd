@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiActiveUsersGet401Response,
   ApiPostsPostIdLikePost200Response,
-  ApiPostsPostIdLikePost401Response,
 } from '../models/index';
 import {
+    ApiActiveUsersGet401ResponseFromJSON,
+    ApiActiveUsersGet401ResponseToJSON,
     ApiPostsPostIdLikePost200ResponseFromJSON,
     ApiPostsPostIdLikePost200ResponseToJSON,
-    ApiPostsPostIdLikePost401ResponseFromJSON,
-    ApiPostsPostIdLikePost401ResponseToJSON,
 } from '../models/index';
 
 export interface ApiPostsPostIdLikeDeleteRequest {

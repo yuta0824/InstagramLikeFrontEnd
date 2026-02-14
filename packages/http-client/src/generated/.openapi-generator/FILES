@@ -1,3 +1,5 @@
+.openapi-generator-ignore
+apis/ActiveUserApi.ts
 apis/AuthApi.ts
 apis/DefaultApi.ts
 apis/LikeApi.ts
@@ -6,8 +8,11 @@ apis/RelationshipApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/ApiActiveUsersGet200ResponseInner.ts
+models/ApiActiveUsersGet401Response.ts
 models/ApiAuthTokenGet200Response.ts
 models/ApiAuthTokenGet401Response.ts
+models/ApiMeGet200Response.ts
 models/ApiPostsGet200ResponseInner.ts
 models/ApiPostsGet200ResponseInnerCommentsInner.ts
 models/ApiPostsIdPatchRequest.ts
@@ -16,7 +21,5 @@ models/ApiPostsPostIdCommentsPost201Response.ts
 models/ApiPostsPostIdCommentsPostRequest.ts
 models/ApiPostsPostIdCommentsPostRequestComment.ts
 models/ApiPostsPostIdLikePost200Response.ts
-models/ApiPostsPostIdLikePost401Response.ts
-models/ApiUsersGet200ResponseInner.ts
 models/index.ts
 runtime.ts

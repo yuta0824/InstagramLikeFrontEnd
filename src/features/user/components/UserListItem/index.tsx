@@ -3,37 +3,62 @@
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { GoPerson } from 'react-icons/go'
+import { FollowButton } from '../FollowButton'
 
 export interface UserListItemProps {
+  id: number
   name: string
   avatarUrl?: string
-  accountUrl: string
-  lastPostStatusMessage: string
+  accountUrl?: string
+  lastPostStatusMessage?: string
+  isFollowing?: boolean
+  isPending?: boolean
+  onToggleFollow?: (id: number, shouldFollow: boolean) => void
 }
 
-export const UserListItem = ({ name, avatarUrl, accountUrl, lastPostStatusMessage }: UserListItemProps) => {
-  return (
-    <Link href={accountUrl}>
-      <div className="border-b-brandGrayLight flex items-center gap-2 border-b py-4">
-        <Avatar className="size-8">
-          {avatarUrl && (
-            <AvatarImage
-              src={avatarUrl}
-              alt={`${name}のアバター`}
-              width={32}
-              height={32}
-              className="aspect-square object-cover"
-            />
-          )}
-          <AvatarFallback className="border-brandGray/30 text-brandGray border">
-            <GoPerson className="size-6" />
-          </AvatarFallback>
-        </Avatar>
-        <div className="space-y-1">
-          <p className="text-base">{name}</p>
-          <p className="text-brandGray text-sm">{lastPostStatusMessage}</p>
-        </div>
+export const UserListItem = ({
+  id,
+  name,
+  avatarUrl,
+  accountUrl,
+  lastPostStatusMessage,
+  isFollowing,
+  isPending = false,
+  onToggleFollow
+}: UserListItemProps) => {
+  const content = (
+    <div className="border-b-brandGrayLight flex items-center gap-2 border-b py-4">
+      <Avatar className="size-8">
+        {avatarUrl && (
+          <AvatarImage
+            src={avatarUrl}
+            alt={`${name}のアバター`}
+            width={32}
+            height={32}
+            className="aspect-square object-cover"
+          />
+        )}
+        <AvatarFallback className="border-brandGray/30 text-brandGray border">
+          <GoPerson className="size-6" />
+        </AvatarFallback>
+      </Avatar>
+      <div className="min-w-0 flex-1 space-y-1">
+        <p className="truncate text-base">{name}</p>
+        {lastPostStatusMessage && <p className="text-brandGray truncate text-sm">{lastPostStatusMessage}</p>}
       </div>
-    </Link>
+      {isFollowing !== undefined && onToggleFollow && (
+        <FollowButton
+          isFollowing={isFollowing}
+          isPending={isPending}
+          onClick={() => onToggleFollow(id, !isFollowing)}
+        />
+      )}
+    </div>
   )
+
+  if (accountUrl) {
+    return <Link href={accountUrl}>{content}</Link>
+  }
+
+  return content
 }

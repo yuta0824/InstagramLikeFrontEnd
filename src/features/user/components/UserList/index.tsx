@@ -10,7 +10,7 @@ export const UserList = ({ users }: UserListProps) => {
   return (
     <div className="space-y-1">
       {users.map(user => (
-        <UserListItem key={user.name} {...user} />
+        <UserListItem key={user.id} {...user} />
       ))}
     </div>
   )

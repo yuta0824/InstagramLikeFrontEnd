@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApiActiveUsersGet401Response,
   ApiAuthTokenGet200Response,
   ApiAuthTokenGet401Response,
-  ApiPostsPostIdLikePost401Response,
 } from '../models/index';
 import {
+    ApiActiveUsersGet401ResponseFromJSON,
+    ApiActiveUsersGet401ResponseToJSON,
     ApiAuthTokenGet200ResponseFromJSON,
     ApiAuthTokenGet200ResponseToJSON,
     ApiAuthTokenGet401ResponseFromJSON,
     ApiAuthTokenGet401ResponseToJSON,
-    ApiPostsPostIdLikePost401ResponseFromJSON,
-    ApiPostsPostIdLikePost401ResponseToJSON,
 } from '../models/index';
 
 export interface ApiAuthLogoutDeleteRequest {
