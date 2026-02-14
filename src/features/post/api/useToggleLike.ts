@@ -5,7 +5,7 @@ import { getJwtFromCookie } from '@/features/auth/modules/getJwtFromCookie'
 
 type ToggleLikeParams = {
   postId: number
-  liked: boolean
+  shouldLike: boolean
 }
 
 export const useToggleLike = (): UseMutationResult<
@@ -14,10 +14,9 @@ export const useToggleLike = (): UseMutationResult<
   ToggleLikeParams,
   unknown
 > => {
-  const jwt = getJwtFromCookie()
-
   return useMutation<ApiPostsPostIdLikePost200Response, Error, ToggleLikeParams>({
-    mutationFn: async ({ postId, liked }) => {
+    mutationFn: async ({ postId, shouldLike }) => {
+      const jwt = getJwtFromCookie()
       if (!jwt) {
         throw new Error('認証情報がありません。')
       }
@@ -27,7 +26,7 @@ export const useToggleLike = (): UseMutationResult<
         headers: { ...init.headers, Authorization: `Bearer ${jwt}` }
       })
 
-      const response = liked
+      const response = shouldLike
         ? await likeApi.apiPostsPostIdLikePostRaw({ postId }, authOverride)
         : await likeApi.apiPostsPostIdLikeDeleteRaw({ postId }, authOverride)
       return await response.value()

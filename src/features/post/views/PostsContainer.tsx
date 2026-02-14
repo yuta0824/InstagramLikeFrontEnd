@@ -42,9 +42,10 @@ export const PostsContainer = () => {
     setCommentError('')
   }
 
-  const handleLikeClick = (postId: number, liked: boolean) => {
+  const handleLikeClick = (postId: number, shouldLike: boolean) => {
+    if (toggleLikeMutation.isPending) return
     toggleLikeMutation.mutate(
-      { postId, liked },
+      { postId, shouldLike },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getPosts'] })
