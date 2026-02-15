@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 export const useExploreUsers = (query: string) => {
   const jwt = getJwtFromCookie()
 
-  return useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['exploreUsers', query],
     queryFn: async () => {
       const users = await userApi
@@ -18,4 +18,6 @@ export const useExploreUsers = (query: string) => {
     },
     enabled: !!jwt && query.length > 0
   })
+
+  return { data, isLoading, error }
 }
