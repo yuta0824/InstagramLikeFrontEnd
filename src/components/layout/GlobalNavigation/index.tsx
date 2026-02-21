@@ -4,12 +4,14 @@ import Link from 'next/link'
 import { IoHomeOutline, IoSearchOutline, IoNotificationsOutline } from 'react-icons/io5'
 import { MdOutlineAddBox } from 'react-icons/md'
 import { UserMenu } from '@/components/ui/UserMenu'
+import { cn } from '@/lib/utils'
 import { ROUTES } from '@/constants/urls'
 
 interface GlobalNavigationProps {
   name: string
   myPageUrl: string
   avatarUrl?: string
+  unreadCount?: number
   onLogout: () => void
   onCreatePost: () => void
 }
@@ -32,12 +34,21 @@ const menuItems = [
   }
 ]
 
-export const GlobalNavigation = ({ name, myPageUrl, avatarUrl, onLogout, onCreatePost }: GlobalNavigationProps) => {
+export const GlobalNavigation = ({
+  name,
+  myPageUrl,
+  avatarUrl,
+  unreadCount = 0,
+  onLogout,
+  onCreatePost
+}: GlobalNavigationProps) => {
   return (
     <nav className="fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white backdrop-blur-sm md:sticky md:top-0 md:h-screen md:w-16 md:border-t-0 md:border-r md:px-2 md:py-6 xl:w-64 xl:px-4">
       <div className="mx-auto flex max-w-80 flex-row items-center justify-around py-2 md:h-full md:flex-col md:justify-start md:gap-3 md:py-0">
         {menuItems.map(item => {
           const Icon = item.icon
+          const showBadge = item.href === ROUTES.NOTIFICATIONS && unreadCount > 0
+          const badgeLabel = unreadCount > 99 ? '99+' : String(unreadCount)
 
           return (
             <Link
@@ -45,7 +56,19 @@ export const GlobalNavigation = ({ name, myPageUrl, avatarUrl, onLogout, onCreat
               href={item.href}
               className="flex flex-col items-center gap-1 rounded-lg p-2 transition-colors hover:bg-gray-100 md:w-full md:flex-row md:gap-3 md:px-3 md:py-2"
             >
-              <Icon className="size-6 text-gray-600" />
+              <span className="relative">
+                <Icon className="size-6 text-gray-600" />
+                {showBadge && (
+                  <span
+                    className={cn(
+                      'absolute -top-1.5 -right-1.5 flex items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white',
+                      unreadCount > 9 ? 'h-4 min-w-4 px-0.5' : 'size-4'
+                    )}
+                  >
+                    {badgeLabel}
+                  </span>
+                )}
+              </span>
               <span className="hidden text-sm font-medium text-gray-700 xl:inline">{item.label}</span>
             </Link>
           )
