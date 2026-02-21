@@ -105,9 +105,7 @@ export const NotificationContainer = () => {
       <PageHeader title="通知" onBack={() => router.back()} />
       <NotificationList>
         {allNotifications.map(notification => (
-          <div key={notification.id} className={notification.read ? 'opacity-60' : ''}>
-            {renderNotificationItem(notification)}
-          </div>
+          <div key={notification.id}>{renderNotificationItem(notification)}</div>
         ))}
       </NotificationList>
       <div ref={sentinelRef} className="h-4" />

@@ -50,7 +50,7 @@ export const CommentNotification = ({
         </div>
 
         <Link href={postUrl} className="relative h-12 w-12 overflow-hidden rounded-md">
-          <Image src={postThumbnailUrl} alt="対象の投稿" fill className="object-cover" />
+          <Image src={postThumbnailUrl} alt="対象の投稿" fill unoptimized className="object-cover" />
         </Link>
       </div>
     </div>
