@@ -18,8 +18,8 @@ export const useGetUnreadCount = () => {
         })
     },
     enabled: !!jwt,
-    staleTime: 30_000,
-    refetchInterval: 60_000
+    staleTime: 5_000,
+    refetchInterval: 10_000
   })
 
   return { data, isLoading, error }
