@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { LoadingError } from '@/components/layout/LoadingError'
@@ -65,11 +65,14 @@ export const NotificationContainer = () => {
     enabled: !!hasNextPage && !isFetchingNextPage
   })
 
+  const hasMarkedAsRead = useRef(false)
+
   useEffect(() => {
-    if (unreadData && unreadData.unreadCount > 0) {
+    if (!hasMarkedAsRead.current && unreadData && unreadData.unreadCount > 0) {
       markAllAsRead.mutate()
+      hasMarkedAsRead.current = true
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [unreadData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isLoading) {
     return (
