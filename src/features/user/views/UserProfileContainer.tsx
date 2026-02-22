@@ -25,6 +25,7 @@ import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useToggleLike } from '@/features/post/api/useToggleLike'
 import { useDeletePost } from '@/features/post/api/useDeletePost'
 import { postFormStateAtom } from '@/features/post/states/postFormAtom'
+import { FollowListContainer } from './FollowListContainer'
 import type { ApiPostsGet200ResponseInner } from '@instagram-like-app/http-client'
 
 export const UserProfileContainer = () => {
@@ -55,6 +56,7 @@ export const UserProfileContainer = () => {
   const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
   const [commentValue, setCommentValue] = useState('')
   const [commentError, setCommentError] = useState('')
+  const [activeList, setActiveList] = useState<'followers' | 'followings' | null>(null)
 
   const sentinelRef = useIntersectionObserver({
     onIntersect: () => fetchNextPage(),
@@ -219,8 +221,16 @@ export const UserProfileContainer = () => {
         isCurrentUser={isCurrentUser}
         stats={{
           posts: { label: '投稿', count: userDetail.postsCount },
-          followers: { label: 'フォロワー', count: userDetail.followersCount },
-          followings: { label: 'フォロー中', count: userDetail.followingsCount }
+          followers: {
+            label: 'フォロワー',
+            count: userDetail.followersCount,
+            onClick: () => setActiveList('followers')
+          },
+          followings: {
+            label: 'フォロー中',
+            count: userDetail.followingsCount,
+            onClick: () => setActiveList('followings')
+          }
         }}
       />
 
@@ -263,6 +273,17 @@ export const UserProfileContainer = () => {
             </div>
           )}
         </div>
+      )}
+
+      {activeList && userId && (
+        <FollowListContainer
+          userId={userId}
+          type={activeList}
+          open
+          onOpenChange={open => {
+            if (!open) setActiveList(null)
+          }}
+        />
       )}
 
       {currentActivePost && (
