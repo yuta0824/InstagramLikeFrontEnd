@@ -1,6 +1,6 @@
 import { getJwtFromCookie } from '@/features/auth/modules/getJwtFromCookie'
 import { postApi } from '@instagram-like-app/http-client'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 export const useGetPostDetail = (postId: number | null) => {
   const jwt = getJwtFromCookie()
@@ -20,6 +20,7 @@ export const useGetPostDetail = (postId: number | null) => {
           throw new Error('投稿詳細の取得に失敗しました。')
         })
     },
-    enabled: postId !== null && !!jwt
+    enabled: postId !== null && !!jwt,
+    placeholderData: keepPreviousData
   })
 }

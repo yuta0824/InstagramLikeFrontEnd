@@ -269,7 +269,7 @@ export const UserProfileContainer = () => {
               commentsCount={post.commentsCount}
               onLike={liked => handleLikeClick(post.id, liked)}
               onComment={() => handleShowDetails(post)}
-              shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`}
+              shareUrl={`${window.location.origin}/posts/${post.id}`}
               onEdit={() => handleEdit(post)}
               onDelete={() => handleDelete(post)}
             />
@@ -315,7 +315,7 @@ export const UserProfileContainer = () => {
             onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
           isLoadingComments={isLoadingPostDetail}
-          shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
+          shareUrl={`${window.location.origin}/posts/${activePost.id}`}
           onLike={liked => handleLikeClick(activePost.id, liked)}
           timeAgo={activePost.timeAgo}
           onEdit={() => handleEdit(activePost)}
