@@ -18,6 +18,8 @@ import type {
   ApiActiveUsersGet200ResponseInner,
   ApiActiveUsersGet401Response,
   ApiMeGet200Response,
+  ApiMeNameAvailabilityGet200Response,
+  ApiMeNameAvailabilityGet400Response,
 } from '../models/index';
 import {
     ApiActiveUsersGet200ResponseInnerFromJSON,
@@ -26,7 +28,15 @@ import {
     ApiActiveUsersGet401ResponseToJSON,
     ApiMeGet200ResponseFromJSON,
     ApiMeGet200ResponseToJSON,
+    ApiMeNameAvailabilityGet200ResponseFromJSON,
+    ApiMeNameAvailabilityGet200ResponseToJSON,
+    ApiMeNameAvailabilityGet400ResponseFromJSON,
+    ApiMeNameAvailabilityGet400ResponseToJSON,
 } from '../models/index';
+
+export interface ApiMeNameAvailabilityGetRequest {
+    name: string;
+}
 
 export interface ApiMePatchRequest {
     name?: string;
@@ -70,6 +80,43 @@ export class UserApi extends runtime.BaseAPI {
      */
     async apiMeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeGet200Response> {
         const response = await this.apiMeGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * ユーザー名の利用可否を確認する
+     */
+    async apiMeNameAvailabilityGetRaw(requestParameters: ApiMeNameAvailabilityGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiMeNameAvailabilityGet200Response>> {
+        if (requestParameters['name'] == null) {
+            throw new runtime.RequiredError(
+                'name',
+                'Required parameter "name" was null or undefined when calling apiMeNameAvailabilityGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['name'] != null) {
+            queryParameters['name'] = requestParameters['name'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/me/name_availability`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiMeNameAvailabilityGet200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * ユーザー名の利用可否を確認する
+     */
+    async apiMeNameAvailabilityGet(requestParameters: ApiMeNameAvailabilityGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeNameAvailabilityGet200Response> {
+        const response = await this.apiMeNameAvailabilityGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
