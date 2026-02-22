@@ -85,7 +85,7 @@ export const ProfileEditDialog = ({
               type="button"
               onClick={onRemoveAvatar}
               disabled={!hasAvatar}
-              className="text-sm text-red-500 hover:text-red-600 disabled:text-red-300 disabled:pointer-events-none"
+              className="text-sm text-red-500 hover:text-red-600 disabled:pointer-events-none disabled:text-red-300"
             >
               写真を削除
             </button>
