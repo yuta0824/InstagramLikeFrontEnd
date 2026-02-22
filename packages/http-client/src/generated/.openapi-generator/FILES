@@ -6,6 +6,8 @@ apis/NotificationApi.ts
 apis/PostApi.ts
 apis/RelationshipApi.ts
 apis/UserApi.ts
+apis/UserFollowerApi.ts
+apis/UserFollowingApi.ts
 apis/UserPostApi.ts
 apis/index.ts
 index.ts

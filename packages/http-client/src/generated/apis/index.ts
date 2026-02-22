@@ -8,4 +8,6 @@ export * from './NotificationApi';
 export * from './PostApi';
 export * from './RelationshipApi';
 export * from './UserApi';
+export * from './UserFollowerApi';
+export * from './UserFollowingApi';
 export * from './UserPostApi';
