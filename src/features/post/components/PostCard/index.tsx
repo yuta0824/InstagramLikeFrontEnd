@@ -61,7 +61,7 @@ export const PostCard = ({
   const userName = <p className="text-sm">{user.name}</p>
 
   return (
-    <div className="max-w-sm space-y-3" id={id}>
+    <div className="space-y-3" id={id}>
       <div className="flex items-center gap-3">
         {user.accountUrl ? <Link href={user.accountUrl}>{avatar}</Link> : avatar}
         <div>
