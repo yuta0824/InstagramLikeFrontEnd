@@ -14,7 +14,6 @@ export const Default: Story = {
     users: [
       {
         name: 'Hina',
-        username: 'hina',
         avatarUrl: '/icon_avatar2.webp'
       }
     ],
@@ -26,8 +25,7 @@ export const NoAvatar: Story = {
   args: {
     users: [
       {
-        name: 'Ken',
-        username: 'ken'
+        name: 'Ken'
       }
     ],
     timeAgo: '昨日'
@@ -37,9 +35,9 @@ export const NoAvatar: Story = {
 export const MultipleUsers: Story = {
   args: {
     users: [
-      { name: 'Sakura', username: 'sakura', avatarUrl: '/icon_avatar1.webp' },
-      { name: 'Yuta', username: 'yuta' },
-      { name: 'Maki', username: 'maki', avatarUrl: '/icon_avatar3.webp' }
+      { name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+      { name: 'Yuta' },
+      { name: 'Maki', avatarUrl: '/icon_avatar3.webp' }
     ],
     totalCount: 5,
     timeAgo: '2時間前'

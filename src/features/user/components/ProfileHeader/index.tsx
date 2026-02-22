@@ -1,9 +1,8 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 import { AvatarUpload } from '@/components/ui/AvatarUpload'
 import { ProfileStats, ProfileStatItemProps } from '../ProfileStats'
-import { GoPerson } from 'react-icons/go'
 
 interface ProfileHeaderProps {
   avatarUrl?: string
@@ -24,7 +23,7 @@ export const ProfileHeader = ({ avatarUrl, userName, isCurrentUser, stats, onFil
         {isCurrentUser && onFileChange ? (
           <AvatarUpload avatarUrl={avatarUrl} userName={userName} onFileChange={onFileChange} />
         ) : (
-          <Avatar className="mx-auto size-20 border border-red-500 p-1">
+          <Avatar className="mx-auto size-20">
             {avatarUrl && (
               <AvatarImage
                 src={avatarUrl}
@@ -34,9 +33,7 @@ export const ProfileHeader = ({ avatarUrl, userName, isCurrentUser, stats, onFil
                 className="aspect-square object-cover"
               />
             )}
-            <AvatarFallback className="border-brandGray/30 text-brandGray border">
-              <GoPerson className="size-16" />
-            </AvatarFallback>
+            <DefaultAvatarFallback />
           </Avatar>
         )}
       </div>

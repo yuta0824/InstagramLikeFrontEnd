@@ -13,6 +13,7 @@ import { useDebounce } from '@/hooks/useDebounce'
 import { useExploreUsers } from '../api/useExploreUsers'
 import { useToggleFollow } from '../api/useToggleFollow'
 import { UserList } from '../components/UserList'
+import { UserListContainer } from './UserListContainer'
 
 export const ExploreContainer = () => {
   const router = useRouter()
@@ -47,7 +48,12 @@ export const ExploreContainer = () => {
 
   const renderContent = () => {
     if (!query) {
-      return null
+      return (
+        <div className="mt-10">
+          <hr className="py-4" />
+          <UserListContainer />
+        </div>
+      )
     }
     if (isDebouncing || isLoading) {
       return <SkeletonUserList />
@@ -64,6 +70,7 @@ export const ExploreContainer = () => {
           id: user.id,
           name: user.name,
           avatarUrl: user.avatarUrl ?? undefined,
+          accountUrl: `/accounts/${user.name}`,
           isFollowing: user.isFollowing,
           isPending: pendingUserId === user.id,
           onToggleFollow: handleToggleFollow

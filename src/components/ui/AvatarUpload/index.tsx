@@ -1,7 +1,6 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { GoPerson } from 'react-icons/go'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 
 interface AvatarUploadProps {
   avatarUrl?: string
@@ -12,7 +11,7 @@ interface AvatarUploadProps {
 export const AvatarUpload = ({ avatarUrl, userName, onFileChange }: AvatarUploadProps) => {
   return (
     <label className="inline-block cursor-pointer">
-      <Avatar className="size-20 border border-red-500 p-1">
+      <Avatar className="size-20">
         {avatarUrl && (
           <AvatarImage
             src={avatarUrl}
@@ -22,9 +21,7 @@ export const AvatarUpload = ({ avatarUrl, userName, onFileChange }: AvatarUpload
             className="aspect-square object-cover"
           />
         )}
-        <AvatarFallback className="border-brandGray/30 text-brandGray border">
-          <GoPerson className="size-16" />
-        </AvatarFallback>
+        <DefaultAvatarFallback />
       </Avatar>
       <input type="file" accept="image/*" className="hidden" onChange={onFileChange} />
     </label>

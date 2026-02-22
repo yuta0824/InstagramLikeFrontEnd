@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { GoPerson } from 'react-icons/go'
 
 export interface UserMenuProps {
   name: string
@@ -16,9 +15,7 @@ export function UserMenu({ name, myPageUrl, avatarUrl, onLogout }: UserMenuProps
       <DropdownMenuTrigger className="flex w-full items-center gap-2 overflow-hidden">
         <Avatar className="size-8 shrink-0">
           {avatarUrl && <AvatarImage src={avatarUrl} alt={name} className="object-cover" />}
-          <AvatarFallback className="border-brandGray/30 text-brandGray border">
-            <GoPerson className="size-5" />
-          </AvatarFallback>
+          <DefaultAvatarFallback />
         </Avatar>
         <div className="hidden min-w-0 flex-1 flex-col text-left xl:flex">
           <span className="truncate text-sm font-medium">{name}</span>

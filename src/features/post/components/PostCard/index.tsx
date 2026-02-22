@@ -1,14 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 import { LikeButton } from '@/components/ui/LikeButton'
 import { CommentButton } from '@/components/ui/CommentButton'
 import { ShareButton } from '@/components/ui/ShareButton'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
-import { GoPerson } from 'react-icons/go'
 import { PostImageGrid } from '../PostImageGrid'
 
 interface PostCardProps {
@@ -52,16 +51,14 @@ export const PostCard = ({
   const avatar = (
     <Avatar className="size-10">
       {user.avatarUrl && <AvatarImage src={user.avatarUrl} alt={`${user.name}のアバター`} width={40} height={40} />}
-      <AvatarFallback className="border-brandGray/40 text-brandGray border">
-        <GoPerson className="size-6" />
-      </AvatarFallback>
+      <DefaultAvatarFallback />
     </Avatar>
   )
 
   const userName = <p className="text-sm">{user.name}</p>
 
   return (
-    <div className="max-w-sm space-y-3" id={id}>
+    <div className="space-y-3" id={id}>
       <div className="flex items-center gap-3">
         {user.accountUrl ? <Link href={user.accountUrl}>{avatar}</Link> : avatar}
         <div>

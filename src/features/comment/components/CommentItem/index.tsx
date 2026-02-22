@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { IoPersonCircle, IoEllipsisHorizontal } from 'react-icons/io5'
+import { IoEllipsisHorizontal } from 'react-icons/io5'
 
 export interface CommentItemProps {
   userName: string
@@ -15,17 +15,15 @@ export interface CommentItemProps {
 export const CommentItem = ({ userName, userAvatar, content, isOwner, onDelete }: CommentItemProps) => {
   return (
     <div className="mb-3 flex gap-3">
-      <Link href={`/account/${userName}`}>
+      <Link href={`/accounts/${userName}`}>
         <Avatar className="size-8">
           {userAvatar && <AvatarImage src={userAvatar} alt={userName} />}
-          <AvatarFallback>
-            <IoPersonCircle className="size-8 text-gray-400" />
-          </AvatarFallback>
+          <DefaultAvatarFallback />
         </Avatar>
       </Link>
       <div className="min-w-0 flex-1">
         <p className="text-sm">
-          <Link href={`/account/${userName}`} className="mr-2 font-semibold hover:text-gray-600">
+          <Link href={`/accounts/${userName}`} className="mr-2 font-semibold hover:text-gray-600">
             {userName}
           </Link>
           <span className="word-break-word">{content}</span>

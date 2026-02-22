@@ -14,11 +14,11 @@ export const Default: Story = {
     users: [
       {
         name: 'Maki',
-        username: 'maki',
         avatarUrl: '/icon_avatar3.webp'
       }
     ],
     timeAgo: '5時間前',
+    postId: 3,
     postThumbnailUrl: '/img_post3.webp',
     postUrl: '/posts/3'
   }
@@ -28,11 +28,11 @@ export const NoAvatar: Story = {
   args: {
     users: [
       {
-        name: 'Satoshi',
-        username: 'satoshi'
+        name: 'Satoshi'
       }
     ],
     timeAgo: '3分前',
+    postId: 4,
     postThumbnailUrl: '/img_post4.webp',
     postUrl: '/posts/4'
   }
@@ -41,9 +41,9 @@ export const NoAvatar: Story = {
 export const MultipleUsers: Story = {
   args: {
     users: [
-      { name: 'Sakura', username: 'sakura', avatarUrl: '/icon_avatar1.webp' },
-      { name: 'Yuta', username: 'yuta', avatarUrl: '/icon_avatar2.webp' },
-      { name: 'Ken', username: 'ken' }
+      { name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+      { name: 'Yuta', avatarUrl: '/icon_avatar2.webp' },
+      { name: 'Ken' }
     ],
     totalCount: 8,
     timeAgo: '1時間前',

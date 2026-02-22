@@ -35,8 +35,9 @@ const renderNotificationItem = (notification: ApiNotificationsGet200ResponseInne
           users={toUsers(notification.recentActors)}
           totalCount={notification.actorCount}
           timeAgo={notification.timeAgo}
-          postThumbnailUrl={notification.postImageUrl ?? ''}
-          postUrl={`/posts/${notification.postId}`}
+          postId={notification.postId ?? undefined}
+          postThumbnailUrl={notification.postImageUrl ?? undefined}
+          postUrl={notification.postId ? `/posts/${notification.postId}` : ''}
         />
       )
     case 'commented':
@@ -45,8 +46,9 @@ const renderNotificationItem = (notification: ApiNotificationsGet200ResponseInne
           user={toUsers(notification.recentActors)[0] ?? { name: '' }}
           timeAgo={notification.timeAgo}
           comment={notification.commentContent ?? ''}
-          postThumbnailUrl={notification.postImageUrl ?? ''}
-          postUrl={`/posts/${notification.postId}`}
+          postId={notification.postId ?? undefined}
+          postThumbnailUrl={notification.postImageUrl ?? undefined}
+          postUrl={notification.postId ? `/posts/${notification.postId}` : ''}
         />
       )
     default:
@@ -107,8 +109,11 @@ export const NotificationContainer = () => {
     <div className="space-y-4">
       <PageHeader title="通知" onBack={() => router.back()} />
       <NotificationList>
-        {allNotifications.map(notification => (
-          <div key={notification.id}>{renderNotificationItem(notification)}</div>
+        {allNotifications.map((notification, index) => (
+          <div key={notification.id}>
+            {index > 0 && <hr className="mb-4" />}
+            {renderNotificationItem(notification)}
+          </div>
         ))}
       </NotificationList>
       <div ref={sentinelRef} className="h-4" />

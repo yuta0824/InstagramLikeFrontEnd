@@ -70,6 +70,7 @@ export const UserListContainer = () => {
           id: user.id,
           name: user.name,
           avatarUrl: user.avatarUrl ?? undefined,
+          accountUrl: `/accounts/${user.name}`,
           isFollowing: user.isFollowing,
           isPending: pendingUserId === user.id,
           onToggleFollow: handleToggleFollow

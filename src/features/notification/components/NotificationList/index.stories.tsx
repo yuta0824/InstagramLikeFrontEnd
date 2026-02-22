@@ -17,9 +17,9 @@ export const Default: Story = {
     <NotificationList>
       <LikeNotification
         users={[
-          { name: 'Sakura', username: 'sakura', avatarUrl: '/icon_avatar1.webp' },
-          { name: 'Ken', username: 'ken' },
-          { name: 'Maki', username: 'maki', avatarUrl: '/icon_avatar3.webp' }
+          { name: 'Sakura', avatarUrl: '/icon_avatar1.webp' },
+          { name: 'Ken' },
+          { name: 'Maki', avatarUrl: '/icon_avatar3.webp' }
         ]}
         totalCount={6}
         timeAgo="5時間前"
@@ -28,7 +28,7 @@ export const Default: Story = {
       />
       <hr />
       <CommentNotification
-        user={{ name: 'Yuta', username: 'yuta' }}
+        user={{ name: 'Yuta' }}
         timeAgo="10分前"
         comment="すごく素敵です！"
         postThumbnailUrl="/img_post2.webp"
@@ -36,10 +36,7 @@ export const Default: Story = {
       />
       <hr />
       <FollowNotification
-        users={[
-          { name: 'Hina', username: 'hina', avatarUrl: '/icon_avatar2.webp' },
-          { name: 'Satoshi', username: 'satoshi' }
-        ]}
+        users={[{ name: 'Hina', avatarUrl: '/icon_avatar2.webp' }, { name: 'Satoshi' }]}
         totalCount={4}
         timeAgo="1日前"
       />

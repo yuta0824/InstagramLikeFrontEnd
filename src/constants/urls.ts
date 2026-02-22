@@ -1,8 +1,5 @@
-/**
- * Application URL constants
- */
 export const ROUTES = {
-  HOME: '/',
+  HOME: '/home',
   EXPLORE: '/explore',
   NOTIFICATIONS: '/notifications',
   POST_NEW: '/post/new'
