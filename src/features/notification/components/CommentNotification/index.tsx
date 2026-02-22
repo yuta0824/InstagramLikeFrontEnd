@@ -1,13 +1,12 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { IoPersonCircle } from 'react-icons/io5'
+import { PostThumbnail } from '../PostThumbnail'
 
 interface NotificationUser {
   name: string
-  username?: string
   avatarUrl?: string
 }
 
@@ -15,7 +14,8 @@ export interface CommentNotificationProps {
   user: NotificationUser
   timeAgo: string
   comment: string
-  postThumbnailUrl: string
+  postId?: number
+  postThumbnailUrl?: string
   postUrl: string
 }
 
@@ -23,10 +23,11 @@ export const CommentNotification = ({
   user,
   timeAgo,
   comment,
+  postId,
   postThumbnailUrl,
   postUrl
 }: CommentNotificationProps) => {
-  const userProfileUrl = user.username ? `/account/${user.username}` : '#'
+  const userProfileUrl = `/accounts/${user.name}`
 
   return (
     <div className="flex flex-col gap-3">
@@ -42,16 +43,16 @@ export const CommentNotification = ({
       <div className="flex items-center gap-3">
         <div className="min-w-0 flex-1 space-y-1">
           <p className="text-foreground text-sm leading-snug">
-            <span className="font-semibold">{user.name}</span>
+            <Link href={userProfileUrl} className="font-semibold hover:underline">
+              {user.name}
+            </Link>
             <span className="text-muted-foreground"> さんがコメントしました</span>
           </p>
           <p className="text-foreground text-sm">{comment}</p>
           <p className="text-muted-foreground text-xs">{timeAgo}</p>
         </div>
 
-        <Link href={postUrl} className="relative h-12 w-12 overflow-hidden rounded-md">
-          <Image src={postThumbnailUrl} alt="対象の投稿" fill unoptimized className="object-cover" />
-        </Link>
+        <PostThumbnail postId={postId} postThumbnailUrl={postThumbnailUrl} postUrl={postUrl} />
       </div>
     </div>
   )
