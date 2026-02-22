@@ -8,13 +8,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { ResponseError } from '@instagram-like-app/http-client'
+import { validateImageFile } from '@/utils/image-validation'
 import { profileEditOpenAtom } from '../states/profileEditAtom'
 import { useGetMe } from '../api/useGetMe'
 import { useUpdateProfile } from '../api/useUpdateProfile'
 import { ProfileEditDialog } from '../components/ProfileEditDialog'
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024
-const ALLOWED_FILE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
 
 const schema = z.object({
   name: z.string().min(1, '名前を入力してください。')
@@ -81,14 +79,7 @@ export const ProfileEditContainer = () => {
   }
 
   const handleFileSelect = useCallback((file: File) => {
-    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-      toast.error('PNG、JPEG、WebP形式の画像のみアップロード可能です')
-      return
-    }
-    if (file.size > MAX_FILE_SIZE) {
-      toast.error(`ファイルサイズは5MB以下にしてください（${(file.size / 1024 / 1024).toFixed(1)}MB）`)
-      return
-    }
+    if (!validateImageFile(file)) return
     setSelectedFile(file)
     setAvatarPreviewUrl(URL.createObjectURL(file))
     setShouldRemoveAvatar(false)
@@ -135,8 +126,8 @@ export const ProfileEditContainer = () => {
               toast.error(message)
               return
             }
-          } catch {
-            // JSONパース失敗時はフォールバック
+          } catch (parseError) {
+            console.warn('APIエラーレスポンスのJSONパースに失敗:', parseError)
           }
         }
         toast.error('プロフィールの更新に失敗しました。')

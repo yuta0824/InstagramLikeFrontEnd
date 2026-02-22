@@ -27,7 +27,7 @@ export function UserMenu({ name, myPageUrl, avatarUrl, onLogout, onEditProfile }
           <Link href={myPageUrl}>マイページ</Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onEditProfile}>プロフィール編集</DropdownMenuItem>
-        <DropdownMenuItem onClick={onLogout} className="text-red-500">
+        <DropdownMenuItem onClick={onLogout} className="text-red-500!">
           ログアウト
         </DropdownMenuItem>
       </DropdownMenuContent>

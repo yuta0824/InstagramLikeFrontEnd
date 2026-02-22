@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { ACCEPTED_IMAGE_EXTENSIONS } from '@/utils/image-validation'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -70,7 +71,13 @@ export const ProfileEditDialog = ({
           </Avatar>
 
           <div className="flex flex-col items-center gap-1">
-            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={ACCEPTED_IMAGE_EXTENSIONS}
+              onChange={handleFileChange}
+              className="hidden"
+            />
             <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
               写真をアップロード
             </Button>
