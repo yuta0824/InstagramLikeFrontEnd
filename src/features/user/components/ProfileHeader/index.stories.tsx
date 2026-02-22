@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { ProfileHeader } from '.'
-import { fn } from 'storybook/test'
 
 const meta: Meta<typeof ProfileHeader> = {
   title: 'features/user/ProfileHeader',
@@ -54,7 +53,6 @@ export const CurrentUserProfile: Story = {
         count: 89,
         href: '/account/yuta/followings'
       }
-    },
-    onFileChange: fn()
+    }
   }
 }
