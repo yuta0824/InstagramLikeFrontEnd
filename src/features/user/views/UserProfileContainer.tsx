@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useSetAtom } from 'jotai'
-import { followListStateAtom } from '../states/followListAtom'
+import { followListStateAtom, initialFollowListState } from '../states/followListAtom'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
@@ -54,6 +54,10 @@ export const UserProfileContainer = () => {
   const deletePostMutation = useDeletePost()
   const setPostFormState = useSetAtom(postFormStateAtom)
   const setFollowListState = useSetAtom(followListStateAtom)
+
+  useEffect(() => {
+    setFollowListState(initialFollowListState)
+  }, [decodedUserName, setFollowListState])
 
   const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
   const [commentValue, setCommentValue] = useState('')
