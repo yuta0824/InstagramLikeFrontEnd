@@ -8,6 +8,7 @@ import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
 import { useCreateComment } from '@/features/comment/api/useCreateComment'
 import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useGetPosts } from '../api/useGetPosts'
+import { useGetPostDetail } from '../api/useGetPostDetail'
 import { useDeletePost } from '../api/useDeletePost'
 import { useToggleLike } from '../api/useToggleLike'
 import { PostCard } from '../components/PostCard'
@@ -24,6 +25,7 @@ export const PostsContainer = () => {
   const [commentError, setCommentError] = useState('')
   const setPostFormState = useSetAtom(postFormStateAtom)
   const queryClient = useQueryClient()
+  const { data: postDetail, isLoading: isLoadingPostDetail } = useGetPostDetail(activePostId)
   const deletePostMutation = useDeletePost()
   const createCommentMutation = useCreateComment()
   const deleteCommentMutation = useDeleteComment()
@@ -117,6 +119,7 @@ export const PostsContainer = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          queryClient.invalidateQueries({ queryKey: ['getPostDetail', activePost.id] })
           setCommentValue('')
           setCommentError('')
           toast.success('コメントを送信しました。')
@@ -141,6 +144,7 @@ export const PostsContainer = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          queryClient.invalidateQueries({ queryKey: ['getPostDetail', activePost.id] })
           toast.success('コメントを削除しました。')
         },
         onError: error => {
@@ -170,7 +174,7 @@ export const PostsContainer = () => {
           caption={post.caption ?? ''}
           timeAgo={post.timeAgo}
           likesCount={post.likedCount}
-          commentsCount={post.comments.length}
+          commentsCount={post.commentsCount}
           onLike={liked => handleLikeClick(post.id, liked)}
           onComment={() => handleShowDetails(post)}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`}
@@ -200,13 +204,14 @@ export const PostsContainer = () => {
             isLiked: activePost.isLiked,
             isOwn: activePost.isOwn
           }}
-          comments={activePost.comments.map(comment => ({
+          comments={(postDetail?.comments ?? []).map(comment => ({
             userName: comment.userName,
             userAvatar: comment.userAvatar ?? undefined,
             content: comment.content,
             isOwner: comment.isOwner,
             onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
+          isLoadingComments={isLoadingPostDetail}
           shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
           onLike={liked => handleLikeClick(activePost.id, liked)}
           timeAgo={activePost.timeAgo}

@@ -24,6 +24,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { useCreateComment } from '@/features/comment/api/useCreateComment'
 import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useToggleLike } from '@/features/post/api/useToggleLike'
+import { useGetPostDetail } from '@/features/post/api/useGetPostDetail'
 import { useDeletePost } from '@/features/post/api/useDeletePost'
 import { postFormStateAtom } from '@/features/post/states/postFormAtom'
 import { FollowListContainer } from './FollowListContainer'
@@ -59,9 +60,10 @@ export const UserProfileContainer = () => {
     setFollowListState(initialFollowListState)
   }, [decodedUserName, setFollowListState])
 
-  const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
+  const [activePostId, setActivePostId] = useState<number | null>(null)
   const [commentValue, setCommentValue] = useState('')
   const [commentError, setCommentError] = useState('')
+  const { data: postDetail, isLoading: isLoadingPostDetail } = useGetPostDetail(activePostId)
 
   const sentinelRef = useIntersectionObserver({
     onIntersect: () => fetchNextPage(),
@@ -95,7 +97,7 @@ export const UserProfileContainer = () => {
   }
 
   const handleShowDetails = (post: ApiPostsGet200ResponseInner) => {
-    setActivePost(post)
+    setActivePostId(post.id)
     setCommentValue('')
     setCommentError('')
   }
@@ -110,7 +112,7 @@ export const UserProfileContainer = () => {
         imageUrls: post.imageUrls
       }
     })
-    setActivePost(null)
+    setActivePostId(null)
   }
 
   const handleDelete = (post: ApiPostsGet200ResponseInner) => {
@@ -122,7 +124,7 @@ export const UserProfileContainer = () => {
           queryClient.invalidateQueries({ queryKey: ['getUserPosts', userId] })
           queryClient.invalidateQueries({ queryKey: ['getUserDetail', userId] })
           toast.success('投稿を削除しました。')
-          if (activePost?.id === post.id) setActivePost(null)
+          if (activePostId === post.id) setActivePostId(null)
         },
         onError: error => {
           console.error(error)
@@ -155,7 +157,7 @@ export const UserProfileContainer = () => {
 
   const handleCommentSubmit = () => {
     if (createCommentMutation.isPending) return
-    if (!activePost) {
+    if (!activePostId) {
       setCommentError('投稿が見つかりません。')
       return
     }
@@ -165,10 +167,11 @@ export const UserProfileContainer = () => {
       return
     }
     createCommentMutation.mutate(
-      { postId: activePost.id, content: trimmed },
+      { postId: activePostId, content: trimmed },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getUserPosts', userId] })
+          queryClient.invalidateQueries({ queryKey: ['getPostDetail', activePostId] })
           setCommentValue('')
           setCommentError('')
           toast.success('コメントを送信しました。')
@@ -182,16 +185,17 @@ export const UserProfileContainer = () => {
   }
 
   const handleCommentDelete = (commentId: number) => {
-    if (!activePost) {
+    if (!activePostId) {
       toast.error('投稿が見つかりません。')
       return
     }
     if (!confirm('コメントを削除しますか？')) return
     deleteCommentMutation.mutate(
-      { postId: activePost.id, commentId },
+      { postId: activePostId, commentId },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getUserPosts', userId] })
+          queryClient.invalidateQueries({ queryKey: ['getPostDetail', activePostId] })
           toast.success('コメントを削除しました。')
         },
         onError: error => {
@@ -202,7 +206,7 @@ export const UserProfileContainer = () => {
     )
   }
 
-  const currentActivePost = activePost ? (allPosts.find(p => p.id === activePost.id) ?? null) : null
+  const activePost = activePostId ? (allPosts.find(p => p.id === activePostId) ?? null) : null
 
   return (
     <div className="space-y-6">
@@ -262,7 +266,7 @@ export const UserProfileContainer = () => {
               caption={post.caption ?? ''}
               timeAgo={post.timeAgo}
               likesCount={post.likedCount}
-              commentsCount={post.comments.length}
+              commentsCount={post.commentsCount}
               onLike={liked => handleLikeClick(post.id, liked)}
               onComment={() => handleShowDetails(post)}
               shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`}
@@ -281,40 +285,41 @@ export const UserProfileContainer = () => {
 
       <FollowListContainer />
 
-      {currentActivePost && (
+      {activePost && (
         <PostShowDialog
           open
           onOpenChange={open => {
             if (!open) {
-              setActivePost(null)
+              setActivePostId(null)
               setCommentValue('')
               setCommentError('')
             }
           }}
           post={{
-            id: String(currentActivePost.id),
-            imageUrls: currentActivePost.imageUrls,
+            id: String(activePost.id),
+            imageUrls: activePost.imageUrls,
             user: {
-              name: currentActivePost.userName,
-              avatarUrl: currentActivePost.userAvatar ?? undefined
+              name: activePost.userName,
+              avatarUrl: activePost.userAvatar ?? undefined
             },
-            caption: currentActivePost.caption ?? '',
-            likes: currentActivePost.likedCount,
-            isLiked: currentActivePost.isLiked,
-            isOwn: currentActivePost.isOwn
+            caption: activePost.caption ?? '',
+            likes: activePost.likedCount,
+            isLiked: activePost.isLiked,
+            isOwn: activePost.isOwn
           }}
-          comments={currentActivePost.comments.map(comment => ({
+          comments={(postDetail?.comments ?? []).map(comment => ({
             userName: comment.userName,
             userAvatar: comment.userAvatar ?? undefined,
             content: comment.content,
             isOwner: comment.isOwner,
             onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
-          shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${currentActivePost.id}`}
-          onLike={liked => handleLikeClick(currentActivePost.id, liked)}
-          timeAgo={currentActivePost.timeAgo}
-          onEdit={() => handleEdit(currentActivePost)}
-          onDelete={() => handleDelete(currentActivePost)}
+          isLoadingComments={isLoadingPostDetail}
+          shareUrl={`${process.env.NEXT_PUBLIC_API_URL}/posts/${activePost.id}`}
+          onLike={liked => handleLikeClick(activePost.id, liked)}
+          timeAgo={activePost.timeAgo}
+          onEdit={() => handleEdit(activePost)}
+          onDelete={() => handleDelete(activePost)}
           commentValue={commentValue}
           onCommentValueChange={handleCommentValueChange}
           onCommentSubmit={handleCommentSubmit}

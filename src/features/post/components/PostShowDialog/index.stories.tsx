@@ -90,6 +90,25 @@ export const Default: Story = {
   }
 }
 
+export const LoadingComments: Story = {
+  args: {
+    open: true,
+    onOpenChange: fn(),
+    post: samplePost,
+    comments: [],
+    isLoadingComments: true,
+    shareUrl: 'https://example.com/posts/1',
+    onLike: fn(),
+    onEdit: fn(),
+    onDelete: fn(),
+    commentValue: '',
+    onCommentValueChange: fn(),
+    onCommentSubmit: fn(),
+    commentError: '',
+    timeAgo: '4時間前'
+  }
+}
+
 export const ManyComments: Story = {
   args: {
     open: true,

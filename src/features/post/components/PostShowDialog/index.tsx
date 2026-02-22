@@ -8,6 +8,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { LikeButton } from '@/components/ui/LikeButton'
 import { ShareButton } from '@/components/ui/ShareButton'
 import { CommentItem, CommentItemProps } from '@/features/comment/components/CommentItem'
+import { Spinner } from '@/components/ui/spinner'
 import { IoCloseCircle, IoEllipsisHorizontal } from 'react-icons/io5'
 import { CommentField } from '@/features/comment/components/CommentField'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
@@ -38,6 +39,7 @@ interface PostShowDialogProps {
   onCommentSubmit: () => void
   commentError: string
   timeAgo: string
+  isLoadingComments?: boolean
 }
 
 export const PostShowDialog = ({
@@ -53,7 +55,8 @@ export const PostShowDialog = ({
   onCommentValueChange,
   onCommentSubmit,
   commentError,
-  timeAgo
+  timeAgo,
+  isLoadingComments
 }: PostShowDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -149,16 +152,22 @@ export const PostShowDialog = ({
           {/* コメント一覧 */}
           <div className="flex-1 space-y-2 overflow-y-auto bg-white p-4">
             {post.caption && <CommentItem userName={post.user.name} content={post.caption} />}
-            {comments.map((comment, index) => (
-              <CommentItem
-                key={index}
-                userName={comment.userName}
-                userAvatar={comment.userAvatar}
-                content={comment.content}
-                isOwner={comment.isOwner}
-                onDelete={comment.onDelete}
-              />
-            ))}
+            {isLoadingComments ? (
+              <div className="flex justify-center py-4">
+                <Spinner className="size-6" />
+              </div>
+            ) : (
+              comments.map((comment, index) => (
+                <CommentItem
+                  key={index}
+                  userName={comment.userName}
+                  userAvatar={comment.userAvatar}
+                  content={comment.content}
+                  isOwner={comment.isOwner}
+                  onDelete={comment.onDelete}
+                />
+              ))
+            )}
           </div>
 
           {/* コメント入力 */}
