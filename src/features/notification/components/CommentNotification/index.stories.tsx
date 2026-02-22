@@ -13,11 +13,11 @@ export const Default: Story = {
   args: {
     user: {
       name: 'Sakura',
-      username: 'sakura',
       avatarUrl: '/icon_avatar1.webp'
     },
     comment: '素敵な写真ですね！',
     timeAgo: '5時間前',
+    postId: 1,
     postThumbnailUrl: '/img_post1.webp',
     postUrl: '/posts/1'
   }
@@ -26,11 +26,11 @@ export const Default: Story = {
 export const NoAvatar: Story = {
   args: {
     user: {
-      name: 'Yuta',
-      username: 'yuta'
+      name: 'Yuta'
     },
     comment: 'いいね！',
     timeAgo: '10分前',
+    postId: 2,
     postThumbnailUrl: '/img_post2.webp',
     postUrl: '/posts/2'
   }
