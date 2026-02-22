@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { fn } from 'storybook/test'
-import { PostShowDialog } from '.'
+import { PostDetailView } from '.'
 
-const meta: Meta<typeof PostShowDialog> = {
-  title: 'features/post/PostShowDialog',
-  component: PostShowDialog,
+const meta: Meta<typeof PostDetailView> = {
+  title: 'features/post/PostDetailView',
+  component: PostDetailView,
   parameters: {
-    layout: 'centered'
+    layout: 'fullscreen'
   }
 }
 
@@ -24,30 +24,10 @@ const samplePost = {
     'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト',
   likes: 181,
   isLiked: false,
-  isOwn: false
+  isOwn: true
 }
 
 const sampleComments = [
-  {
-    userName: 'sakura',
-    userAvatar: '/icon_avatar1.webp',
-    content: 'すごく素敵な写真ですね！'
-  },
-  {
-    userName: 'sakura',
-    userAvatar: '/icon_avatar1.webp',
-    content: 'すごく素敵な写真ですね！'
-  },
-  {
-    userName: 'sakura',
-    userAvatar: '/icon_avatar1.webp',
-    content: 'すごく素敵な写真ですね！'
-  },
-  {
-    userName: 'sakura',
-    userAvatar: '/icon_avatar1.webp',
-    content: 'すごく素敵な写真ですね！'
-  },
   {
     userName: 'sakura',
     userAvatar: '/icon_avatar1.webp',
@@ -73,8 +53,6 @@ const sampleComments = [
 
 export const Default: Story = {
   args: {
-    open: true,
-    onOpenChange: fn(),
     post: samplePost,
     comments: sampleComments,
     shareUrl: 'https://example.com/posts/1',
@@ -91,8 +69,6 @@ export const Default: Story = {
 
 export const LoadingComments: Story = {
   args: {
-    open: true,
-    onOpenChange: fn(),
     post: samplePost,
     comments: [],
     isLoadingComments: true,
@@ -105,29 +81,5 @@ export const LoadingComments: Story = {
     onCommentSubmit: fn(),
     commentError: '',
     timeAgo: '4時間前'
-  }
-}
-
-export const ManyComments: Story = {
-  args: {
-    open: true,
-    onOpenChange: fn(),
-    post: samplePost,
-    comments: Array.from({ length: 30 }, (_, i) => ({
-      userName: `user${i + 1}`,
-      userAvatar: i % 3 === 0 ? '/icon_avatar1.webp' : undefined,
-      content: `コメント ${i + 1}: これは${i + 1}番目のコメントです。とても素敵な写真ですね！`,
-      isOwner: i === 4,
-      onDelete: i === 4 ? fn() : undefined
-    })),
-    shareUrl: 'https://example.com/posts/1',
-    onLike: fn(),
-    onEdit: fn(),
-    onDelete: fn(),
-    commentValue: '',
-    onCommentValueChange: fn(),
-    onCommentSubmit: fn(),
-    commentError: '',
-    timeAgo: '2日前'
   }
 }

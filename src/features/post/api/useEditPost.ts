@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import type { UseMutationResult } from '@tanstack/react-query'
-import { postApi, type ApiPostsGet200ResponseInner, type ApiPostsIdPatchRequest } from '@instagram-like-app/http-client'
+import { postApi, type ApiPostsPost201Response, type ApiPostsIdPatchRequest } from '@instagram-like-app/http-client'
 import { getJwtFromCookie } from '@/features/auth/modules/getJwtFromCookie'
 
 type EditPostParams = {
@@ -8,10 +8,10 @@ type EditPostParams = {
   caption?: string
 }
 
-export const useEditPost = (): UseMutationResult<ApiPostsGet200ResponseInner, Error, EditPostParams, unknown> => {
+export const useEditPost = (): UseMutationResult<ApiPostsPost201Response, Error, EditPostParams, unknown> => {
   const jwt = getJwtFromCookie()
 
-  return useMutation<ApiPostsGet200ResponseInner, Error, EditPostParams>({
+  return useMutation<ApiPostsPost201Response, Error, EditPostParams>({
     mutationFn: async ({ id, caption }) => {
       if (!jwt) {
         throw new Error('認証情報がありません。')
