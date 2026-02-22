@@ -57,7 +57,7 @@ const renderNotificationItem = (notification: ApiNotificationsGet200ResponseInne
 export const NotificationContainer = () => {
   const router = useRouter()
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetNotifications()
-  const markAllAsRead = useMarkAllAsRead()
+  const { mutate: markAllAsRead } = useMarkAllAsRead()
   const { data: unreadData } = useGetUnreadCount()
 
   const sentinelRef = useIntersectionObserver({
@@ -69,10 +69,10 @@ export const NotificationContainer = () => {
 
   useEffect(() => {
     if (!hasMarkedAsRead.current && unreadData && unreadData.unreadCount > 0) {
-      markAllAsRead.mutate()
+      markAllAsRead()
       hasMarkedAsRead.current = true
     }
-  }, [unreadData]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [unreadData, markAllAsRead])
 
   if (isLoading) {
     return (
