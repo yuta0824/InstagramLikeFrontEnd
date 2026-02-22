@@ -18,7 +18,14 @@ export interface LikeNotificationProps {
   postUrl: string
 }
 
-export const LikeNotification = ({ users, totalCount, timeAgo, postId, postThumbnailUrl, postUrl }: LikeNotificationProps) => {
+export const LikeNotification = ({
+  users,
+  totalCount,
+  timeAgo,
+  postId,
+  postThumbnailUrl,
+  postUrl
+}: LikeNotificationProps) => {
   if (users.length === 0) return null
 
   const displayUsers = users.slice(0, 2)

@@ -37,7 +37,7 @@ const renderNotificationItem = (notification: ApiNotificationsGet200ResponseInne
           timeAgo={notification.timeAgo}
           postId={notification.postId ?? undefined}
           postThumbnailUrl={notification.postImageUrl ?? undefined}
-          postUrl={`/posts/${notification.postId}`}
+          postUrl={notification.postId ? `/posts/${notification.postId}` : ''}
         />
       )
     case 'commented':
@@ -48,7 +48,7 @@ const renderNotificationItem = (notification: ApiNotificationsGet200ResponseInne
           comment={notification.commentContent ?? ''}
           postId={notification.postId ?? undefined}
           postThumbnailUrl={notification.postImageUrl ?? undefined}
-          postUrl={`/posts/${notification.postId}`}
+          postUrl={notification.postId ? `/posts/${notification.postId}` : ''}
         />
       )
     default:

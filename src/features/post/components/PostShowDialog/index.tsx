@@ -112,14 +112,14 @@ export const PostShowDialog = ({
           <header className="border-b border-gray-200 p-4">
             <div className="flex items-center justify-between gap-1">
               <div className="flex items-center gap-2">
-                <Link href={`/account/${post.user.name}`} className="flex items-center gap-2">
+                <Link href={`/accounts/${post.user.name}`} className="flex items-center gap-2">
                   <Avatar className="size-10">
                     {post.user.avatarUrl && <AvatarImage src={post.user.avatarUrl} alt={post.user.name} />}
                     <DefaultAvatarFallback />
                   </Avatar>
                 </Link>
                 <div className="flex flex-col gap-1">
-                  <Link className="font-base font-semibold" href={`/account/${post.user.name}`}>
+                  <Link className="font-base font-semibold" href={`/accounts/${post.user.name}`}>
                     {post.user.name}
                   </Link>
                   {timeAgo && <p className="text-brandGray text-xs">{timeAgo}</p>}
