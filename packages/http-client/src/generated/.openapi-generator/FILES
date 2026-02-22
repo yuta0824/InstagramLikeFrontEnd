@@ -2,6 +2,7 @@ apis/ActiveUserApi.ts
 apis/AuthApi.ts
 apis/CommentApi.ts
 apis/LikeApi.ts
+apis/NotificationApi.ts
 apis/PostApi.ts
 apis/RelationshipApi.ts
 apis/UserApi.ts
@@ -13,6 +14,9 @@ models/ApiActiveUsersGet401Response.ts
 models/ApiAuthTokenGet200Response.ts
 models/ApiAuthTokenGet401Response.ts
 models/ApiMeGet200Response.ts
+models/ApiNotificationsGet200ResponseInner.ts
+models/ApiNotificationsGet200ResponseInnerRecentActorsInner.ts
+models/ApiNotificationsUnreadCountGet200Response.ts
 models/ApiPostsGet200ResponseInner.ts
 models/ApiPostsGet200ResponseInnerCommentsInner.ts
 models/ApiPostsIdPatchRequest.ts

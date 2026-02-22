@@ -8,10 +8,12 @@ import { useRouter } from 'next/navigation'
 import { useSetAtom } from 'jotai'
 import { initialPostFormState, postFormStateAtom } from '@/features/post/states/postFormAtom'
 import { SkeletonGlobalNavigation } from '@/components/layout/Skeleton/SkeletonGlobalNavigation'
+import { useGetUnreadCount } from '@/features/notification/api/useGetUnreadCount'
 
 export const GlobalNavigationContainer = () => {
   const { data, error, isLoading } = useGetMe()
   const { logoutMutation } = useLogout()
+  const { data: unreadData } = useGetUnreadCount()
   const router = useRouter()
   const setPostFormState = useSetAtom(postFormStateAtom)
   if (!data || !logoutMutation || error) return null
@@ -34,6 +36,12 @@ export const GlobalNavigationContainer = () => {
   return isLoading ? (
     <SkeletonGlobalNavigation />
   ) : (
-    <GlobalNavigation name={name} myPageUrl={myPageUrl} onLogout={handleLogout} onCreatePost={handleCreatePost} />
+    <GlobalNavigation
+      name={name}
+      myPageUrl={myPageUrl}
+      unreadCount={unreadData?.unreadCount}
+      onLogout={handleLogout}
+      onCreatePost={handleCreatePost}
+    />
   )
 }
