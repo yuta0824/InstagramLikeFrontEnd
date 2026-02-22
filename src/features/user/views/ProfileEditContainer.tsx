@@ -3,43 +3,65 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAtom } from 'jotai'
 import { useQueryClient } from '@tanstack/react-query'
+import { useForm, useWatch } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { toast } from 'sonner'
-import { profileEditStateAtom } from '../states/profileEditAtom'
+import { ResponseError } from '@instagram-like-app/http-client'
+import { profileEditOpenAtom } from '../states/profileEditAtom'
 import { useGetMe } from '../api/useGetMe'
 import { useUpdateProfile } from '../api/useUpdateProfile'
 import { ProfileEditDialog } from '../components/ProfileEditDialog'
-import type { ApiMeGet200Response } from '@instagram-like-app/http-client'
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+const ALLOWED_FILE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
+
+const schema = z.object({
+  name: z.string().min(1, '名前を入力してください。')
+})
+
+type ProfileFormValues = {
+  name: string
+}
 
 export const ProfileEditContainer = () => {
-  const [profileEditState, setProfileEditState] = useAtom(profileEditStateAtom)
+  const [isOpen, setIsOpen] = useAtom(profileEditOpenAtom)
   const { data: me } = useGetMe()
-
-  const handleClose = useCallback(() => {
-    setProfileEditState(prev => ({ ...prev, isOpen: false }))
-  }, [setProfileEditState])
-
-  return (
-    <ProfileEditForm key={profileEditState.openId} isOpen={profileEditState.isOpen} me={me} onClose={handleClose} />
-  )
-}
-
-interface ProfileEditFormProps {
-  isOpen: boolean
-  me: ApiMeGet200Response | undefined
-  onClose: () => void
-}
-
-const ProfileEditForm = ({ isOpen, me, onClose }: ProfileEditFormProps) => {
   const updateProfileMutation = useUpdateProfile()
   const queryClient = useQueryClient()
 
-  const [nameValue, setNameValue] = useState(me?.name ?? '')
+  const {
+    handleSubmit,
+    reset,
+    setValue,
+    control,
+    formState: { errors }
+  } = useForm<ProfileFormValues>({
+    defaultValues: { name: me?.name ?? '' },
+    resolver: zodResolver(schema)
+  })
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | undefined>(me?.avatarUrl ?? undefined)
   const [shouldRemoveAvatar, setShouldRemoveAvatar] = useState(false)
-  const [nameError, setNameError] = useState('')
+  const [prevIsOpen, setPrevIsOpen] = useState(false)
 
-  // blob URLのクリーンアップ
+  if (isOpen && !prevIsOpen) {
+    setPrevIsOpen(true)
+    setAvatarPreviewUrl(me?.avatarUrl ?? undefined)
+    setSelectedFile(null)
+    setShouldRemoveAvatar(false)
+  }
+  if (!isOpen && prevIsOpen) {
+    setPrevIsOpen(false)
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      reset({ name: me?.name ?? '' })
+    }
+  }, [isOpen, me?.name, reset])
+
   useEffect(() => {
     const url = avatarPreviewUrl
     return () => {
@@ -49,7 +71,24 @@ const ProfileEditForm = ({ isOpen, me, onClose }: ProfileEditFormProps) => {
     }
   }, [avatarPreviewUrl])
 
+  const nameValue = useWatch({ control, name: 'name' }) ?? ''
+  const nameError = errors.name?.message
+
+  const handleClose = useCallback(() => setIsOpen(false), [setIsOpen])
+
+  const handleNameChange = (value: string) => {
+    setValue('name', value, { shouldValidate: !!errors.name })
+  }
+
   const handleFileSelect = useCallback((file: File) => {
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+      toast.error('PNG、JPEG、WebP形式の画像のみアップロード可能です')
+      return
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error(`ファイルサイズは5MB以下にしてください（${(file.size / 1024 / 1024).toFixed(1)}MB）`)
+      return
+    }
     setSelectedFile(file)
     setAvatarPreviewUrl(URL.createObjectURL(file))
     setShouldRemoveAvatar(false)
@@ -61,23 +100,11 @@ const ProfileEditForm = ({ isOpen, me, onClose }: ProfileEditFormProps) => {
     setSelectedFile(null)
   }, [])
 
-  const handleNameChange = useCallback(
-    (value: string) => {
-      setNameValue(value)
-      if (nameError) setNameError('')
-    },
-    [nameError]
-  )
+  const hasChanges = nameValue.trim() !== (me?.name ?? '') || selectedFile !== null || shouldRemoveAvatar
+  const hasAvatar = shouldRemoveAvatar ? false : !!(avatarPreviewUrl || me?.avatarUrl)
 
-  const hasChanges = nameValue !== (me?.name ?? '') || selectedFile !== null || shouldRemoveAvatar
-
-  const handleSave = () => {
-    const trimmedName = nameValue.trim()
-    if (!trimmedName) {
-      setNameError('名前を入力してください。')
-      return
-    }
-
+  const onSubmit = handleSubmit(({ name }) => {
+    const trimmedName = name.trim()
     const params: { avatar?: File; name?: string; removeAvatar?: boolean } = {}
 
     if (trimmedName !== me?.name) {
@@ -96,23 +123,33 @@ const ProfileEditForm = ({ isOpen, me, onClose }: ProfileEditFormProps) => {
         queryClient.invalidateQueries({ queryKey: ['searchUserByName'] })
         queryClient.invalidateQueries({ queryKey: ['getUserDetail'] })
         toast.success('プロフィールを更新しました。')
-        onClose()
+        handleClose()
       },
-      onError: error => {
+      onError: async error => {
         console.error(error)
+        if (error instanceof ResponseError) {
+          try {
+            const body = await error.response.json()
+            const message = body?.error || body?.message
+            if (message) {
+              toast.error(message)
+              return
+            }
+          } catch {
+            // JSONパース失敗時はフォールバック
+          }
+        }
         toast.error('プロフィールの更新に失敗しました。')
       }
     })
-  }
+  })
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
-      if (!open) onClose()
+      if (!open && !updateProfileMutation.isPending) handleClose()
     },
-    [onClose]
+    [handleClose, updateProfileMutation.isPending]
   )
-
-  const hasAvatar = shouldRemoveAvatar ? false : !!(avatarPreviewUrl || me?.avatarUrl)
 
   return (
     <ProfileEditDialog
@@ -124,8 +161,8 @@ const ProfileEditForm = ({ isOpen, me, onClose }: ProfileEditFormProps) => {
       onNameChange={handleNameChange}
       onFileSelect={handleFileSelect}
       onRemoveAvatar={handleRemoveAvatar}
-      onSave={handleSave}
-      onCancel={onClose}
+      onSave={onSubmit}
+      onCancel={handleClose}
       isSubmitting={updateProfileMutation.isPending}
       hasChanges={hasChanges}
       hasAvatar={hasAvatar}
