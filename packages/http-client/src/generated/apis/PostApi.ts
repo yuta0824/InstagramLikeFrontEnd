@@ -16,16 +16,22 @@
 import * as runtime from '../runtime';
 import type {
   ApiActiveUsersGet401Response,
+  ApiMeNameAvailabilityGet400Response,
   ApiPostsGet200ResponseInner,
   ApiPostsIdPatchRequest,
+  ApiPostsPost201Response,
 } from '../models/index';
 import {
     ApiActiveUsersGet401ResponseFromJSON,
     ApiActiveUsersGet401ResponseToJSON,
+    ApiMeNameAvailabilityGet400ResponseFromJSON,
+    ApiMeNameAvailabilityGet400ResponseToJSON,
     ApiPostsGet200ResponseInnerFromJSON,
     ApiPostsGet200ResponseInnerToJSON,
     ApiPostsIdPatchRequestFromJSON,
     ApiPostsIdPatchRequestToJSON,
+    ApiPostsPost201ResponseFromJSON,
+    ApiPostsPost201ResponseToJSON,
 } from '../models/index';
 
 export interface ApiPostsIdDeleteRequest {
@@ -107,7 +113,7 @@ export class PostApi extends runtime.BaseAPI {
     /**
      * 投稿詳細を取得する
      */
-    async apiPostsIdGetRaw(requestParameters: ApiPostsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsGet200ResponseInner>> {
+    async apiPostsIdGetRaw(requestParameters: ApiPostsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsPost201Response>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -126,13 +132,13 @@ export class PostApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsGet200ResponseInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsPost201ResponseFromJSON(jsonValue));
     }
 
     /**
      * 投稿詳細を取得する
      */
-    async apiPostsIdGet(requestParameters: ApiPostsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsGet200ResponseInner> {
+    async apiPostsIdGet(requestParameters: ApiPostsIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsPost201Response> {
         const response = await this.apiPostsIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -140,7 +146,7 @@ export class PostApi extends runtime.BaseAPI {
     /**
      * 投稿を更新する
      */
-    async apiPostsIdPatchRaw(requestParameters: ApiPostsIdPatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsGet200ResponseInner>> {
+    async apiPostsIdPatchRaw(requestParameters: ApiPostsIdPatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsPost201Response>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -162,13 +168,13 @@ export class PostApi extends runtime.BaseAPI {
             body: ApiPostsIdPatchRequestToJSON(requestParameters['apiPostsIdPatchRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsGet200ResponseInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsPost201ResponseFromJSON(jsonValue));
     }
 
     /**
      * 投稿を更新する
      */
-    async apiPostsIdPatch(requestParameters: ApiPostsIdPatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsGet200ResponseInner> {
+    async apiPostsIdPatch(requestParameters: ApiPostsIdPatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsPost201Response> {
         const response = await this.apiPostsIdPatchRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -176,7 +182,7 @@ export class PostApi extends runtime.BaseAPI {
     /**
      * 投稿を作成する
      */
-    async apiPostsPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsGet200ResponseInner>> {
+    async apiPostsPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiPostsPost201Response>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -188,13 +194,13 @@ export class PostApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsGet200ResponseInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiPostsPost201ResponseFromJSON(jsonValue));
     }
 
     /**
      * 投稿を作成する
      */
-    async apiPostsPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsGet200ResponseInner> {
+    async apiPostsPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiPostsPost201Response> {
         const response = await this.apiPostsPostRaw(initOverrides);
         return await response.value();
     }

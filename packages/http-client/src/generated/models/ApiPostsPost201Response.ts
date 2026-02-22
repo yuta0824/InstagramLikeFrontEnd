@@ -13,90 +13,97 @@
  */
 
 import { mapValues } from '../runtime';
+import type { ApiPostsPost201ResponseCommentsInner } from './ApiPostsPost201ResponseCommentsInner';
+import {
+    ApiPostsPost201ResponseCommentsInnerFromJSON,
+    ApiPostsPost201ResponseCommentsInnerFromJSONTyped,
+    ApiPostsPost201ResponseCommentsInnerToJSON,
+} from './ApiPostsPost201ResponseCommentsInner';
+
 /**
  * 
  * @export
- * @interface ApiPostsGet200ResponseInner
+ * @interface ApiPostsPost201Response
  */
-export interface ApiPostsGet200ResponseInner {
+export interface ApiPostsPost201Response {
     /**
      * 
      * @type {number}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     id: number;
     /**
      * 
      * @type {string}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     caption?: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     imageUrls: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     userName: string;
     /**
      * 
      * @type {string}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     userAvatar: string | null;
     /**
      * 
      * @type {number}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     likedCount: number;
     /**
      * 
      * @type {string}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     likesSummary?: string;
     /**
      * 
      * @type {string}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     timeAgo: string;
     /**
      * 
      * @type {boolean}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     isLiked: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     isOwn: boolean;
     /**
      * 
      * @type {string}
-     * @memberof ApiPostsGet200ResponseInner
+     * @memberof ApiPostsPost201Response
      */
     mostRecentLikerName: string;
     /**
      * 
-     * @type {number}
-     * @memberof ApiPostsGet200ResponseInner
+     * @type {Array<ApiPostsPost201ResponseCommentsInner>}
+     * @memberof ApiPostsPost201Response
      */
-    commentsCount: number;
+    comments: Array<ApiPostsPost201ResponseCommentsInner>;
 }
 
 /**
- * Check if a given object implements the ApiPostsGet200ResponseInner interface.
+ * Check if a given object implements the ApiPostsPost201Response interface.
  */
-export function instanceOfApiPostsGet200ResponseInner(value: object): value is ApiPostsGet200ResponseInner {
+export function instanceOfApiPostsPost201Response(value: object): value is ApiPostsPost201Response {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('imageUrls' in value) || value['imageUrls'] === undefined) return false;
     if (!('userName' in value) || value['userName'] === undefined) return false;
@@ -106,15 +113,15 @@ export function instanceOfApiPostsGet200ResponseInner(value: object): value is A
     if (!('isLiked' in value) || value['isLiked'] === undefined) return false;
     if (!('isOwn' in value) || value['isOwn'] === undefined) return false;
     if (!('mostRecentLikerName' in value) || value['mostRecentLikerName'] === undefined) return false;
-    if (!('commentsCount' in value) || value['commentsCount'] === undefined) return false;
+    if (!('comments' in value) || value['comments'] === undefined) return false;
     return true;
 }
 
-export function ApiPostsGet200ResponseInnerFromJSON(json: any): ApiPostsGet200ResponseInner {
-    return ApiPostsGet200ResponseInnerFromJSONTyped(json, false);
+export function ApiPostsPost201ResponseFromJSON(json: any): ApiPostsPost201Response {
+    return ApiPostsPost201ResponseFromJSONTyped(json, false);
 }
 
-export function ApiPostsGet200ResponseInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiPostsGet200ResponseInner {
+export function ApiPostsPost201ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ApiPostsPost201Response {
     if (json == null) {
         return json;
     }
@@ -131,11 +138,11 @@ export function ApiPostsGet200ResponseInnerFromJSONTyped(json: any, ignoreDiscri
         'isLiked': json['isLiked'],
         'isOwn': json['isOwn'],
         'mostRecentLikerName': json['mostRecentLikerName'],
-        'commentsCount': json['commentsCount'],
+        'comments': ((json['comments'] as Array<any>).map(ApiPostsPost201ResponseCommentsInnerFromJSON)),
     };
 }
 
-export function ApiPostsGet200ResponseInnerToJSON(value?: ApiPostsGet200ResponseInner | null): any {
+export function ApiPostsPost201ResponseToJSON(value?: ApiPostsPost201Response | null): any {
     if (value == null) {
         return value;
     }
@@ -152,7 +159,7 @@ export function ApiPostsGet200ResponseInnerToJSON(value?: ApiPostsGet200Response
         'isLiked': value['isLiked'],
         'isOwn': value['isOwn'],
         'mostRecentLikerName': value['mostRecentLikerName'],
-        'commentsCount': value['commentsCount'],
+        'comments': ((value['comments'] as Array<any>).map(ApiPostsPost201ResponseCommentsInnerToJSON)),
     };
 }
 

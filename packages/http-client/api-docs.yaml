@@ -203,6 +203,45 @@ paths:
                     type: string
                 required:
                 - error
+  "/api/me/name_availability":
+    get:
+      summary: ユーザー名の利用可否を確認する
+      tags:
+      - User
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+        description: 確認するユーザー名
+      responses:
+        '200':
+          description: 利用可否を返却
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                required:
+                - available
+        '400':
+          description: nameパラメータが未指定
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - errors
+        '401':
+          description: 未ログイン
   "/api/me":
     get:
       summary: ログイン中ユーザーを取得する
@@ -466,28 +505,8 @@ paths:
                       type: boolean
                     mostRecentLikerName:
                       type: string
-                    comments:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          content:
-                            type: string
-                          userName:
-                            type: string
-                          userAvatar:
-                            type: string
-                            nullable: true
-                          isOwner:
-                            type: boolean
-                        required:
-                        - id
-                        - content
-                        - userName
-                        - userAvatar
-                        - isOwner
+                    commentsCount:
+                      type: integer
                   required:
                   - id
                   - imageUrls
@@ -498,7 +517,7 @@ paths:
                   - isLiked
                   - isOwn
                   - mostRecentLikerName
-                  - comments
+                  - commentsCount
         '401':
           description: 未ログイン
           content:
@@ -678,6 +697,19 @@ paths:
                 - isOwn
                 - mostRecentLikerName
                 - comments
+        '404':
+          description: 投稿が存在しない
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - errors
         '401':
           description: 未ログイン
           content:
@@ -1032,28 +1064,8 @@ paths:
                       type: boolean
                     mostRecentLikerName:
                       type: string
-                    comments:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          content:
-                            type: string
-                          userName:
-                            type: string
-                          userAvatar:
-                            type: string
-                            nullable: true
-                          isOwner:
-                            type: boolean
-                        required:
-                        - id
-                        - content
-                        - userName
-                        - userAvatar
-                        - isOwner
+                    commentsCount:
+                      type: integer
                   required:
                   - id
                   - imageUrls
@@ -1064,7 +1076,7 @@ paths:
                   - isLiked
                   - isOwn
                   - mostRecentLikerName
-                  - comments
+                  - commentsCount
         '401':
           description: 未ログイン
           content:
