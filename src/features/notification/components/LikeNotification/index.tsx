@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { IoPersonCircle } from 'react-icons/io5'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 import { PostThumbnail } from '../PostThumbnail'
 
 interface NotificationUser {
@@ -32,9 +31,7 @@ export const LikeNotification = ({ users, totalCount, timeAgo, postId, postThumb
           <Link key={index} href={`/accounts/${user.name}`} className="inline-block">
             <Avatar className="size-10">
               {user.avatarUrl && <AvatarImage src={user.avatarUrl} alt={`${user.name}のアバター`} />}
-              <AvatarFallback className="border border-gray-400">
-                <IoPersonCircle className="size-10 text-gray-400" />
-              </AvatarFallback>
+              <DefaultAvatarFallback />
             </Avatar>
           </Link>
         ))}

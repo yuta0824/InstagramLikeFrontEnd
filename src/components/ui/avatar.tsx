@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
+import { IoPersonCircle } from 'react-icons/io5'
 
 import { cn } from '@/lib/utils'
 
@@ -29,4 +30,12 @@ function AvatarFallback({ className, ...props }: React.ComponentProps<typeof Ava
   )
 }
 
-export { Avatar, AvatarImage, AvatarFallback }
+function DefaultAvatarFallback() {
+  return (
+    <AvatarFallback className="border border-current text-gray-400">
+      <IoPersonCircle className="size-full" />
+    </AvatarFallback>
+  )
+}
+
+export { Avatar, AvatarImage, AvatarFallback, DefaultAvatarFallback }

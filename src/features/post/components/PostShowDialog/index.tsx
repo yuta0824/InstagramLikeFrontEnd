@@ -3,12 +3,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogClose, DialogTitle } from '@/components/ui/dialog'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { LikeButton } from '@/components/ui/LikeButton'
 import { ShareButton } from '@/components/ui/ShareButton'
 import { CommentItem, CommentItemProps } from '@/features/comment/components/CommentItem'
-import { IoPersonCircle, IoCloseCircle, IoEllipsisHorizontal } from 'react-icons/io5'
+import { IoCloseCircle, IoEllipsisHorizontal } from 'react-icons/io5'
 import { CommentField } from '@/features/comment/components/CommentField'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
@@ -115,9 +115,7 @@ export const PostShowDialog = ({
                 <Link href={`/account/${post.user.name}`} className="flex items-center gap-2">
                   <Avatar className="size-10">
                     {post.user.avatarUrl && <AvatarImage src={post.user.avatarUrl} alt={post.user.name} />}
-                    <AvatarFallback>
-                      <IoPersonCircle className="size-10 text-gray-400" />
-                    </AvatarFallback>
+                    <DefaultAvatarFallback />
                   </Avatar>
                 </Link>
                 <div className="flex flex-col gap-1">

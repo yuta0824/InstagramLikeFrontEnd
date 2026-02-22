@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { GoPerson } from 'react-icons/go'
+import { Avatar, AvatarImage, DefaultAvatarFallback } from '@/components/ui/avatar'
 import { FollowButton } from '../FollowButton'
 
 export interface UserListItemProps {
@@ -37,9 +36,7 @@ export const UserListItem = ({
           className="aspect-square object-cover"
         />
       )}
-      <AvatarFallback className="border-brandGray/30 text-brandGray border">
-        <GoPerson className="size-6" />
-      </AvatarFallback>
+      <DefaultAvatarFallback />
     </Avatar>
   )
 
