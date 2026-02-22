@@ -5,9 +5,11 @@ import { useSetAtom } from 'jotai'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
+import { Spinner } from '@/components/ui/spinner'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { useCreateComment } from '@/features/comment/api/useCreateComment'
 import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
-import { useGetPosts } from '../api/useGetPosts'
+import { useGetTimeline, TIMELINE_QUERY_KEY } from '../api/useGetTimeline'
 import { useGetPostDetail } from '../api/useGetPostDetail'
 import { useDeletePost } from '../api/useDeletePost'
 import { useToggleLike } from '../api/useToggleLike'
@@ -19,7 +21,7 @@ import type { ApiPostsGet200ResponseInner } from '@instagram-like-app/http-clien
 import { postFormStateAtom } from '../states/postFormAtom'
 
 export const PostsContainer = () => {
-  const { data, isLoading, error } = useGetPosts()
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetTimeline()
   const [activePostId, setActivePostId] = useState<number | null>(null)
   const [commentValue, setCommentValue] = useState('')
   const [commentError, setCommentError] = useState('')
@@ -31,12 +33,20 @@ export const PostsContainer = () => {
   const deleteCommentMutation = useDeleteComment()
   const toggleLikeMutation = useToggleLike()
 
+  const sentinelRef = useIntersectionObserver({
+    onIntersect: fetchNextPage,
+    enabled: !!hasNextPage && !isFetchingNextPage
+  })
+
   if (isLoading) return <SkeletonCardList />
   if (error) return <LoadingError />
   if (!data) return null
-  if (data.length === 0) return <PostsEmptyState />
 
-  const activePost = data.find(post => post.id === activePostId) ?? null
+  const posts = data.pages.flatMap(page => page.posts)
+
+  if (posts.length === 0) return <PostsEmptyState />
+
+  const activePost = posts.find(post => post.id === activePostId) ?? null
 
   const handleShowDetails = (post: ApiPostsGet200ResponseInner) => {
     setActivePostId(post.id)
@@ -50,7 +60,7 @@ export const PostsContainer = () => {
       { postId, shouldLike },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          queryClient.invalidateQueries({ queryKey: TIMELINE_QUERY_KEY })
         },
         onError: error => {
           console.error(error)
@@ -80,7 +90,7 @@ export const PostsContainer = () => {
         { id: post.id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+            queryClient.invalidateQueries({ queryKey: TIMELINE_QUERY_KEY })
             toast.success('投稿を削除しました。')
             if (activePostId === post.id) {
               setActivePostId(null)
@@ -118,7 +128,7 @@ export const PostsContainer = () => {
       { postId: activePost.id, content: trimmedContent },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          queryClient.invalidateQueries({ queryKey: TIMELINE_QUERY_KEY })
           queryClient.invalidateQueries({ queryKey: ['getPostDetail', activePost.id] })
           setCommentValue('')
           setCommentError('')
@@ -143,7 +153,7 @@ export const PostsContainer = () => {
       { postId: activePost.id, commentId },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          queryClient.invalidateQueries({ queryKey: TIMELINE_QUERY_KEY })
           queryClient.invalidateQueries({ queryKey: ['getPostDetail', activePost.id] })
           toast.success('コメントを削除しました。')
         },
@@ -157,7 +167,7 @@ export const PostsContainer = () => {
 
   return (
     <div className="space-y-10">
-      {data.map(post => (
+      {posts.map(post => (
         <PostCard
           key={post.id}
           id={String(post.id)}
@@ -182,6 +192,12 @@ export const PostsContainer = () => {
           onDelete={() => handleDelete(post)}
         />
       ))}
+      <div ref={sentinelRef} className="h-4" />
+      {isFetchingNextPage && (
+        <div className="flex justify-center py-4">
+          <Spinner className="size-6" />
+        </div>
+      )}
       {activePost && (
         <PostShowDialog
           open

@@ -9,6 +9,7 @@ import { z } from 'zod'
 import { toast } from 'sonner'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { PostFormDialog } from '../components/PostFormDialog'
+import { TIMELINE_QUERY_KEY } from '../api/useGetTimeline'
 import { useCreatePost } from '../api/useCreatePost'
 import { useEditPost } from '../api/useEditPost'
 import { initialPostFormState, postFormStateAtom } from '../states/postFormAtom'
@@ -96,7 +97,7 @@ export const PostFormContainer = () => {
         { id: editPostId, caption: values.caption },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+            queryClient.invalidateQueries({ queryKey: TIMELINE_QUERY_KEY })
             toast.success('投稿を更新しました。')
             handleDialogClose()
           },
@@ -114,7 +115,7 @@ export const PostFormContainer = () => {
       { images: values.images, caption: values.caption },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          queryClient.invalidateQueries({ queryKey: TIMELINE_QUERY_KEY })
           toast.success('投稿しました。')
           handleDialogClose()
           router.push('/home')
