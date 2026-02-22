@@ -63,7 +63,7 @@ export const UserProfileContainer = () => {
   const [activePostId, setActivePostId] = useState<number | null>(null)
   const [commentValue, setCommentValue] = useState('')
   const [commentError, setCommentError] = useState('')
-  const { data: postDetail, isLoading: isLoadingPostDetail } = useGetPostDetail(activePostId)
+  const { data: postDetail, isLoading: isLoadingPostDetail, error: postDetailError } = useGetPostDetail(activePostId)
 
   const sentinelRef = useIntersectionObserver({
     onIntersect: () => fetchNextPage(),
@@ -315,6 +315,7 @@ export const UserProfileContainer = () => {
             onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
           isLoadingComments={isLoadingPostDetail}
+          isCommentsError={!!postDetailError}
           shareUrl={`${window.location.origin}/posts/${activePost.id}`}
           onLike={liked => handleLikeClick(activePost.id, liked)}
           timeAgo={activePost.timeAgo}

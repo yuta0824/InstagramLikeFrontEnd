@@ -24,8 +24,7 @@ const samplePost = {
     'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト',
   likes: 181,
   isLiked: false,
-  isOwn: false,
-  commentsCount: 24
+  isOwn: false
 }
 
 const sampleComments = [

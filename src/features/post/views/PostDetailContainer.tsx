@@ -19,7 +19,8 @@ export const PostDetailContainer = () => {
   const params = useParams<{ id: string }>()
   const router = useRouter()
   const postId = Number(params.id)
-  const { data: post, isLoading, error } = useGetPostDetail(Number.isNaN(postId) ? null : postId)
+  const isValidId = !Number.isNaN(postId) && Number.isInteger(postId) && postId > 0
+  const { data: post, isLoading, error } = useGetPostDetail(isValidId ? postId : null)
   const [commentValue, setCommentValue] = useState('')
   const [commentError, setCommentError] = useState('')
   const setPostFormState = useSetAtom(postFormStateAtom)
@@ -29,29 +30,29 @@ export const PostDetailContainer = () => {
   const deleteCommentMutation = useDeleteComment()
   const toggleLikeMutation = useToggleLike()
 
+  if (!isValidId) return <LoadingError />
   if (isLoading) return <SkeletonCardList />
   if (error || !post) return <LoadingError />
 
-  const shareUrl = `${window.location.origin}/posts/${post.id}`
+  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/posts/${post.id}` : `/posts/${post.id}`
 
   const handleDelete = () => {
-    const shouldDelete = confirm('本当に削除しますか？')
-    if (shouldDelete) {
-      deletePostMutation.mutate(
-        { id: post.id },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getPosts'] })
-            toast.success('投稿を削除しました。')
-            router.push('/home')
-          },
-          onError: err => {
-            console.error(err)
-            toast.error('投稿の削除に失敗しました。')
-          }
+    if (!confirm('本当に削除しますか？')) return
+
+    deletePostMutation.mutate(
+      { id: post.id },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          toast.success('投稿を削除しました。')
+          router.push('/home')
+        },
+        onError: err => {
+          console.error(err)
+          toast.error('投稿の削除に失敗しました。')
         }
-      )
-    }
+      }
+    )
   }
 
   const handleEdit = () => {

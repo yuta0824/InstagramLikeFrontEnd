@@ -25,7 +25,7 @@ export const PostsContainer = () => {
   const [commentError, setCommentError] = useState('')
   const setPostFormState = useSetAtom(postFormStateAtom)
   const queryClient = useQueryClient()
-  const { data: postDetail, isLoading: isLoadingPostDetail } = useGetPostDetail(activePostId)
+  const { data: postDetail, isLoading: isLoadingPostDetail, error: postDetailError } = useGetPostDetail(activePostId)
   const deletePostMutation = useDeletePost()
   const createCommentMutation = useCreateComment()
   const deleteCommentMutation = useDeleteComment()
@@ -212,6 +212,7 @@ export const PostsContainer = () => {
             onDelete: comment.isOwner ? () => handleCommentDelete(comment.id) : undefined
           }))}
           isLoadingComments={isLoadingPostDetail}
+          isCommentsError={!!postDetailError}
           shareUrl={`${window.location.origin}/posts/${activePost.id}`}
           onLike={liked => handleLikeClick(activePost.id, liked)}
           timeAgo={activePost.timeAgo}

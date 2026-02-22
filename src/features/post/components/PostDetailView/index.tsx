@@ -37,6 +37,7 @@ export interface PostDetailViewProps {
   commentError: string
   timeAgo: string
   isLoadingComments?: boolean
+  isCommentsError?: boolean
 }
 
 export const PostDetailView = ({
@@ -51,25 +52,14 @@ export const PostDetailView = ({
   onCommentSubmit,
   commentError,
   timeAgo,
-  isLoadingComments
+  isLoadingComments,
+  isCommentsError
 }: PostDetailViewProps) => {
   return (
     <div className="grid grid-cols-1 gap-0 overflow-auto border md:grid-cols-2 md:overflow-visible">
       {/* 画像 */}
       <div className="bg-black">
-        {post.imageUrls.length <= 1 ? (
-          post.imageUrls[0] ? (
-            <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
-              <Image
-                src={post.imageUrls[0]}
-                alt={post.caption || '投稿画像'}
-                unoptimized
-                fill
-                className="object-contain"
-              />
-            </div>
-          ) : null
-        ) : (
+        {post.imageUrls.length >= 2 ? (
           <Carousel>
             <CarouselContent>
               {post.imageUrls.map((url, index) => (
@@ -86,12 +76,20 @@ export const PostDetailView = ({
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <>
-              <CarouselPrevious className="left-2 size-6" />
-              <CarouselNext className="right-2 size-6" />
-            </>
+            <CarouselPrevious className="left-2 size-6" />
+            <CarouselNext className="right-2 size-6" />
           </Carousel>
-        )}
+        ) : post.imageUrls[0] ? (
+          <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
+            <Image
+              src={post.imageUrls[0]}
+              alt={post.caption || '投稿画像'}
+              unoptimized
+              fill
+              className="object-contain"
+            />
+          </div>
+        ) : null}
       </div>
 
       {/* 投稿情報 */}
@@ -100,14 +98,14 @@ export const PostDetailView = ({
         <header className="border-b border-gray-200 p-4">
           <div className="flex items-center justify-between gap-1">
             <div className="flex items-center gap-2">
-              <Link href={`/accounts/${post.user.name}`} className="flex items-center gap-2">
+              <Link href={`/accounts/${encodeURIComponent(post.user.name)}`} className="flex items-center gap-2">
                 <Avatar className="size-10">
                   {post.user.avatarUrl && <AvatarImage src={post.user.avatarUrl} alt={post.user.name} />}
                   <DefaultAvatarFallback />
                 </Avatar>
               </Link>
               <div className="flex flex-col gap-1">
-                <Link className="font-base font-semibold" href={`/accounts/${post.user.name}`}>
+                <Link className="font-base font-semibold" href={`/accounts/${encodeURIComponent(post.user.name)}`}>
                   {post.user.name}
                 </Link>
                 {timeAgo && <p className="text-brandGray text-xs">{timeAgo}</p>}
@@ -137,7 +135,9 @@ export const PostDetailView = ({
         {/* コメント一覧 */}
         <div className="flex-1 space-y-2 overflow-y-auto bg-white p-4">
           {post.caption && <CommentItem userName={post.user.name} content={post.caption} />}
-          {isLoadingComments ? (
+          {isCommentsError ? (
+            <p className="text-muted-foreground py-4 text-center text-sm">読み込みに失敗しました。</p>
+          ) : isLoadingComments ? (
             <div className="flex justify-center py-4">
               <Spinner className="size-6" />
             </div>
@@ -160,10 +160,10 @@ export const PostDetailView = ({
           <CommentField
             value={commentValue}
             onChange={onCommentValueChange}
-            onSubmit={onCommentSubmit || (() => {})}
-            errorMessage={commentError || ''}
+            onSubmit={onCommentSubmit}
+            errorMessage={commentError}
             isError={!!commentError}
-            isDisabled={!commentValue?.trim()}
+            isDisabled={!commentValue.trim()}
           />
         </div>
 
