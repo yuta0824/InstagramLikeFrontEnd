@@ -8,6 +8,8 @@ import {
   PostApi,
   RelationshipApi,
   UserApi,
+  UserFollowerApi,
+  UserFollowingApi,
   UserPostApi
 } from './generated'
 
@@ -28,4 +30,6 @@ export const commentApi = new CommentApi(config)
 export const likeApi = new LikeApi(config)
 export const notificationApi = new NotificationApi(config)
 export const relationshipApi = new RelationshipApi(config)
+export const userFollowerApi = new UserFollowerApi(config)
+export const userFollowingApi = new UserFollowingApi(config)
 export const userPostApi = new UserPostApi(config)

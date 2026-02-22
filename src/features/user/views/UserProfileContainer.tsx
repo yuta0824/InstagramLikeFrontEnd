@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useSetAtom } from 'jotai'
+import { followListStateAtom, initialFollowListState } from '../states/followListAtom'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
@@ -25,6 +26,7 @@ import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useToggleLike } from '@/features/post/api/useToggleLike'
 import { useDeletePost } from '@/features/post/api/useDeletePost'
 import { postFormStateAtom } from '@/features/post/states/postFormAtom'
+import { FollowListContainer } from './FollowListContainer'
 import type { ApiPostsGet200ResponseInner } from '@instagram-like-app/http-client'
 
 export const UserProfileContainer = () => {
@@ -51,6 +53,11 @@ export const UserProfileContainer = () => {
   const deleteCommentMutation = useDeleteComment()
   const deletePostMutation = useDeletePost()
   const setPostFormState = useSetAtom(postFormStateAtom)
+  const setFollowListState = useSetAtom(followListStateAtom)
+
+  useEffect(() => {
+    setFollowListState(initialFollowListState)
+  }, [decodedUserName, setFollowListState])
 
   const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
   const [commentValue, setCommentValue] = useState('')
@@ -219,8 +226,16 @@ export const UserProfileContainer = () => {
         isCurrentUser={isCurrentUser}
         stats={{
           posts: { label: '投稿', count: userDetail.postsCount },
-          followers: { label: 'フォロワー', count: userDetail.followersCount },
-          followings: { label: 'フォロー中', count: userDetail.followingsCount }
+          followers: {
+            label: 'フォロワー',
+            count: userDetail.followersCount,
+            onClick: () => setFollowListState({ isOpen: true, type: 'followers' })
+          },
+          followings: {
+            label: 'フォロー中',
+            count: userDetail.followingsCount,
+            onClick: () => setFollowListState({ isOpen: true, type: 'followings' })
+          }
         }}
       />
 
@@ -264,6 +279,8 @@ export const UserProfileContainer = () => {
           )}
         </div>
       )}
+
+      <FollowListContainer />
 
       {currentActivePost && (
         <PostShowDialog

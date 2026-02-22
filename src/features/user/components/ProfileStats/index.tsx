@@ -4,6 +4,7 @@ export interface ProfileStatItemProps {
   label: string
   count: number
   href?: string
+  onClick?: () => void
 }
 
 interface ProfileStatsProps {
@@ -12,7 +13,16 @@ interface ProfileStatsProps {
   followings: ProfileStatItemProps
 }
 
-const StatItem = ({ label, count, href }: ProfileStatItemProps) => {
+const StatItem = ({ label, count, href, onClick }: ProfileStatItemProps) => {
+  if (onClick) {
+    return (
+      <button type="button" className="cursor-pointer text-center" onClick={onClick}>
+        <p>{count}</p>
+        <p className="text-brandGray text-sm">{label}</p>
+      </button>
+    )
+  }
+
   return (
     <div className="text-center">
       <p>{count}</p>
