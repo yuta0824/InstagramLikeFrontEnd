@@ -10,6 +10,7 @@ import { LoadingError } from '@/components/layout/LoadingError'
 import { useCreateComment } from '@/features/comment/api/useCreateComment'
 import { useDeleteComment } from '@/features/comment/api/useDeleteComment'
 import { useGetPostDetail } from '../api/useGetPostDetail'
+import { TIMELINE_QUERY_KEY } from '../api/useGetTimeline'
 import { useDeletePost } from '../api/useDeletePost'
 import { useToggleLike } from '../api/useToggleLike'
 import { PostDetailView } from '../components/PostDetailView'
@@ -43,7 +44,7 @@ export const PostDetailContainer = () => {
       { id: post.id },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['getPosts'] })
+          queryClient.invalidateQueries({ queryKey: TIMELINE_QUERY_KEY })
           toast.success('投稿を削除しました。')
           router.push('/home')
         },

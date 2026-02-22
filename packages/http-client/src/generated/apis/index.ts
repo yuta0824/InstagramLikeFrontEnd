@@ -7,6 +7,7 @@ export * from './LikeApi';
 export * from './NotificationApi';
 export * from './PostApi';
 export * from './RelationshipApi';
+export * from './TimelineApi';
 export * from './UserApi';
 export * from './UserFollowerApi';
 export * from './UserFollowingApi';

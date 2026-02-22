@@ -5,6 +5,7 @@ apis/LikeApi.ts
 apis/NotificationApi.ts
 apis/PostApi.ts
 apis/RelationshipApi.ts
+apis/TimelineApi.ts
 apis/UserApi.ts
 apis/UserFollowerApi.ts
 apis/UserFollowingApi.ts
@@ -29,5 +30,6 @@ models/ApiPostsPostIdCommentsPost201Response.ts
 models/ApiPostsPostIdCommentsPostRequest.ts
 models/ApiPostsPostIdCommentsPostRequestComment.ts
 models/ApiPostsPostIdLikePost200Response.ts
+models/ApiTimelineGet200Response.ts
 models/index.ts
 runtime.ts

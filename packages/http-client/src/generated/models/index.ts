@@ -18,3 +18,4 @@ export * from './ApiPostsPostIdCommentsPost201Response';
 export * from './ApiPostsPostIdCommentsPostRequest';
 export * from './ApiPostsPostIdCommentsPostRequestComment';
 export * from './ApiPostsPostIdLikePost200Response';
+export * from './ApiTimelineGet200Response';
