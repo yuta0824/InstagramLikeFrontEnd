@@ -14,6 +14,7 @@ interface GlobalNavigationProps {
   unreadCount?: number
   onLogout: () => void
   onCreatePost: () => void
+  onEditProfile: () => void
 }
 
 const menuItems = [
@@ -40,7 +41,8 @@ export const GlobalNavigation = ({
   avatarUrl,
   unreadCount = 0,
   onLogout,
-  onCreatePost
+  onCreatePost,
+  onEditProfile
 }: GlobalNavigationProps) => {
   return (
     <nav className="fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white backdrop-blur-sm md:sticky md:top-0 md:h-screen md:w-16 md:border-t-0 md:border-r md:px-2 md:py-6 xl:w-64 xl:px-4">
@@ -83,7 +85,13 @@ export const GlobalNavigation = ({
         </button>
 
         <div className="md:mt-auto xl:w-full">
-          <UserMenu name={name} myPageUrl={myPageUrl} avatarUrl={avatarUrl} onLogout={onLogout} />
+          <UserMenu
+            name={name}
+            myPageUrl={myPageUrl}
+            avatarUrl={avatarUrl}
+            onLogout={onLogout}
+            onEditProfile={onEditProfile}
+          />
         </div>
       </div>
     </nav>

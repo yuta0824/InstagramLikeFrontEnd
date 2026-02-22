@@ -7,9 +7,10 @@ export interface UserMenuProps {
   myPageUrl: string
   avatarUrl?: string
   onLogout: () => void
+  onEditProfile: () => void
 }
 
-export function UserMenu({ name, myPageUrl, avatarUrl, onLogout }: UserMenuProps) {
+export function UserMenu({ name, myPageUrl, avatarUrl, onLogout, onEditProfile }: UserMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex w-full items-center gap-2 overflow-hidden">
@@ -25,7 +26,8 @@ export function UserMenu({ name, myPageUrl, avatarUrl, onLogout }: UserMenuProps
         <DropdownMenuItem asChild>
           <Link href={myPageUrl}>マイページ</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={onLogout} className="text-red-500">
+        <DropdownMenuItem onClick={onEditProfile}>プロフィール編集</DropdownMenuItem>
+        <DropdownMenuItem onClick={onLogout} className="text-red-500!">
           ログアウト
         </DropdownMenuItem>
       </DropdownMenuContent>

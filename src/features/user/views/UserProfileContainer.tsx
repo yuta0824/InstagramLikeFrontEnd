@@ -223,7 +223,6 @@ export const UserProfileContainer = () => {
       <ProfileHeader
         avatarUrl={userDetail.avatarUrl ?? undefined}
         userName={userDetail.name}
-        isCurrentUser={isCurrentUser}
         stats={{
           posts: { label: '投稿', count: userDetail.postsCount },
           followers: {

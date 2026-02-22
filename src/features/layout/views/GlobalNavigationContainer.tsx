@@ -7,6 +7,7 @@ import { useGetMe } from '@/features/user/api/useGetMe'
 import { useRouter } from 'next/navigation'
 import { useSetAtom } from 'jotai'
 import { initialPostFormState, postFormStateAtom } from '@/features/post/states/postFormAtom'
+import { profileEditOpenAtom } from '@/features/user/states/profileEditAtom'
 import { SkeletonGlobalNavigation } from '@/components/layout/Skeleton/SkeletonGlobalNavigation'
 import { useGetUnreadCount } from '@/features/notification/api/useGetUnreadCount'
 
@@ -16,6 +17,7 @@ export const GlobalNavigationContainer = () => {
   const { data: unreadData } = useGetUnreadCount()
   const router = useRouter()
   const setPostFormState = useSetAtom(postFormStateAtom)
+  const setProfileEditOpen = useSetAtom(profileEditOpenAtom)
   if (!data || !logoutMutation || error) return null
 
   const name = data?.name
@@ -33,6 +35,8 @@ export const GlobalNavigationContainer = () => {
     })
   }
 
+  const handleEditProfile = () => setProfileEditOpen(true)
+
   return isLoading ? (
     <SkeletonGlobalNavigation />
   ) : (
@@ -42,6 +46,7 @@ export const GlobalNavigationContainer = () => {
       unreadCount={unreadData?.unreadCount}
       onLogout={handleLogout}
       onCreatePost={handleCreatePost}
+      onEditProfile={handleEditProfile}
     />
   )
 }

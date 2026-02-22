@@ -28,6 +28,12 @@ import {
     ApiMeGet200ResponseToJSON,
 } from '../models/index';
 
+export interface ApiMePatchRequest {
+    name?: string;
+    avatar?: Blob;
+    removeAvatar?: boolean;
+}
+
 export interface ApiUsersGetRequest {
     q?: string;
 }
@@ -70,16 +76,45 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * ユーザー情報を更新する
      */
-    async apiMePatchRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiMeGet200Response>> {
+    async apiMePatchRaw(requestParameters: ApiMePatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiMeGet200Response>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['name'] != null) {
+            formParams.append('name', requestParameters['name'] as any);
+        }
+
+        if (requestParameters['avatar'] != null) {
+            formParams.append('avatar', requestParameters['avatar'] as any);
+        }
+
+        if (requestParameters['removeAvatar'] != null) {
+            formParams.append('remove_avatar', requestParameters['removeAvatar'] as any);
+        }
 
         const response = await this.request({
             path: `/api/me`,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
+            body: formParams,
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ApiMeGet200ResponseFromJSON(jsonValue));
@@ -88,8 +123,8 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * ユーザー情報を更新する
      */
-    async apiMePatch(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeGet200Response> {
-        const response = await this.apiMePatchRaw(initOverrides);
+    async apiMePatch(requestParameters: ApiMePatchRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiMeGet200Response> {
+        const response = await this.apiMePatchRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

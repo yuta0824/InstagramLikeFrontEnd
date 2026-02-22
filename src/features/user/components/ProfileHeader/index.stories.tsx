@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { ProfileHeader } from '.'
-import { fn } from 'storybook/test'
 
 const meta: Meta<typeof ProfileHeader> = {
   title: 'features/user/ProfileHeader',
@@ -14,7 +13,6 @@ export const OtherUserProfile: Story = {
   args: {
     avatarUrl: '/icon_avatar1.webp',
     userName: 'hina',
-    isCurrentUser: false,
     stats: {
       posts: {
         label: '投稿',
@@ -38,7 +36,6 @@ export const CurrentUserProfile: Story = {
   args: {
     avatarUrl: '/icon_avatar2.webp',
     userName: 'yuta',
-    isCurrentUser: true,
     stats: {
       posts: {
         label: '投稿',
@@ -54,7 +51,6 @@ export const CurrentUserProfile: Story = {
         count: 89,
         href: '/account/yuta/followings'
       }
-    },
-    onFileChange: fn()
+    }
   }
 }
