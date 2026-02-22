@@ -10,12 +10,11 @@ type UpdateProfileParams = {
 }
 
 export const useUpdateProfile = (): UseMutationResult<ApiMeGet200Response, Error, UpdateProfileParams, unknown> => {
-  const jwt = getJwtFromCookie()
-
   return useMutation<ApiMeGet200Response, Error, UpdateProfileParams>({
     mutationFn: async params => {
+      const jwt = getJwtFromCookie()
       if (!jwt) {
-        throw new Error('認証情報がありません。')
+        throw new Error('認証情報がありません。ページを再読み込みしてください。')
       }
 
       const response = await userApi.apiMePatchRaw(

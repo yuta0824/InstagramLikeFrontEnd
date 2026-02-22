@@ -13,7 +13,6 @@ export const OtherUserProfile: Story = {
   args: {
     avatarUrl: '/icon_avatar1.webp',
     userName: 'hina',
-    isCurrentUser: false,
     stats: {
       posts: {
         label: '投稿',
@@ -37,7 +36,6 @@ export const CurrentUserProfile: Story = {
   args: {
     avatarUrl: '/icon_avatar2.webp',
     userName: 'yuta',
-    isCurrentUser: true,
     stats: {
       posts: {
         label: '投稿',

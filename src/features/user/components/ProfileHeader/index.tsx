@@ -4,7 +4,6 @@ import { ProfileStats, ProfileStatItemProps } from '../ProfileStats'
 interface ProfileHeaderProps {
   avatarUrl?: string
   userName?: string
-  isCurrentUser: boolean
   stats: {
     posts: ProfileStatItemProps
     followers: ProfileStatItemProps

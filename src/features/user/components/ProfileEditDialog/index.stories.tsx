@@ -58,3 +58,13 @@ export const NameError: Story = {
     nameError: '名前を入力してください。'
   }
 }
+
+export const Submitting: Story = {
+  args: {
+    ...baseArgs,
+    avatarPreviewUrl: '/icon_avatar2.webp',
+    nameValue: 'yuta_updated',
+    hasChanges: true,
+    isSubmitting: true
+  }
+}
