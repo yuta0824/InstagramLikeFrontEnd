@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useSetAtom } from 'jotai'
+import { followListStateAtom } from '../states/followListAtom'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { SkeletonCardList } from '@/components/ui/Skeleton/SkeletonCardList'
@@ -52,11 +53,11 @@ export const UserProfileContainer = () => {
   const deleteCommentMutation = useDeleteComment()
   const deletePostMutation = useDeletePost()
   const setPostFormState = useSetAtom(postFormStateAtom)
+  const setFollowListState = useSetAtom(followListStateAtom)
 
   const [activePost, setActivePost] = useState<ApiPostsGet200ResponseInner | null>(null)
   const [commentValue, setCommentValue] = useState('')
   const [commentError, setCommentError] = useState('')
-  const [activeList, setActiveList] = useState<'followers' | 'followings' | null>(null)
 
   const sentinelRef = useIntersectionObserver({
     onIntersect: () => fetchNextPage(),
@@ -224,12 +225,12 @@ export const UserProfileContainer = () => {
           followers: {
             label: 'フォロワー',
             count: userDetail.followersCount,
-            onClick: () => setActiveList('followers')
+            onClick: () => setFollowListState({ isOpen: true, type: 'followers' })
           },
           followings: {
             label: 'フォロー中',
             count: userDetail.followingsCount,
-            onClick: () => setActiveList('followings')
+            onClick: () => setFollowListState({ isOpen: true, type: 'followings' })
           }
         }}
       />
@@ -275,16 +276,7 @@ export const UserProfileContainer = () => {
         </div>
       )}
 
-      {activeList && userId && (
-        <FollowListContainer
-          userId={userId}
-          type={activeList}
-          open
-          onOpenChange={open => {
-            if (!open) setActiveList(null)
-          }}
-        />
-      )}
+      <FollowListContainer />
 
       {currentActivePost && (
         <PostShowDialog

@@ -1,22 +1,27 @@
 'use client'
 
 import { useState } from 'react'
+import { useParams } from 'next/navigation'
+import { useAtom } from 'jotai'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useSearchUserByName } from '../api/useSearchUserByName'
 import { useGetFollowers } from '../api/useGetFollowers'
 import { useGetFollowings } from '../api/useGetFollowings'
 import { useToggleFollow } from '../api/useToggleFollow'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import { UserListDialog } from '../components/UserListDialog'
+import { followListStateAtom, initialFollowListState } from '../states/followListAtom'
 
-interface FollowListContainerProps {
-  userId: number
-  type: 'followers' | 'followings'
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
+export const FollowListContainer = () => {
+  const { userName } = useParams<{ userName: string }>()
+  const decodedUserName = decodeURIComponent(userName)
+  const { data: searchedUser } = useSearchUserByName(decodedUserName)
+  const userId = searchedUser?.id
 
-export const FollowListContainer = ({ userId, type, open, onOpenChange }: FollowListContainerProps) => {
+  const [followListState, setFollowListState] = useAtom(followListStateAtom)
+  const { isOpen, type } = followListState
+
   const followersQuery = useGetFollowers(type === 'followers' ? userId : undefined)
   const followingsQuery = useGetFollowings(type === 'followings' ? userId : undefined)
   const query = type === 'followers' ? followersQuery : followingsQuery
@@ -46,6 +51,10 @@ export const FollowListContainer = ({ userId, type, open, onOpenChange }: Follow
     )
   }
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) setFollowListState(initialFollowListState)
+  }
+
   const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = query
 
   const sentinelRef = useIntersectionObserver({
@@ -58,8 +67,8 @@ export const FollowListContainer = ({ userId, type, open, onOpenChange }: Follow
 
   return (
     <UserListDialog
-      open={open}
-      onOpenChange={onOpenChange}
+      open={isOpen}
+      onOpenChange={handleOpenChange}
       title={title}
       users={allUsers.map(user => ({
         id: user.id,
