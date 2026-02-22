@@ -81,11 +81,14 @@ export const ProfileEditDialog = ({
             <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
               写真をアップロード
             </Button>
-            {hasAvatar && (
-              <button type="button" onClick={onRemoveAvatar} className="text-sm text-red-500 hover:text-red-600">
-                写真を削除
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={onRemoveAvatar}
+              disabled={!hasAvatar}
+              className="text-sm text-red-500 hover:text-red-600 disabled:text-red-300 disabled:pointer-events-none"
+            >
+              写真を削除
+            </button>
           </div>
         </div>
 
