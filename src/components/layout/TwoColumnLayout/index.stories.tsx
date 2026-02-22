@@ -30,6 +30,7 @@ export const Default: Story = {
           avatarUrl="/icon_avatar2.webp"
           onCreatePost={fn()}
           onLogout={fn()}
+          onEditProfile={fn()}
         />
         <div className="flex-1 py-4">
           <Story />

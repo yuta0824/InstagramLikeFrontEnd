@@ -15,7 +15,8 @@ export const Default: Story = {
     name: 'yuta',
     myPageUrl: '/account/yuta',
     avatarUrl: '/icon_avatar2.webp',
-    onLogout: fn()
+    onLogout: fn(),
+    onEditProfile: fn()
   }
 }
 
@@ -23,6 +24,7 @@ export const NoAvatar: Story = {
   args: {
     name: 'sakura',
     myPageUrl: '/account/sakura',
-    onLogout: fn()
+    onLogout: fn(),
+    onEditProfile: fn()
   }
 }

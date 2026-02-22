@@ -21,7 +21,8 @@ export const Default: Story = {
     name: 'yuta',
     myPageUrl: '/account/yuta',
     avatarUrl: '/icon_avatar2.webp',
-    onLogout: fn()
+    onLogout: fn(),
+    onEditProfile: fn()
   }
 }
 
@@ -29,7 +30,8 @@ export const NoAvatar: Story = {
   args: {
     name: 'sakura',
     myPageUrl: '/account/sakura',
-    onLogout: fn()
+    onLogout: fn(),
+    onEditProfile: fn()
   }
 }
 
@@ -38,6 +40,7 @@ export const LongUserInfo: Story = {
     name: 'very_long_username_that_should_truncate',
     myPageUrl: '/account/very_long_username',
     avatarUrl: '/icon_avatar1.webp',
-    onLogout: fn()
+    onLogout: fn(),
+    onEditProfile: fn()
   }
 }
