@@ -5,12 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { AuthEntry } from '../components/AuthEntry'
 import { useCheckAuth } from '../api/useCheckAuth'
+import { useGuestLogin } from '../api/useGuestLogin'
 
 export const AuthEntryContainer = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const hasShownAuthError = useRef(false)
   const { isSignedIn } = useCheckAuth()
+  const guestLoginMutation = useGuestLogin()
 
   const redirectToHomeIfSignedIn = () => {
     if (isSignedIn) router.replace('/home')
@@ -36,5 +38,11 @@ export const AuthEntryContainer = () => {
   useEffect(redirectToHomeIfSignedIn, [isSignedIn, router])
   useEffect(notifyAuthErrorAndCleanUrl, [searchParams, router])
 
-  return <AuthEntry onAuth={handleAuth} />
+  return (
+    <AuthEntry
+      onAuth={handleAuth}
+      onGuestLogin={() => guestLoginMutation.mutate()}
+      isGuestLoginLoading={guestLoginMutation.isPending}
+    />
+  )
 }
