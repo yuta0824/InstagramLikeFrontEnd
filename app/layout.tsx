@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body className={poppins.variable}>
         <Toaster position="top-center" />
         <ReactQueryProvider>{children}</ReactQueryProvider>
