@@ -77,7 +77,7 @@ export const UserProfileContainer = () => {
   if (meError) console.error(meError)
 
   const isCurrentUser = !meError && me?.id === userDetail.id
-  const allPosts = postsData?.pages.flat() ?? []
+  const allPosts = postsData?.pages.flatMap(page => page.posts) ?? []
 
   const handleFollowToggle = () => {
     if (toggleFollowMutation.isPending) return

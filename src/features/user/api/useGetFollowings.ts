@@ -10,7 +10,7 @@ export const useGetFollowings = (userId: number | undefined) => {
     queryFn: async ({ pageParam }) => {
       return await userFollowingApi
         .apiUsersUserIdFollowingsGet(
-          { userId: userId!, page: pageParam },
+          { userId: userId!, cursor: pageParam },
           { headers: { Authorization: `Bearer ${jwt}` } }
         )
         .catch(error => {
@@ -18,9 +18,9 @@ export const useGetFollowings = (userId: number | undefined) => {
           throw new Error('フォロー中ユーザーの取得に失敗しました。')
         })
     },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-      return lastPage.length === 0 ? undefined : lastPageParam + 1
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: lastPage => {
+      return lastPage.hasMore ? (lastPage.nextCursor ?? undefined) : undefined
     },
     enabled: !!jwt && userId !== undefined
   })

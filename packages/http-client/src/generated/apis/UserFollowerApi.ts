@@ -15,19 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
-  ApiActiveUsersGet200ResponseInner,
   ApiActiveUsersGet401Response,
+  ApiMeNameAvailabilityGet400Response,
+  ApiUsersUserIdFollowersGet200Response,
 } from '../models/index';
 import {
-    ApiActiveUsersGet200ResponseInnerFromJSON,
-    ApiActiveUsersGet200ResponseInnerToJSON,
     ApiActiveUsersGet401ResponseFromJSON,
     ApiActiveUsersGet401ResponseToJSON,
+    ApiMeNameAvailabilityGet400ResponseFromJSON,
+    ApiMeNameAvailabilityGet400ResponseToJSON,
+    ApiUsersUserIdFollowersGet200ResponseFromJSON,
+    ApiUsersUserIdFollowersGet200ResponseToJSON,
 } from '../models/index';
 
 export interface ApiUsersUserIdFollowersGetRequest {
     userId: number;
-    page?: number;
+    cursor?: string;
 }
 
 /**
@@ -38,7 +41,7 @@ export class UserFollowerApi extends runtime.BaseAPI {
     /**
      * 特定ユーザーのフォロワー一覧を取得する
      */
-    async apiUsersUserIdFollowersGetRaw(requestParameters: ApiUsersUserIdFollowersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiActiveUsersGet200ResponseInner>>> {
+    async apiUsersUserIdFollowersGetRaw(requestParameters: ApiUsersUserIdFollowersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiUsersUserIdFollowersGet200Response>> {
         if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
                 'userId',
@@ -48,8 +51,8 @@ export class UserFollowerApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters['page'] != null) {
-            queryParameters['page'] = requestParameters['page'];
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -61,13 +64,13 @@ export class UserFollowerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ApiActiveUsersGet200ResponseInnerFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiUsersUserIdFollowersGet200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 特定ユーザーのフォロワー一覧を取得する
      */
-    async apiUsersUserIdFollowersGet(requestParameters: ApiUsersUserIdFollowersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiActiveUsersGet200ResponseInner>> {
+    async apiUsersUserIdFollowersGet(requestParameters: ApiUsersUserIdFollowersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiUsersUserIdFollowersGet200Response> {
         const response = await this.apiUsersUserIdFollowersGetRaw(requestParameters, initOverrides);
         return await response.value();
     }

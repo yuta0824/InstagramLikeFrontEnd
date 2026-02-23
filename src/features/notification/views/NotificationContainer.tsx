@@ -14,12 +14,12 @@ import { CommentNotification } from '../components/CommentNotification'
 import { useGetNotifications } from '../api/useGetNotifications'
 import { useMarkAllAsRead } from '../api/useMarkAllAsRead'
 import { useGetUnreadCount } from '../api/useGetUnreadCount'
-import type { ApiNotificationsGet200ResponseInner } from '@instagram-like-app/http-client'
+import type { ApiNotificationsGet200ResponseNotificationsInner } from '@instagram-like-app/http-client'
 
-const toUsers = (actors: ApiNotificationsGet200ResponseInner['recentActors']) =>
+const toUsers = (actors: ApiNotificationsGet200ResponseNotificationsInner['recentActors']) =>
   actors.map(actor => ({ name: actor.name, avatarUrl: actor.avatarUrl ?? undefined }))
 
-const renderNotificationItem = (notification: ApiNotificationsGet200ResponseInner): ReactNode => {
+const renderNotificationItem = (notification: ApiNotificationsGet200ResponseNotificationsInner): ReactNode => {
   switch (notification.notificationType) {
     case 'followed':
       return (
@@ -94,7 +94,7 @@ export const NotificationContainer = () => {
     )
   }
 
-  const allNotifications = data?.pages.flat() ?? []
+  const allNotifications = data?.pages.flatMap(page => page.notifications) ?? []
 
   if (allNotifications.length === 0) {
     return (

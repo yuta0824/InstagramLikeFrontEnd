@@ -16,14 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   ApiActiveUsersGet401Response,
-  ApiNotificationsGet200ResponseInner,
+  ApiNotificationsGet200Response,
   ApiNotificationsUnreadCountGet200Response,
 } from '../models/index';
 import {
     ApiActiveUsersGet401ResponseFromJSON,
     ApiActiveUsersGet401ResponseToJSON,
-    ApiNotificationsGet200ResponseInnerFromJSON,
-    ApiNotificationsGet200ResponseInnerToJSON,
+    ApiNotificationsGet200ResponseFromJSON,
+    ApiNotificationsGet200ResponseToJSON,
     ApiNotificationsUnreadCountGet200ResponseFromJSON,
     ApiNotificationsUnreadCountGet200ResponseToJSON,
 } from '../models/index';
@@ -40,7 +40,7 @@ export class NotificationApi extends runtime.BaseAPI {
     /**
      * 通知一覧を取得する
      */
-    async apiNotificationsGetRaw(requestParameters: ApiNotificationsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiNotificationsGet200ResponseInner>>> {
+    async apiNotificationsGetRaw(requestParameters: ApiNotificationsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiNotificationsGet200Response>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -56,13 +56,13 @@ export class NotificationApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ApiNotificationsGet200ResponseInnerFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiNotificationsGet200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 通知一覧を取得する
      */
-    async apiNotificationsGet(requestParameters: ApiNotificationsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiNotificationsGet200ResponseInner>> {
+    async apiNotificationsGet(requestParameters: ApiNotificationsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiNotificationsGet200Response> {
         const response = await this.apiNotificationsGetRaw(requestParameters, initOverrides);
         return await response.value();
     }

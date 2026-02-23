@@ -17,7 +17,7 @@ export const useGetNotifications = () => {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-      return lastPage.length === 0 ? undefined : lastPageParam + 1
+      return !lastPage.hasMore ? undefined : lastPageParam + 1
     },
     enabled: !!jwt
   })

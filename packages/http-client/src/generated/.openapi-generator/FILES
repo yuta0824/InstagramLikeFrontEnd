@@ -18,8 +18,9 @@ models/ApiAuthTokenGet200Response.ts
 models/ApiMeGet200Response.ts
 models/ApiMeNameAvailabilityGet200Response.ts
 models/ApiMeNameAvailabilityGet400Response.ts
-models/ApiNotificationsGet200ResponseInner.ts
-models/ApiNotificationsGet200ResponseInnerRecentActorsInner.ts
+models/ApiNotificationsGet200Response.ts
+models/ApiNotificationsGet200ResponseNotificationsInner.ts
+models/ApiNotificationsGet200ResponseNotificationsInnerRecentActorsInner.ts
 models/ApiNotificationsUnreadCountGet200Response.ts
 models/ApiPostsGet200ResponseInner.ts
 models/ApiPostsIdPatchRequest.ts
@@ -31,5 +32,7 @@ models/ApiPostsPostIdCommentsPostRequest.ts
 models/ApiPostsPostIdCommentsPostRequestComment.ts
 models/ApiPostsPostIdLikePost200Response.ts
 models/ApiTimelineGet200Response.ts
+models/ApiUsersUserIdFollowersGet200Response.ts
+models/ApiUsersUserIdFollowingsGet200Response.ts
 models/index.ts
 runtime.ts
