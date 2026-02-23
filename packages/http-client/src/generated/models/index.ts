@@ -2,7 +2,7 @@
 /* eslint-disable */
 export * from './ApiActiveUsersGet200ResponseInner';
 export * from './ApiActiveUsersGet401Response';
-export * from './ApiAuthTokenGet200Response';
+export * from './ApiAuthGuestSessionPost201Response';
 export * from './ApiMeGet200Response';
 export * from './ApiMeNameAvailabilityGet200Response';
 export * from './ApiMeNameAvailabilityGet400Response';
