@@ -16,18 +16,21 @@
 import * as runtime from '../runtime';
 import type {
   ApiActiveUsersGet401Response,
-  ApiPostsGet200ResponseInner,
+  ApiMeNameAvailabilityGet400Response,
+  ApiTimelineGet200Response,
 } from '../models/index';
 import {
     ApiActiveUsersGet401ResponseFromJSON,
     ApiActiveUsersGet401ResponseToJSON,
-    ApiPostsGet200ResponseInnerFromJSON,
-    ApiPostsGet200ResponseInnerToJSON,
+    ApiMeNameAvailabilityGet400ResponseFromJSON,
+    ApiMeNameAvailabilityGet400ResponseToJSON,
+    ApiTimelineGet200ResponseFromJSON,
+    ApiTimelineGet200ResponseToJSON,
 } from '../models/index';
 
 export interface ApiUsersUserIdPostsGetRequest {
     userId: number;
-    page?: number;
+    cursor?: string;
 }
 
 /**
@@ -38,7 +41,7 @@ export class UserPostApi extends runtime.BaseAPI {
     /**
      * 特定ユーザーの投稿一覧を取得する
      */
-    async apiUsersUserIdPostsGetRaw(requestParameters: ApiUsersUserIdPostsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiPostsGet200ResponseInner>>> {
+    async apiUsersUserIdPostsGetRaw(requestParameters: ApiUsersUserIdPostsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiTimelineGet200Response>> {
         if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
                 'userId',
@@ -48,8 +51,8 @@ export class UserPostApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters['page'] != null) {
-            queryParameters['page'] = requestParameters['page'];
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -61,13 +64,13 @@ export class UserPostApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ApiPostsGet200ResponseInnerFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiTimelineGet200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 特定ユーザーの投稿一覧を取得する
      */
-    async apiUsersUserIdPostsGet(requestParameters: ApiUsersUserIdPostsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiPostsGet200ResponseInner>> {
+    async apiUsersUserIdPostsGet(requestParameters: ApiUsersUserIdPostsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiTimelineGet200Response> {
         const response = await this.apiUsersUserIdPostsGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
