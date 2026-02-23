@@ -4,13 +4,11 @@ Instagram風のSNSアプリケーション。写真投稿・いいね・コメ�
 
 **本番環境**: https://instagram-like-front-end.vercel.app/
 
-> データは24時間ごとにリセットされるため、投稿・いいね・フォローなど自由にお試しください。
-
 ## 主な機能と使用技術
 
 | 機能             | 詳細                                                  | 主な技術                                                  |
 | ---------------- | ----------------------------------------------------- | --------------------------------------------------------- |
-| **認証**         | Google OAuth によるログイン / ログアウト               | JWT（Cookie）、OAuth 2.0                                  |
+| **認証**         | Google OAuth によるログイン / ログアウト              | JWT（Cookie）、OAuth 2.0                                  |
 | **投稿**         | 画像（最大3枚）＋キャプション付きで投稿・編集・削除   | FilePond、React Hook Form、Zod                            |
 | **タイムライン** | フォロー中ユーザーの投稿を無限スクロールで閲覧        | TanStack Query（useInfiniteQuery）、Intersection Observer |
 | **いいね**       | ワンタップでいいね / 取り消し                         | useMutation + 楽観的UI更新                                |
@@ -19,22 +17,22 @@ Instagram風のSNSアプリケーション。写真投稿・いいね・コメ�
 | **プロフィール** | アバター・自己紹介の編集、フォロワー / フォロー中一覧 | FilePond（画像アップロード）、ダイアログUI                |
 | **通知**         | いいね・コメント・フォローの通知、未読バッジ          | ポーリング、React Query                                   |
 | **ユーザー検索** | 名前でのユーザー検索・探索                            | デバウンス検索、useQuery                                  |
-| **レスポンシブ** | モバイル / デスクトップ対応レイアウト                  | Tailwind CSS v4、モバイルナビゲーション                   |
+| **レスポンシブ** | モバイル / デスクトップ対応レイアウト                 | Tailwind CSS v4、モバイルナビゲーション                   |
 
 ## 技術スタック
 
 ### フロントエンド（このリポジトリ）
 
-| カテゴリ         | 技術                                                                          |
-| ---------------- | ----------------------------------------------------------------------------- |
-| フレームワーク   | Next.js 16（App Router）/ React 19 / TypeScript 5                             |
-| スタイリング     | Tailwind CSS v4 / shadcn/ui（Radix UI）                                       |
-| 状態管理         | TanStack React Query v5（サーバー状態）/ Jotai v2（クライアント状態）         |
-| フォーム         | React Hook Form + Zod（バリデーション）                                       |
-| UIコンポーネント | Radix UI / Lucide React（アイコン）/ Embla Carousel                           |
-| API連携          | OpenAPI Generator による型安全なHTTPクライアント自動生成                       |
-| テスト・品質     | ESLint / Prettier / Storybook / Chromatic（ビジュアルリグレッション）         |
-| デプロイ         | Vercel                                                                        |
+| カテゴリ         | 技術                                                                  |
+| ---------------- | --------------------------------------------------------------------- |
+| フレームワーク   | Next.js 16（App Router）/ React 19 / TypeScript 5                     |
+| スタイリング     | Tailwind CSS v4 / shadcn/ui（Radix UI）                               |
+| 状態管理         | TanStack React Query v5（サーバー状態）/ Jotai v2（クライアント状態） |
+| フォーム         | React Hook Form + Zod（バリデーション）                               |
+| UIコンポーネント | Radix UI / Lucide React（アイコン）/ Embla Carousel                   |
+| API連携          | OpenAPI Generator による型安全なHTTPクライアント自動生成              |
+| テスト・品質     | ESLint / Prettier / Storybook / Chromatic（ビジュアルリグレッション） |
+| デプロイ         | Vercel                                                                |
 
 ### バックエンド（[別リポジトリ](https://github.com/yuta0824/InstagramLikeApp)）
 
@@ -71,8 +69,8 @@ Instagram風のSNSアプリケーション。写真投稿・いいね・コメ�
 │  Frontend (Next.js)             │     │  Backend (Rails API)         │
 │                                 │     │                              │
 │  ・UIの描画                　     │────▶│  ・ビジネスロジック             │
-│  ・UX目的のバリデーション           │◀────│  ・データバリデーション          │  
-│  ・状態管理（表示用）     　        │     │  ・認証・認可                  │ 
+│  ・UX目的のバリデーション           │◀────│  ・データバリデーション          │
+│  ・状態管理（表示用）     　        │     │  ・認証・認可                  │
 │                                 │     │  ・OpenAPI仕様の管理           │
 └─────────────────────────────────┘     └──────────────────────────────┘
          ▲                                         ▲
