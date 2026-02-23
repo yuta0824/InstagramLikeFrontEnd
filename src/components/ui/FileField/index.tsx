@@ -29,6 +29,7 @@ export const FileField = ({ onChange }: FileFieldProps) => {
       allowReorder={true}
       maxFiles={3}
       stylePanelLayout="compact"
+      labelIdle='ファイルをドラッグ&ドロップ または <span class="filepond--label-action">ファイルを選択</span>'
       {...{
         beforeAddFile: handleBeforeAddFile,
         onwarning: (error: { body: string }) => {
