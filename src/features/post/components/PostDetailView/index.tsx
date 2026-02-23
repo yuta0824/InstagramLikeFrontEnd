@@ -64,7 +64,7 @@ export const PostDetailView = ({
             <CarouselContent>
               {post.imageUrls.map((url, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
+                  <div className="relative h-[90dvh] md:max-h-[500px]">
                     <Image
                       src={url}
                       alt={post.caption ? `${post.caption} - ${index + 1}` : `投稿画像 ${index + 1}`}
@@ -76,11 +76,11 @@ export const PostDetailView = ({
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-2 size-6" />
-            <CarouselNext className="right-2 size-6" />
+            <CarouselPrevious className="left-2 z-1050 size-6" />
+            <CarouselNext className="right-2 z-1050 size-6" />
           </Carousel>
         ) : post.imageUrls[0] ? (
-          <div className="relative h-100 md:h-[90vh] md:max-h-[500px]">
+          <div className="relative h-[90dvh] md:max-h-[500px]">
             <Image
               src={post.imageUrls[0]}
               alt={post.caption || '投稿画像'}
@@ -93,7 +93,7 @@ export const PostDetailView = ({
       </div>
 
       {/* 投稿情報 */}
-      <div className="flex h-100 flex-col md:h-[90vh] md:max-h-[500px]">
+      <div className="flex h-[90dvh] flex-col md:max-h-[500px]">
         {/* ヘッダー */}
         <header className="border-b border-gray-200 p-4">
           <div className="flex items-center justify-between gap-1">

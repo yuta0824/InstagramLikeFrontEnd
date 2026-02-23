@@ -9,7 +9,7 @@ export const AuthEntry = ({ onAuth }: AuthEntryProps) => {
   return (
     <div className="flex h-screen flex-col md:flex-row-reverse md:gap-10">
       <div className="relative h-70 shrink-0 md:h-auto md:flex-1">
-        <Image src="/img_login-bg.png" alt="" fill className="object-cover" priority />
+        <Image src="/img_login-bg.jpg" alt="" fill className="object-cover" priority />
       </div>
       <div className="mx-auto flex w-fit flex-1 flex-col px-6 py-20 md:items-center md:justify-center">
         <div className="w-full max-w-sm">
@@ -17,6 +17,14 @@ export const AuthEntry = ({ onAuth }: AuthEntryProps) => {
           <p className="mt-3 text-sm text-slate-500">Googleアカウントでログインして始めましょう。</p>
           <div className="pt-8 md:pt-10">
             <GoogleAuthButton onClick={onAuth} />
+          </div>
+          <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-relaxed text-amber-700">
+            <p className="font-medium">このサイトはデモ版です</p>
+            <p className="mt-1">
+              データは24時間ごとにリセットされます。
+              <br />
+              自由に操作してお楽しみください。
+            </p>
           </div>
         </div>
       </div>
