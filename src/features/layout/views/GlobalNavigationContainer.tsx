@@ -43,6 +43,7 @@ export const GlobalNavigationContainer = () => {
     <GlobalNavigation
       name={name}
       myPageUrl={myPageUrl}
+      avatarUrl={data?.avatarUrl ?? undefined}
       unreadCount={unreadData?.unreadCount}
       onLogout={handleLogout}
       onCreatePost={handleCreatePost}
