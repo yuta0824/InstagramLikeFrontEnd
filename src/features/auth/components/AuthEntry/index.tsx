@@ -18,6 +18,14 @@ export const AuthEntry = ({ onAuth }: AuthEntryProps) => {
           <div className="pt-8 md:pt-10">
             <GoogleAuthButton onClick={onAuth} />
           </div>
+          <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-relaxed text-amber-700">
+            <p className="font-medium">このサイトはデモ版です</p>
+            <p className="mt-1">
+              データは24時間ごとにリセットされます。
+              <br />
+              自由に操作してお楽しみください。
+            </p>
+          </div>
         </div>
       </div>
     </div>
