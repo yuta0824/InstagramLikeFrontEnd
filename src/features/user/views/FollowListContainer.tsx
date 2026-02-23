@@ -55,14 +55,17 @@ export const FollowListContainer = () => {
     if (!open) setFollowListState(initialFollowListState)
   }
 
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = query
+  const { isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = query
 
   const sentinelRef = useIntersectionObserver({
     onIntersect: () => fetchNextPage(),
     enabled: !!hasNextPage && !isFetchingNextPage
   })
 
-  const allUsers = data?.pages.flat() ?? []
+  const allUsers =
+    type === 'followers'
+      ? (followersQuery.data?.pages.flatMap(page => page.followers) ?? [])
+      : (followingsQuery.data?.pages.flatMap(page => page.followings) ?? [])
   const title = type === 'followers' ? 'フォロワー' : 'フォロー中'
 
   return (
