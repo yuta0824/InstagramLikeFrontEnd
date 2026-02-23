@@ -9,7 +9,7 @@ export const AuthEntry = ({ onAuth }: AuthEntryProps) => {
   return (
     <div className="flex h-screen flex-col md:flex-row-reverse md:gap-10">
       <div className="relative h-70 shrink-0 md:h-auto md:flex-1">
-        <Image src="/img_login-bg.png" alt="" fill className="object-cover" priority />
+        <Image src="/img_login-bg.jpg" alt="" fill className="object-cover" priority />
       </div>
       <div className="mx-auto flex w-fit flex-1 flex-col px-6 py-20 md:items-center md:justify-center">
         <div className="w-full max-w-sm">
