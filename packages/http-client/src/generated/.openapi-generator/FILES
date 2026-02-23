@@ -14,7 +14,7 @@ apis/index.ts
 index.ts
 models/ApiActiveUsersGet200ResponseInner.ts
 models/ApiActiveUsersGet401Response.ts
-models/ApiAuthTokenGet200Response.ts
+models/ApiAuthGuestSessionPost201Response.ts
 models/ApiMeGet200Response.ts
 models/ApiMeNameAvailabilityGet200Response.ts
 models/ApiMeNameAvailabilityGet400Response.ts

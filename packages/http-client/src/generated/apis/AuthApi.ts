@@ -16,14 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   ApiActiveUsersGet401Response,
-  ApiAuthTokenGet200Response,
+  ApiAuthGuestSessionPost201Response,
   ApiMeNameAvailabilityGet400Response,
 } from '../models/index';
 import {
     ApiActiveUsersGet401ResponseFromJSON,
     ApiActiveUsersGet401ResponseToJSON,
-    ApiAuthTokenGet200ResponseFromJSON,
-    ApiAuthTokenGet200ResponseToJSON,
+    ApiAuthGuestSessionPost201ResponseFromJSON,
+    ApiAuthGuestSessionPost201ResponseToJSON,
     ApiMeNameAvailabilityGet400ResponseFromJSON,
     ApiMeNameAvailabilityGet400ResponseToJSON,
 } from '../models/index';
@@ -40,6 +40,32 @@ export interface ApiAuthTokenGetRequest {
  * 
  */
 export class AuthApi extends runtime.BaseAPI {
+
+    /**
+     * ゲストログインする
+     */
+    async apiAuthGuestSessionPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiAuthGuestSessionPost201Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/auth/guest_session`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiAuthGuestSessionPost201ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * ゲストログインする
+     */
+    async apiAuthGuestSessionPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiAuthGuestSessionPost201Response> {
+        const response = await this.apiAuthGuestSessionPostRaw(initOverrides);
+        return await response.value();
+    }
 
     /**
      * ログアウトする
@@ -80,7 +106,7 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * 認可コードからJWTを取得する
      */
-    async apiAuthTokenGetRaw(requestParameters: ApiAuthTokenGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiAuthTokenGet200Response>> {
+    async apiAuthTokenGetRaw(requestParameters: ApiAuthTokenGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiAuthGuestSessionPost201Response>> {
         if (requestParameters['authCode'] == null) {
             throw new runtime.RequiredError(
                 'authCode',
@@ -103,13 +129,13 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ApiAuthTokenGet200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApiAuthGuestSessionPost201ResponseFromJSON(jsonValue));
     }
 
     /**
      * 認可コードからJWTを取得する
      */
-    async apiAuthTokenGet(requestParameters: ApiAuthTokenGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiAuthTokenGet200Response> {
+    async apiAuthTokenGet(requestParameters: ApiAuthTokenGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiAuthGuestSessionPost201Response> {
         const response = await this.apiAuthTokenGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
