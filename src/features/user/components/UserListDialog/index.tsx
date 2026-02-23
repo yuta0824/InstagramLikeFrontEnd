@@ -45,7 +45,7 @@ const DialogBody = ({
 export const UserListDialog = ({ open, onOpenChange, title, ...bodyProps }: UserListDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex max-h-[70vh] flex-col gap-0 p-0">
+      <DialogContent className="flex max-h-[90dvh] flex-col gap-0 p-0">
         <DialogHeader className="border-b px-6 py-4">
           <DialogTitle className="text-center">{title}</DialogTitle>
         </DialogHeader>

@@ -10,7 +10,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <aside>
           <GlobalNavigationContainer />
         </aside>
-        <main className="flex-1 py-4">{children}</main>
+        <main className="mb-14 flex-1 py-4 md:mb-0">{children}</main>
       </div>
       <PostFormContainer />
       <ProfileEditContainer />

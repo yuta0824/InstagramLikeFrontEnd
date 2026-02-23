@@ -60,7 +60,7 @@ export const PostFormDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl" showCloseButton={false}>
+      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-2xl" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>{resolvedTitle}</DialogTitle>
         </DialogHeader>
