@@ -14,7 +14,7 @@ import { useGetPostDetail } from '../api/useGetPostDetail'
 import { useDeletePost } from '../api/useDeletePost'
 import { useToggleLike } from '../api/useToggleLike'
 import { PostCard } from '../components/PostCard'
-import { PostsEmptyState } from '../components/PostsEmptyState'
+import { TimelineEmptyState } from '../components/TimelineEmptyState'
 import { LoadingError } from '@/components/layout/LoadingError'
 import { PostShowDialog } from '../components/PostShowDialog'
 import type { ApiPostsGet200ResponseInner } from '@instagram-like-app/http-client'
@@ -44,7 +44,7 @@ export const PostsContainer = () => {
 
   const posts = data.pages.flatMap(page => page.posts)
 
-  if (posts.length === 0) return <PostsEmptyState />
+  if (posts.length === 0) return <TimelineEmptyState />
 
   const activePost = posts.find(post => post.id === activePostId) ?? null
 
